@@ -15,24 +15,21 @@ tf.compat.v1.enable_v2_behavior()
 np.random.seed(0)
 tff.framework.set_default_executor(tff.framework.create_local_executor())
 
-# correct output: b'Hello, World!'
-print(tff.federated_computation(lambda: 'Hello, World!')())
+assert tff.federated_computation(lambda: 'Hello, World!')() == b'Hello, World!'
 
 # variables are tff.simulation.ClientData objects
 (emnist_train, emnist_test) = tff.simulation.datasets.emnist.load_data()
 
-# correct output: 3383
-print(len(emnist_train.client_ids))
-
-# correct output: OrderedDict([('pixels', TensorSpec(shape=(28, 28), dtype=tf.float32, name=None)), ('label', TensorSpec(shape=(), dtype=tf.int32, name=None))])
-print(emnist_train.element_type_structure)
+assert len(emnist_train.client_ids) == 3383
+assert emnist_train.element_type_structure == OrderedDict([('label', TensorSpec(shape=(), dtype=tf.int32, name=None)), ('pixels', TensorSpec(shape=(28, 28), dtype=tf.float32, name=None))])
 
 # creates a new tf.data.Dataset containing the client training examples
 example_dataset = emnist_train.create_tf_dataset_for_client(emnist_train.client_ids[0])
 
-# correct output: 5
 example_element = iter(example_dataset).next()
-print(example_element['label'].numpy())
+assert example_element['label'].numpy() == 5
+
+# end environment test
 
 # plot
 # from matplotlib import pyplot as plt
@@ -65,7 +62,7 @@ def preprocess(dataset):
 preprocessed_example_dataset = preprocess(example_dataset)
 sample_batch = tf.nest.map_structure(
     lambda x: x.numpy(), iter(preprocessed_example_dataset).next())
-print(sample_batch)
+# print(sample_batch)
 
 # one of the ways to feed federated data to TFF in a simulation is simply as a Python list
 # with each element of the list holding the data of an individual user 
@@ -85,8 +82,8 @@ def make_federated_data(client_data, client_ids):
 # fairly easy to do (once you do, keep in mind that getting the model to converge may take a while)
 sample_clients = emnist_train.client_ids[0:NUM_CLIENTS]
 federated_train_data = make_federated_data(emnist_train, sample_clients)
-print(len(federated_train_data)) 
-print(federated_train_data[0])
+assert len(federated_train_data) == 10
+# print(federated_train_data[0])
 
 # simple model with Keras
 def create_compiled_keras_model():
