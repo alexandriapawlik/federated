@@ -23,9 +23,10 @@ assert tff.federated_computation(lambda: 'Hello, World!')() == b'Hello, World!'
 assert len(emnist_train.client_ids) == 3383
 assert emnist_train.element_type_structure == OrderedDict([('label', TensorSpec(shape=(), dtype=tf.int32, name=None)), ('pixels', TensorSpec(shape=(28, 28), dtype=tf.float32, name=None))])
 
-# creates a new tf.data.Dataset containing the client training examples
+# creates a new tf.data.Dataset containing the client[0] training examples
 example_dataset = emnist_train.create_tf_dataset_for_client(emnist_train.client_ids[0])
 
+# test for specific datum
 example_element = iter(example_dataset).next()
 assert example_element['label'].numpy() == 5
 
@@ -38,9 +39,10 @@ assert example_element['label'].numpy() == 5
 # _ = plt.show()
 
 # preprocessing can be accomplished using Dataset transformations
-NUM_CLIENTS = 10
-NUM_EPOCHS = 10
-BATCH_SIZE = 20
+NUM_ROUNDS = 11  # total num of aggregations
+NUM_CLIENTS = 10  # per round
+NUM_EPOCHS = 10  # for client model
+BATCH_SIZE = 20  # for client model
 SHUFFLE_BUFFER = 500
 
 def preprocess(dataset):
@@ -58,11 +60,11 @@ def preprocess(dataset):
   return dataset.repeat(NUM_EPOCHS).map(element_fn).shuffle(
       SHUFFLE_BUFFER).batch(BATCH_SIZE)
 
-# test out
+# create sample batch for Keras model wrapper
+# TODO: map_structure syntax
 preprocessed_example_dataset = preprocess(example_dataset)
 sample_batch = tf.nest.map_structure(
     lambda x: x.numpy(), iter(preprocessed_example_dataset).next())
-# print(sample_batch)
 
 # one of the ways to feed federated data to TFF in a simulation is simply as a Python list
 # with each element of the list holding the data of an individual user 
@@ -100,6 +102,7 @@ def create_compiled_keras_model():
 # if you have a compiled Keras model like the one defined above
 # you can have TFF wrap it for you by invoking tff.learning.from_compiled_keras_model
 # and passing the model and a sample data batch as arguments
+# TODO: why do we need a sample batch here?
 def model_fn():
   keras_model = create_compiled_keras_model()
   return tff.learning.from_compiled_keras_model(keras_model, sample_batch)
@@ -134,7 +137,6 @@ print('round  1, metrics={}'.format(metrics))
 # typically at this point you would pick a subset of your simulation data from 
 # a new randomly selected sample of users for each round in order to 
 # simulate a realistic deployment in which users continuously come and go (TODO)
-NUM_ROUNDS = 11
 for round_num in range(2, NUM_ROUNDS):
   state, metrics = iterative_process.next(state, federated_train_data)
   print('round {:2d}, metrics={}'.format(round_num, metrics))
