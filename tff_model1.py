@@ -10,14 +10,13 @@ import tensorflow_federated as tff
 import json
 
 # hyperparameters
-# TODO: pull in from config file
 with open('config.JSON') as f:
-	data = json.load(f)
-	NUM_ROUNDS = data['NUM_ROUNDS']  # total num of aggregations (global rounds)
-	NUM_CLIENTS = data['NUM_CLIENTS']  # per round (client batches)
-	NUM_EPOCHS = data['NUM_EPOCHS']  # for client model
-	BATCH_SIZE = data['BATCH_SIZE']  # for client model
-	SHUFFLE_BUFFER = data['SHUFFLE_BUFFER']
+	options = json.load(f)
+	NUM_ROUNDS = options['NUM_ROUNDS']  # total num of aggregations (global rounds)
+	NUM_CLIENTS = options['NUM_CLIENTS']  # per round (client batches)
+	NUM_EPOCHS = options['NUM_EPOCHS']  # for client model
+	BATCH_SIZE = options['BATCH_SIZE']  # for client model
+	SHUFFLE_BUFFER = options['SHUFFLE_BUFFER']
 
 # prep environment
 warnings.simplefilter('ignore')
@@ -33,37 +32,40 @@ def preprocess(dataset):
 
 	# flatten
 	# renames the features from pixels and label to x and y for use with Keras
-  def element_fn(element):
-    return collections.OrderedDict([
-        ('x', tf.reshape(element['pixels'], [-1])),
-        ('y', tf.reshape(element['label'], [1])),
-    ])
-
+	def element_fn(element):
+		return collections.OrderedDict([
+			('x', tf.reshape(element['pixels'], [-1])), 
+			('y', tf.reshape(element['label'], [1])),
+		])
+	
 	# shuffle the individual examples and organize them into batches
 	# repeat over the data set to run several epochs
-  return dataset.repeat(NUM_EPOCHS).map(element_fn).shuffle(
-      SHUFFLE_BUFFER).batch(BATCH_SIZE)
-
+	return dataset.repeat(NUM_EPOCHS).map(element_fn).shuffle(SHUFFLE_BUFFER).batch(BATCH_SIZE)
+	
 # creates a new tf.data.Dataset containing the client[0] training examples
 example_dataset = emnist_train.create_tf_dataset_for_client(emnist_train.client_ids[0])
 # create sample batch for Keras model wrapper
 preprocessed_example_dataset = preprocess(example_dataset)
-sample_batch = tf.nest.map_structure(
-    lambda x: x.numpy(), iter(preprocessed_example_dataset).next())
+sample_batch = tf.nest.map_structure(lambda x: x.numpy(), iter(preprocessed_example_dataset).next())
 # TODO: map_structure syntax? x.numpy()?
 
 # simple model with Keras
-# TODO: match to model from TF beginner tutorial
 def create_compiled_keras_model():
 	model = tf.keras.models.Sequential([
-			tf.keras.layers.Dense(
-					10, activation=tf.nn.softmax, kernel_initializer='zeros', input_shape=(784,))])
+		tf.keras.layers.Dense(
+      10, activation=tf.nn.softmax, kernel_initializer='zeros', input_shape=(784,))
+		])
+		# model from TF beginner tutorial, lower accuracy
+		# tf.keras.layers.Dense(128, activation='relu'),
+		# tf.keras.layers.Dropout(0.2),
+		# tf.keras.layers.Dense(10, activation='softmax')
+		# ])
 	
-	# TODO: add compile parameters to config file?
 	model.compile(
-			loss=tf.keras.losses.SparseCategoricalCrossentropy(),
-			optimizer=tf.keras.optimizers.SGD(learning_rate=0.02),
-			metrics=[tf.keras.metrics.SparseCategoricalAccuracy()])
+		loss=tf.keras.losses.SparseCategoricalCrossentropy(),
+		optimizer=tf.keras.optimizers.SGD(learning_rate=0.02),
+		metrics=[tf.keras.metrics.SparseCategoricalAccuracy()
+		])
 	return model
 
 # let TFF wrap compiled Keras model
@@ -92,8 +94,7 @@ for round_num in range(1, NUM_ROUNDS):
 	# construct a list of datasets from the given set of users 
 	# as an input to a round of training or evaluation
 	def make_federated_data(client_data, client_ids):
-		return [preprocess(client_data.create_tf_dataset_for_client(x))
-						for x in client_ids]
+		return [preprocess(client_data.create_tf_dataset_for_client(x)) for x in client_ids]
 
 	# make dataset for current client group
 	federated_train_data = make_federated_data(emnist_train, sample_clients)
