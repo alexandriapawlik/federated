@@ -7,14 +7,17 @@ import collections
 import numpy as np
 import tensorflow as tf
 import tensorflow_federated as tff
+import json
 
 # hyperparameters
 # TODO: pull in from config file
-NUM_ROUNDS = 11  # total num of aggregations
-NUM_CLIENTS = 10  # per round
-NUM_EPOCHS = 10  # for client model
-BATCH_SIZE = 20  # for client model
-SHUFFLE_BUFFER = 500
+with open('config.JSON') as f:
+	data = json.load(f)
+	NUM_ROUNDS = data['NUM_ROUNDS']  # total num of aggregations (global rounds)
+	NUM_CLIENTS = data['NUM_CLIENTS']  # per round (client batches)
+	NUM_EPOCHS = data['NUM_EPOCHS']  # for client model
+	BATCH_SIZE = data['BATCH_SIZE']  # for client model
+	SHUFFLE_BUFFER = data['SHUFFLE_BUFFER']
 
 # prep environment
 warnings.simplefilter('ignore')
@@ -22,8 +25,7 @@ tf.compat.v1.enable_v2_behavior()
 np.random.seed(0)
 tff.framework.set_default_executor(tff.framework.create_local_executor())
 
-# load MNIST dataset
-# variables are tff.simulation.ClientData objects
+# load MNIST dataset, variables are tff.simulation.ClientData objects
 (emnist_train, emnist_test) = tff.simulation.datasets.emnist.load_data()
 
 # preprocessing for individual client data
@@ -51,17 +53,18 @@ sample_batch = tf.nest.map_structure(
 # TODO: map_structure syntax? x.numpy()?
 
 # simple model with Keras
-	# TODO: match to model from TF beginner tutorial
-	def create_compiled_keras_model():
-		model = tf.keras.models.Sequential([
-				tf.keras.layers.Dense(
-						10, activation=tf.nn.softmax, kernel_initializer='zeros', input_shape=(784,))])
-		
-		model.compile(
-				loss=tf.keras.losses.SparseCategoricalCrossentropy(),
-				optimizer=tf.keras.optimizers.SGD(learning_rate=0.02),
-				metrics=[tf.keras.metrics.SparseCategoricalAccuracy()])
-		return model
+# TODO: match to model from TF beginner tutorial
+def create_compiled_keras_model():
+	model = tf.keras.models.Sequential([
+			tf.keras.layers.Dense(
+					10, activation=tf.nn.softmax, kernel_initializer='zeros', input_shape=(784,))])
+	
+	# TODO: add compile parameters to config file?
+	model.compile(
+			loss=tf.keras.losses.SparseCategoricalCrossentropy(),
+			optimizer=tf.keras.optimizers.SGD(learning_rate=0.02),
+			metrics=[tf.keras.metrics.SparseCategoricalAccuracy()])
+	return model
 
 # let TFF wrap compiled Keras model
 # TODO: why do we need a sample batch here?
@@ -95,10 +98,12 @@ for round_num in range(1, NUM_ROUNDS):
 	# make dataset for current client group
 	federated_train_data = make_federated_data(emnist_train, sample_clients)
 
-	# a single round of Federated Averaging, consists of: 
+	# single round of Federated Averaging
+	state, metrics = iterative_process.next(state, federated_train_data)
+	print('round {:2d}, metrics={}'.format(round_num, metrics))
+
+	# single round consists of: 
 	# pushing the server state (including the model parameters) to the clients
 	# on-device training on their local data
 	# collecting and averaging model updates
 	# producing a new updated model at the server
-	state, metrics = iterative_process.next(state, federated_train_data)
-	print('round {:2d}, metrics={}'.format(round_num, metrics))
