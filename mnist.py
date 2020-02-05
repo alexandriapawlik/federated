@@ -1,11 +1,3 @@
-# disable CPU (enable AVX/FMA) warning on Mac
-import os
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-
-# disable deprecation warnings
-import tensorflow.python.util.deprecation as deprecation
-deprecation._PRINT_DEPRECATION_WARNINGS = False
-
 import warnings
 import collections
 import numpy as np
@@ -13,6 +5,15 @@ import tensorflow as tf
 import tensorflow_federated as tff
 import json
 import random
+
+# disable CPU (enable AVX/FMA) warning on Mac
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
+# disable warnings
+import tensorflow.python.util.deprecation as deprecation
+deprecation._PRINT_DEPRECATION_WARNINGS = False
+# tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 # hyperparameters
 with open('config.JSON') as f:
@@ -35,26 +36,26 @@ print("Running",NUM_ROUNDS,"rounds of",NUM_CLIENTS,"clients each...")
 mnist = tf.keras.datasets.mnist
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 x_train, x_test = x_train / 255.0, x_test / 255.0
+x_train = np.float32(x_train)
+y_train = np.float32(y_train)
 
 # create sample batch for Keras model wrapper
 # do preprocessing here
-# TODO: add .map and function parameter back in?
-dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train)).repeat(NUM_EPOCHS).shuffle(SHUFFLE_BUFFER).batch(BATCH_SIZE)
-# sample_batch = tf.nest.map_structure(lambda x: x.numpy(), iter(dataset).next())
-# TODO: map_structure syntax? x.numpy()?
+dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train))
+dataset = dataset.repeat(NUM_EPOCHS).batch(BATCH_SIZE).shuffle(SHUFFLE_BUFFER)
+
+# note: sample batch is different data type than dataset used in iterative process
+sample_batch = tf.nest.map_structure(lambda x: x.numpy(), iter(dataset).next())
 
 # simple model with Keras
+# TODO: determine most efficient model and match to beginner tutorial
 def create_compiled_keras_model():
 	model = tf.keras.models.Sequential([
 		tf.keras.layers.Flatten(input_shape=(28, 28)),
-		tf.keras.layers.Dense(
-      10, activation=tf.nn.softmax, kernel_initializer='zeros')
+		tf.keras.layers.Dense(128, activation='relu'),
+		tf.keras.layers.Dropout(0.2),
+		tf.keras.layers.Dense(10, activation=tf.nn.softmax, kernel_initializer='zeros')
 		])
-		# model from TF beginner tutorial, lower accuracy
-		# tf.keras.layers.Dense(128, activation='relu'),
-		# tf.keras.layers.Dropout(0.2),
-		# tf.keras.layers.Dense(10, activation='softmax')
-		# ])
 	
 	model.compile(
 		loss=tf.keras.losses.SparseCategoricalCrossentropy(),
@@ -67,17 +68,17 @@ def create_compiled_keras_model():
 # TODO: why do we need a sample batch here?
 def model_fn():
 	keras_model = create_compiled_keras_model()
-	return tff.learning.from_compiled_keras_model(keras_model, dataset)
+	return tff.learning.from_compiled_keras_model(keras_model, sample_batch)
 
 # let TFF construct a Federated Averaging algorithm 
 iterative_process = tff.learning.build_federated_averaging_process(model_fn)
 
-# TODO: modify to take any number of datasets
+# TODO: modify to take any number of datasets here
 dataset_list = []
 dataset_list.append(dataset)
-client_list = [0]
 
 # shuffle client ids for "random sampling" of clients
+client_list = list(range(len(dataset_list)))
 random.shuffle(client_list)
 
 # construct the server state
@@ -88,13 +89,15 @@ state = iterative_process.initialize()
 for round_num in range(1, NUM_ROUNDS + 1):
 
 	# pull client groups in order from shuffled client ids ("random sampling")
-	start = (round_num - 1) * NUM_CLIENTS
+	start = ((round_num - 1) * NUM_CLIENTS) % len(client_list)
 	end = (round_num * NUM_CLIENTS) % len(client_list)
 	if end > start:
 		sample_clients = client_list[start:end]
-	else:  # loop around
+	else:  # loop around or entire list
 		sample_clients = client_list[start:len(client_list)]
 		sample_clients.extend(client_list[0:end])
+
+	# assert len(sample_clients) == NUM_CLIENTS
 
 	# construct a list of datasets from the given set of users 
 	# as an input to a round of training or evaluation
