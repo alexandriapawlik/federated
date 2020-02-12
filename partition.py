@@ -14,46 +14,57 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 # disable warnings
 import tensorflow.python.util.deprecation as deprecation
 deprecation._PRINT_DEPRECATION_WARNINGS = False
-# tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
-# hyperparameters
-with open('config.JSON') as f:
-	options = json.load(f)
-	NUM_ROUNDS = math.ceil(options['NUM_ROUNDS'])  # total num of aggregations (global rounds)
-	NUM_CLIENTS = math.ceil(options['NUM_CLIENTS'])  # per round (client batches)
-	MAX_FANOUT = math.ceil(options['MAX_THREADS'])  # controlls multi-threading
-	NUM_EPOCHS = math.ceil(options['NUM_EPOCHS'])  # for client model
-	BATCH_SIZE = math.ceil(options['BATCH_SIZE'])  # for client model
-	SHUFFLE_BUFFER = math.ceil(options['SHUFFLE_BUFFER'])
-	LEARNING_RATE = options['LEARNING_RATE']
+class Partitioner:
 
-# prep environment
-warnings.simplefilter('ignore')
-tf.compat.v1.enable_v2_behavior()
-np.random.seed(0)
-if MAX_FANOUT == 0:  # multi-thread
-	tff.framework.set_default_executor(tff.framework.create_local_executor())
-else:
-	tff.framework.set_default_executor(tff.framework.create_local_executor(NUM_CLIENTS, MAX_FANOUT))
-print("Running",NUM_ROUNDS,"rounds of",NUM_CLIENTS,"clients each...")
+	NUM_ROUNDS = 0
+	NUM_CLIENTS = 0
+	MAX_FANOUT = 0
+	NUM_EPOCHS = 0
+	BATCH_SIZE = 0
+	SHUFFLE_BUFFER = 0
+	LEARNING_RATE = 0.0
 
-# load MNIST dataset, variables are tff.simulation.ClientData objects
-mnist = tf.keras.datasets.mnist
-(x_train, y_train), (x_test, y_test) = mnist.load_data()
-x_train, x_test = x_train / 255.0, x_test / 255.0
-x_train = np.float32(x_train)
-y_train = np.float32(y_train)
+	def prep(self):
+		# hyperparameters
+		with open('config.JSON') as f:
+			options = json.load(f)
+			NUM_ROUNDS = math.ceil(options['NUM_ROUNDS'])  # total num of aggregations (global rounds)
+			NUM_CLIENTS = math.ceil(options['NUM_CLIENTS'])  # per round (client batches)
+			MAX_FANOUT = math.ceil(options['MAX_THREADS'])  # controlls multi-threading
+			NUM_EPOCHS = math.ceil(options['NUM_EPOCHS'])  # for client model
+			BATCH_SIZE = math.ceil(options['BATCH_SIZE'])  # for client model
+			SHUFFLE_BUFFER = math.ceil(options['SHUFFLE_BUFFER'])
+			LEARNING_RATE = options['LEARNING_RATE']  # SGD learning rate
 
-# create sample batch for Keras model wrapper
-# do preprocessing here
-dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train))
-dataset = dataset.repeat(NUM_EPOCHS).batch(BATCH_SIZE).shuffle(SHUFFLE_BUFFER)
+		# prep environment
+		warnings.simplefilter('ignore')
+		tf.compat.v1.enable_v2_behavior()
+		np.random.seed(0)
+		if MAX_FANOUT == 0:  # standard multi-threading
+			tff.framework.set_default_executor(tff.framework.create_local_executor())
+		else:
+			tff.framework.set_default_executor(tff.framework.create_local_executor(NUM_CLIENTS, MAX_FANOUT))
+		print("Running",NUM_ROUNDS,"rounds of",NUM_CLIENTS,"clients each...")
 
-# note: sample batch is different data type than dataset used in iterative process
-sample_batch = tf.nest.map_structure(lambda x: x.numpy(), iter(dataset).next())
+	# TODO
+	def loadData(self):
+		# load MNIST dataset, variables are tff.simulation.ClientData objects
+		mnist = tf.keras.datasets.mnist
+		(x_train, y_train), (x_test, y_test) = mnist.load_data()
+		x_train, x_test = x_train / 255.0, x_test / 255.0
+		x_train = np.float32(x_train)
+		y_train = np.float32(y_train)
+
+		# do preprocessing here
+		dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train))
+		dataset = dataset.repeat(NUM_EPOCHS).batch(BATCH_SIZE).shuffle(SHUFFLE_BUFFER)
+
+		# create sample batch for Keras model wrapper
+		# note: sample batch is different data type than dataset used in iterative process
+		sample_batch = tf.nest.map_structure(lambda x: x.numpy(), iter(dataset).next())
 
 # simple model with Keras
-# TODO: determine most efficient model and match to beginner tutorial
 def create_compiled_keras_model():
 	model = tf.keras.models.Sequential([
 		tf.keras.layers.Flatten(input_shape=(28, 28)),

@@ -3,6 +3,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 import tensorflow as tf
 import json
 import random
+import math
 
 # disable CPU (enable AVX/FMA) warning on Mac
 import os
@@ -16,8 +17,9 @@ tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 # hyperparameters
 with open('config.JSON') as f:
 	options = json.load(f)
-	NUM_EPOCHS = options['NUM_EPOCHS']  # for client model
-	BATCH_SIZE = options['BATCH_SIZE']  # for client model
+	NUM_EPOCHS = math.ceil(options['NUM_EPOCHS'])  # for client model
+	BATCH_SIZE = math.ceil(options['BATCH_SIZE'])  # for client model
+	LEARNING_RATE = options['LEARNING_RATE']
 
 mnist = tf.keras.datasets.mnist
 
@@ -31,7 +33,7 @@ model = tf.keras.models.Sequential([
   tf.keras.layers.Dense(10, activation='softmax', kernel_initializer='zeros')
 ])
 
-model.compile(optimizer=tf.keras.optimizers.SGD(learning_rate=0.02),
+model.compile(optimizer=tf.keras.optimizers.SGD(learning_rate=LEARNING_RATE),
               loss='sparse_categorical_crossentropy',
               metrics=[tf.keras.metrics.SparseCategoricalAccuracy()])
 
