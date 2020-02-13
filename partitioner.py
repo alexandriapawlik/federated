@@ -50,8 +50,10 @@ class Partitioner:
 		warnings.simplefilter('ignore')
 		tf.compat.v1.enable_v2_behavior()
 		np.random.seed(0)
-		if self.MAX_FANOUT == 0:  # standard multi-threading
+		if self.MAX_FANOUT < 1:  # standard multi-threading
 			tff.framework.set_default_executor(tff.framework.create_local_executor())
+		elif self.MAX_FANOUT == 1:  # single thread
+			tff.framework.set_default_executor(None)
 		else:
 			tff.framework.set_default_executor(tff.framework.create_local_executor(self.NUM_CLIENTS, self.MAX_FANOUT))
 
@@ -64,7 +66,6 @@ class Partitioner:
 		x_train, x_test = x_train / 255.0, x_test / 255.0
 		x_train = np.float32(x_train)
 		y_train = np.float32(y_train)
-		print(x_train.shape[0])
 
 		# do preprocessing here
 		dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train))
