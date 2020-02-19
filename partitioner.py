@@ -14,6 +14,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 # disable warnings
 import tensorflow.python.util.deprecation as deprecation
 deprecation._PRINT_DEPRECATION_WARNINGS = False
+tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 class Partitioner:
 	# call member functions in order, partitioning data before build_model()
@@ -74,8 +75,8 @@ class Partitioner:
 		mnist = tf.keras.datasets.mnist
 		(x_train, y_train), (x_test, y_test) = mnist.load_data()
 		x_train, x_test = x_train / 255.0, x_test / 255.0
-		x_train = np.float32(x_train)
-		y_train = np.float32(y_train)
+		x_train = np.float64(x_train)
+		y_train = np.float64(y_train)
 
 		# do preprocessing here
 		dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train))

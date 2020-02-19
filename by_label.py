@@ -25,63 +25,62 @@ class Label_Partitioner(partitioner.Partitioner):
 		sorted_data_x = [[] for i in range(self.LABELS)]
 		sorted_data_y = [[] for i in range(self.LABELS)]
 
-		# partition data and store
+		# sort data by label and store
 		for data_num in range(y_train.shape[0]):
 			# sort data into each of 10 categories based on label 0-9 (6,000/label)
 			sorted_data_x[int(y_train[data_num])].append(x_train[data_num])
 			sorted_data_y[int(y_train[data_num])].append(y_train[data_num])
 
-		sorted_x = np.array(sorted_data_x)
-		sorted_y = np.array(sorted_data_y)
-
 		# split into shards
 		# (divide into 200 shards of size 300)
-		shards_x = [[] for i in range(total_shards)]
-		shards_y = [[] for i in range(total_shards)]
+		shards_x = np.empty([total_shards, shard_size, 28, 28])
+		shards_y = np.empty([total_shards, shard_size])
 
 		# for each label, make 20 shards
 		for label_num in range(self.LABELS): 
+			# make ndarrays from label lists
+			sorted_x = np.array(sorted_data_x[label_num])
+			sorted_y = np.array(sorted_data_y[label_num])
 
 			# make sure we have enough data for desired shard size
-			if (len(sorted_x[label_num]) // shard_size) == 0:
-				print("Error: Shard size larger than number of datapoints (",len(sorted_x[label_num]),") per label for label ",label_num,".") 
+			if (len(sorted_data_x[label_num]) // shard_size) == 0:
+				print("Error: Shard size larger than number of datapoints (",len(sorted_data_x[label_num]),") per label for label ",label_num,".") 
 				print("Increase number of clients, number of shards per client, or datapoints for this label.")
 
-			# randomize data for this label (generate array of random permutation of indices)
-			indices = np.random.permutation(len(sorted_x[label_num]))
+			# randomize data for this label before making shards (generate array of random permutation of indices)
+			indices = np.random.permutation(len(sorted_data_x[label_num]))
 
 			# for each shard chunk in one label
-			for shard_num in range(int(len(sorted_x[label_num]) // shard_size)): 
+			for shard_num in range(len(sorted_data_x[label_num]) // shard_size): 
 				# calculate indices of slice
 				start = shard_num * shard_size
 				end = (shard_num + 1) * shard_size
 				# slice indices for single shard
 				x_indices = indices[start:end]
 				y_indices = indices[start:end]
-				# slice data for single shard and add to shard list
-				shards_x.append(sorted_x[label_num][x_indices.astype(int)])
-				shards_y[shard_num].extend((sorted_y[label_num])[y_indices.astype(int)])
-				# check
-				if len(shards_x[shard_num]) != 300:
-					print("Shard size is",len(shards_x[shard_num]))
-			
-			# check
-			if len(shards_x) != 200:
-				print("Number of shards is",len(shards_x))
+				# slice data for single shard and add to shard lists
+				shards_x[shard_num] = sorted_x[x_indices]
+				shards_y[shard_num] = sorted_y[y_indices]
 
-		# randomize order of shards
+		# randomize order of shards before assigning to clients
 		shard_indices = np.random.permutation(len(shards_x))
 
 		# assign each client shards
 		current_shard = 0
 		for client_num in range(self.CLIENTS):
 			# add shards to current client using randomized index list
-			# wraparound if we run out
-			client_sample_x = []
-			client_sample_y = []
+			# wrap around if we run out
+			client_sample_x = np.empty([shard_size * self.SHARDS, 28, 28])
+			client_sample_y = np.empty([shard_size * self.SHARDS])
+
+			# for as many shards as config file says we should have per client
 			for shard_count in range(self.SHARDS):
-				client_sample_x.extend(shards_x[shard_indices[current_shard]])
-				client_sample_y.extend(shards_y[shard_indices[current_shard]])
+				# get shard based on randomized indices
+				start = shard_count * shard_size
+				end = (shard_count + 1) * shard_size
+				client_sample_x[start:end] = shards_x[shard_indices[current_shard]]
+				client_sample_y[start:end] = shards_y[shard_indices[current_shard]]
+				# increment pointer
 				current_shard = (current_shard + 1) % len(shard_indices)
 
 			# assign slices to single client
