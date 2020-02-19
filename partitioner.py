@@ -20,12 +20,19 @@ class Partitioner:
 
 	def __init__(self):
 		self.NUM_ROUNDS = 1
-		self.NUM_CLIENTS = 1
+		self.COHORT_SIZE = 1
 		self.MAX_FANOUT = 1
 		self.NUM_EPOCHS = 1
 		self.BATCH_SIZE = 1
 		self.SHUFFLE_BUFFER = 0
 		self.LEARNING_RATE = 0.0
+
+		# partitioner data
+		self.CLIENTS = 1
+		self.SHARDS = 1
+
+		# dataset data
+		self.LABELS = 1
 
 		self.iterative_process = None
 		self.sample_batch = None
@@ -36,15 +43,19 @@ class Partitioner:
 	# parse config file
 	def prep(self):
 		# hyperparameters
+		# TODO: modify to take array of epoch/batch values to run series of tests
 		with open('config.JSON') as f:
 			options = json.load(f)
-			self.NUM_ROUNDS = math.ceil(options['NUM_ROUNDS'])  # total num of aggregations (global rounds)
-			self.NUM_CLIENTS = math.ceil(options['NUM_CLIENTS'])  # per round (client batches)
-			self.MAX_FANOUT = math.ceil(options['MAX_THREADS'])  # controlls multi-threading
-			self.NUM_EPOCHS = math.ceil(options['NUM_EPOCHS'])  # for client model
-			self.BATCH_SIZE = math.ceil(options['BATCH_SIZE'])  # for client model
-			self.SHUFFLE_BUFFER = math.ceil(options['SHUFFLE_BUFFER'])
-			self.LEARNING_RATE = options['LEARNING_RATE']  # SGD learning rate
+			self.NUM_ROUNDS = math.ceil(options['model']['NUM_GLOBAL_ROUNDS'])  # total num of aggregations
+			self.COHORT_SIZE = math.ceil(options['model']['COHORT_SIZE'])  # per round (client batches)
+			self.MAX_FANOUT = math.ceil(options['system']['MAX_THREADS'])  # controlls multi-threading
+			self.NUM_EPOCHS = math.ceil(options['model']['NUM_LOCAL_EPOCHS'])  # for client model
+			self.BATCH_SIZE = math.ceil(options['model']['LOCAL_BATCH_SIZE'])  # for client model
+			self.SHUFFLE_BUFFER = math.ceil(options['model']['SHUFFLE_BUFFER'])
+			self.LEARNING_RATE = options['model']['LEARNING_RATE']  # SGD learning rate
+			self.CLIENTS = math.ceil(options['partitioner']['NUM_CLIENTS'])  # number of clients to partition to
+			self.SHARDS = math.ceil(options['partitioner']['NUM_SHARDS_PER']) # number of shards per client
+			self.LABELS = int(options['data']['NUM_LABELS'])  # number of labels in y set
 
 		# prep environment
 		warnings.simplefilter('ignore')
@@ -55,12 +66,11 @@ class Partitioner:
 		elif self.MAX_FANOUT == 1:  # single thread
 			tff.framework.set_default_executor(None)
 		else:
-			tff.framework.set_default_executor(tff.framework.create_local_executor(self.NUM_CLIENTS, self.MAX_FANOUT))
+			tff.framework.set_default_executor(tff.framework.create_local_executor(self.COHORT_SIZE, self.MAX_FANOUT))
 
 	# returns datasets ready for partitioning
 	def load_data(self):
-		# TODO: take any dataset
-		# load MNIST dataset, variables are tff.simulation.ClientData objects
+		# load MNIST dataset
 		mnist = tf.keras.datasets.mnist
 		(x_train, y_train), (x_test, y_test) = mnist.load_data()
 		x_train, x_test = x_train / 255.0, x_test / 255.0
@@ -73,6 +83,7 @@ class Partitioner:
 		# create sample batch for Keras model wrapper
 		# note: sample batch is different data type than dataset used in iterative process
 		self.sample_batch = tf.nest.map_structure(lambda x: x.numpy(), iter(dataset.repeat(self.NUM_EPOCHS).batch(self.BATCH_SIZE).shuffle(self.SHUFFLE_BUFFER)).next())
+		# TODO: what does Tensorflow do if passed a batch size larger than 
 
 		return (x_train, y_train)
 
@@ -104,7 +115,7 @@ class Partitioner:
 
 	# run federated training algorithm
 	def train(self):
-		print("Running",self.NUM_ROUNDS,"rounds of",self.NUM_CLIENTS,"clients each...")
+		print("Running",self.NUM_ROUNDS,"rounds of",self.COHORT_SIZE,"clients each...")
 
 		# shuffle client ids for "random sampling" of clients
 		client_list = list(range(len(self.dataset_list)))
@@ -115,11 +126,12 @@ class Partitioner:
 
 		# run server training rounds
 		# won't necessarily complete a "federated epoch"
+		# TODO: set to run until a certain accuracy is reached
 		for round_num in range(1, self.NUM_ROUNDS + 1):
 
 			# pull client groups in order from shuffled client ids ("random sampling")
-			start = ((round_num - 1) * self.NUM_CLIENTS) % len(client_list)
-			end = (round_num * self.NUM_CLIENTS) % len(client_list)
+			start = ((round_num - 1) * self.COHORT_SIZE) % len(client_list)
+			end = (round_num * self.COHORT_SIZE) % len(client_list)
 			if end > start:
 				sample_clients = client_list[start:end]
 			else:  # loop around or entire list
@@ -138,3 +150,4 @@ class Partitioner:
 			# passes federated_train_data: a list of tf.data.Dataset, one per client
 			state, metrics = self.iterative_process.next(state, federated_train_data)
 			print('round {:2d}, metrics={}'.format(round_num, metrics))
+			# TODO: mute metrics to only show last line
