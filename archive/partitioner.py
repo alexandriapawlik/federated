@@ -20,13 +20,13 @@ class Partitioner:
 	# call member functions in order, partitioning data before build_model()
 
 	def __init__(self):
+		self.NUM_ROUNDS = 1
 		self.COHORT_SIZE = 1
 		self.MAX_FANOUT = 1
 		self.NUM_EPOCHS = 1
 		self.BATCH_SIZE = 1
 		self.SHUFFLE_BUFFER = 0
 		self.LEARNING_RATE = 0.0
-		self.TARGET = 50
 
 		# partitioner data
 		self.CLIENTS = 1
@@ -47,13 +47,13 @@ class Partitioner:
 		# TODO: modify to take array of epoch/batch values to run series of tests
 		with open('config.JSON') as f:
 			options = json.load(f)
+			self.NUM_ROUNDS = math.ceil(options['model']['NUM_GLOBAL_ROUNDS'])  # total num of aggregations
 			self.COHORT_SIZE = math.ceil(options['model']['COHORT_SIZE'])  # per round (client batches)
 			self.MAX_FANOUT = math.ceil(options['system']['MAX_THREADS'])  # controlls multi-threading
 			self.NUM_EPOCHS = math.ceil(options['model']['NUM_LOCAL_EPOCHS'])  # for client model
 			self.BATCH_SIZE = math.ceil(options['model']['LOCAL_BATCH_SIZE'])  # for client model
 			self.SHUFFLE_BUFFER = math.ceil(options['model']['SHUFFLE_BUFFER'])
 			self.LEARNING_RATE = options['model']['LEARNING_RATE']  # SGD learning rate
-			self.TARGET = options['model']['TARGET_ACCURACY']  # target accuracy for model when tested with test set
 			self.CLIENTS = math.ceil(options['partitioner']['NUM_CLIENTS'])  # number of clients to partition to
 			self.SHARDS = math.ceil(options['partitioner']['NUM_SHARDS_PER']) # number of shards per client
 			self.LABELS = int(options['data']['NUM_LABELS'])  # number of labels in y set
@@ -84,8 +84,7 @@ class Partitioner:
 		# create sample batch for Keras model wrapper
 		# note: sample batch is different data type than dataset used in iterative process
 		self.sample_batch = tf.nest.map_structure(lambda x: x.numpy(), iter(dataset.repeat(self.NUM_EPOCHS).batch(self.BATCH_SIZE).shuffle(self.SHUFFLE_BUFFER)).next())
-
-		# TODO: load test dataset
+		# TODO: what does Tensorflow do if passed a batch size larger than 
 
 		return (x_train, y_train)
 
@@ -117,7 +116,7 @@ class Partitioner:
 
 	# run federated training algorithm
 	def train(self):
-		print("Sampling",self.COHORT_SIZE,"clients per round until",self.TARGET,"%","accuracy...")
+		print("Running",self.NUM_ROUNDS,"rounds of",self.COHORT_SIZE,"clients each...")
 
 		# shuffle client ids for "random sampling" of clients
 		client_list = list(range(len(self.dataset_list)))
@@ -128,10 +127,8 @@ class Partitioner:
 
 		# run server training rounds
 		# won't necessarily complete a "federated epoch"
-		below_target = true
-		round_num = 0
-		while below_target:
-			round_num = round_num + 1
+		# TODO: set to run until a certain accuracy is reached
+		for round_num in range(1, self.NUM_ROUNDS + 1):
 
 			# pull client groups in order from shuffled client ids ("random sampling")
 			start = ((round_num - 1) * self.COHORT_SIZE) % len(client_list)
@@ -153,6 +150,5 @@ class Partitioner:
 			# single round of Federated Averaging
 			# passes federated_train_data: a list of tf.data.Dataset, one per client
 			state, metrics = self.iterative_process.next(state, federated_train_data)
-			
-			# TODO: run test set every so often and stop if we've reached a target accuracy
-			# TODO: print relevant metrics
+			print('round {:2d}, metrics={}'.format(round_num, metrics))
+			# TODO: mute metrics to only show last line
