@@ -25,8 +25,9 @@ class Partitioner:
 		self.NUM_EPOCHS = 1
 		self.BATCH_SIZE = 1
 		self.SHUFFLE_BUFFER = 0
-		self.LEARNING_RATE = 0.0
+		self.LR_IID = 0.1
 		self.TARGET = 50
+		self.TEST_PERIOD = 1
 
 		# partitioner data
 		self.CLIENTS = 1
@@ -44,7 +45,6 @@ class Partitioner:
 	# parse config file
 	def prep(self):
 		# hyperparameters
-		# TODO: modify to take array of epoch/batch values to run series of tests
 		with open('config.JSON') as f:
 			options = json.load(f)
 			self.COHORT_SIZE = math.ceil(options['model']['COHORT_SIZE'])  # per round (client batches)
@@ -52,8 +52,9 @@ class Partitioner:
 			self.NUM_EPOCHS = math.ceil(options['model']['NUM_LOCAL_EPOCHS'])  # for client model
 			self.BATCH_SIZE = math.ceil(options['model']['LOCAL_BATCH_SIZE'])  # for client model
 			self.SHUFFLE_BUFFER = math.ceil(options['model']['SHUFFLE_BUFFER'])
-			self.LEARNING_RATE = options['model']['LEARNING_RATE']  # SGD learning rate
+			self.LR_IID = options['model']['LEARNING_RATE_IID']  # SGD learning rate for IID partitioning
 			self.TARGET = options['model']['TARGET_ACCURACY']  # target accuracy for model when tested with test set
+			self.TEST_PERIOD = options['model']['ROUNDS_BETWEEN_TESTS'] # number of rounds between testset evaluation
 			self.CLIENTS = math.ceil(options['partitioner']['NUM_CLIENTS'])  # number of clients to partition to
 			self.SHARDS = math.ceil(options['partitioner']['NUM_SHARDS_PER']) # number of shards per client
 			self.LABELS = int(options['data']['NUM_LABELS'])  # number of labels in y set
@@ -73,9 +74,9 @@ class Partitioner:
 	def load_data(self):
 		# load MNIST dataset
 		mnist = tf.keras.datasets.mnist
-		(x_train, y_train), (x_test, y_test) = mnist.load_data()
-		x_train, x_test = x_train / 255.0, x_test / 255.0
-		x_train = np.float64(x_train)
+		(x_train, y_train), (x_trash, y_trash) = mnist.load_data()
+		x_train = x_train / 255.0
+		x_train = np.reshape(np.float64(x_train), (60000,28,28,1))
 		y_train = np.float64(y_train)
 
 		# do preprocessing here
@@ -85,38 +86,33 @@ class Partitioner:
 		# note: sample batch is different data type than dataset used in iterative process
 		self.sample_batch = tf.nest.map_structure(lambda x: x.numpy(), iter(dataset.repeat(self.NUM_EPOCHS).batch(self.BATCH_SIZE).shuffle(self.SHUFFLE_BUFFER)).next())
 
-		# TODO: load test dataset
-
 		return (x_train, y_train)
 
 	# compile model
 	def build_model(self):
-		# simple model with Keras
-		def create_compiled_keras_model():
-			model = tf.keras.models.Sequential([
-				tf.keras.layers.Flatten(input_shape=(28, 28)),
-				tf.keras.layers.Dense(128, activation='relu'),
-				tf.keras.layers.Dropout(0.2),
-				tf.keras.layers.Dense(10, activation=tf.nn.softmax, kernel_initializer='zeros')
-				])
-			
-			model.compile(
-				loss=tf.keras.losses.SparseCategoricalCrossentropy(),
-				optimizer=tf.keras.optimizers.SGD(learning_rate=self.LEARNING_RATE),
-				metrics=[tf.keras.metrics.SparseCategoricalAccuracy()
-				])
-			return model
-
 		# let TFF wrap compiled Keras model
 		def model_fn():
-			keras_model = create_compiled_keras_model()
+			keras_model = self.create_compiled_keras_model()
 			return tff.learning.from_compiled_keras_model(keras_model, self.sample_batch)
 
 		# let TFF construct a Federated Averaging algorithm 
 		self.iterative_process = tff.learning.build_federated_averaging_process(model_fn)
+		# TODO: build second model with different learning rate for non-IID
 
 	# run federated training algorithm
 	def train(self):
+		# load test dataset
+		mnist = tf.keras.datasets.mnist
+		(x_trash, y_trash), (x_test, y_test) = mnist.load_data()
+		x_test = x_test / 255.0
+		x_test = np.reshape(np.float64(x_test), (10000,28,28,1))
+		y_test = np.float64(y_test)
+
+		# preprocess test dataset
+		testset = tf.data.Dataset.from_tensor_slices((x_test, y_test))
+		processed_testset = testset.batch(self.BATCH_SIZE).shuffle(self.SHUFFLE_BUFFER)
+		model = self.create_compiled_keras_model()
+
 		print("Sampling",self.COHORT_SIZE,"clients per round until",self.TARGET,"%","accuracy...")
 
 		# shuffle client ids for "random sampling" of clients
@@ -126,9 +122,14 @@ class Partitioner:
 		# construct the server state
 		state = self.iterative_process.initialize()
 
+		# construct a list of datasets from the given set of users 
+		# as an input to a round of training or evaluation
+		def make_federated_data(client_data, client_ids):
+			return [self.dataset_list[x] for x in client_ids]
+
 		# run server training rounds
 		# won't necessarily complete a "federated epoch"
-		below_target = true
+		below_target = True
 		round_num = 0
 		while below_target:
 			round_num = round_num + 1
@@ -142,17 +143,41 @@ class Partitioner:
 				sample_clients = client_list[start:len(client_list)]
 				sample_clients.extend(client_list[0:end])
 
-			# construct a list of datasets from the given set of users 
-			# as an input to a round of training or evaluation
-			def make_federated_data(client_data, client_ids):
-				return [self.dataset_list[x] for x in client_ids]
-
 			# make dataset for current client group
 			federated_train_data = make_federated_data(self.dataset_list, sample_clients)
 
 			# single round of Federated Averaging
 			# passes federated_train_data: a list of tf.data.Dataset, one per client
 			state, metrics = self.iterative_process.next(state, federated_train_data)
+
+			# print relevant metrics
+			print('round {:2d}, metrics={}'.format(round_num, metrics))
 			
-			# TODO: run test set every so often and stop if we've reached a target accuracy
-			# TODO: print relevant metrics
+			# run test set every so often and stop if we've reached a target accuracy
+			if round_num % self.TEST_PERIOD == 0:
+				# test model, run same number of epochs as in training set
+				loss, accuracy = model.evaluate(processed_testset, steps=self.NUM_EPOCHS, verbose=1)
+
+				# set continuation bool
+				if accuracy >= 0.99:
+					below_target = False
+
+	# simple model with Keras
+	# internal method
+	def create_compiled_keras_model(self):
+		model = tf.keras.models.Sequential([
+			tf.keras.layers.Conv2D(32, (5,5), activation='relu', input_shape=(28,28,1)),
+			tf.keras.layers.MaxPool2D((2,2)),
+			tf.keras.layers.Conv2D(64, (5,5), activation='relu'),
+			tf.keras.layers.MaxPool2D((2,2)),
+			tf.keras.layers.Flatten(input_shape=(7,7)),
+			tf.keras.layers.Dense(512, activation='relu'),
+			tf.keras.layers.Dense(10, activation=tf.nn.softmax, kernel_initializer='zeros')
+			])
+		
+		model.compile(
+			loss=tf.keras.losses.SparseCategoricalCrossentropy(),
+			optimizer=tf.keras.optimizers.SGD(learning_rate=self.LR_IID),
+			metrics=[tf.keras.metrics.SparseCategoricalAccuracy()
+			])
+		return model
