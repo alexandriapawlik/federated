@@ -110,7 +110,7 @@ class Partitioner:
 
 		# preprocess test dataset
 		testset = tf.data.Dataset.from_tensor_slices((x_test, y_test))
-		processed_testset = testset.batch(20).shuffle(self.SHUFFLE_BUFFER)
+		processed_testset = testset.batch(self.BATCH_SIZE).shuffle(self.SHUFFLE_BUFFER)
 		model = self.create_compiled_keras_model()
 
 		# print(model.count_params())
@@ -158,7 +158,8 @@ class Partitioner:
 			# run test set every so often and stop if we've reached a target accuracy
 			if round_num % self.TEST_PERIOD == 0:
 				# test model, run same number of epochs as in training set
-				loss, accuracy = model.evaluate(processed_testset, steps=10, verbose=0)
+				tff.learning.assign_weights_to_keras_model(model, state.model)
+				loss, accuracy = model.evaluate(processed_testset, steps=self.NUM_EPOCHS, verbose=0)
 				print("Tested. Sparse categorical accuracy: ",accuracy)
 
 				# set continuation bool
