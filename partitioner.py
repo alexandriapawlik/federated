@@ -53,7 +53,7 @@ class Partitioner:
 			self.BATCH_SIZE = math.ceil(options['model']['LOCAL_BATCH_SIZE'])  # for client model
 			self.SHUFFLE_BUFFER = math.ceil(options['model']['SHUFFLE_BUFFER'])
 			self.LR_IID = options['model']['LEARNING_RATE_IID']  # SGD learning rate for IID partitioning
-			self.TARGET = options['model']['TARGET_ACCURACY']  # target accuracy for model when tested with test set
+			self.TARGET = options['model']['TARGET_ACCURACY'] # target accuracy for model when tested with test set
 			self.TEST_PERIOD = options['model']['ROUNDS_BETWEEN_TESTS'] # number of rounds between testset evaluation
 			self.CLIENTS = math.ceil(options['partitioner']['NUM_CLIENTS'])  # number of clients to partition to
 			self.SHARDS = math.ceil(options['partitioner']['NUM_SHARDS_PER']) # number of shards per client
@@ -110,9 +110,11 @@ class Partitioner:
 
 		# preprocess test dataset
 		testset = tf.data.Dataset.from_tensor_slices((x_test, y_test))
-		processed_testset = testset.batch(self.BATCH_SIZE).shuffle(self.SHUFFLE_BUFFER)
+		processed_testset = testset.batch(20).shuffle(self.SHUFFLE_BUFFER)
 		model = self.create_compiled_keras_model()
 
+		# print(model.count_params())
+		# print(model.summary())
 		print("Sampling",self.COHORT_SIZE,"clients per round until",self.TARGET,"%","accuracy...")
 
 		# shuffle client ids for "random sampling" of clients
@@ -156,10 +158,11 @@ class Partitioner:
 			# run test set every so often and stop if we've reached a target accuracy
 			if round_num % self.TEST_PERIOD == 0:
 				# test model, run same number of epochs as in training set
-				loss, accuracy = model.evaluate(processed_testset, steps=self.NUM_EPOCHS, verbose=1)
+				loss, accuracy = model.evaluate(processed_testset, steps=10, verbose=0)
+				print("Tested. Sparse categorical accuracy: ",accuracy)
 
 				# set continuation bool
-				if accuracy >= 0.99:
+				if accuracy >= (self.TARGET / 100):
 					below_target = False
 
 	# simple model with Keras
