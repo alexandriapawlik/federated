@@ -6,6 +6,7 @@ import tensorflow_federated as tff
 import json
 import random
 import math
+import time
 
 # disable CPU (enable AVX/FMA) warning on Mac
 import os
@@ -36,6 +37,7 @@ class Partitioner:
 		# dataset data
 		self.LABELS = 1
 
+		self.verbose = False
 		self.iterative_process = None
 		self.sample_batch = None
 
@@ -58,6 +60,7 @@ class Partitioner:
 			self.CLIENTS = math.ceil(options['partitioner']['NUM_CLIENTS'])  # number of clients to partition to
 			self.SHARDS = math.ceil(options['partitioner']['NUM_SHARDS_PER']) # number of shards per client
 			self.LABELS = int(options['data']['NUM_LABELS'])  # number of labels in y set
+			self.verbose = options['system']['VERBOSE']  
 
 		# prep environment
 		warnings.simplefilter('ignore')
@@ -116,6 +119,7 @@ class Partitioner:
 		# print(model.count_params())
 		# print(model.summary())
 		print("Sampling",self.COHORT_SIZE,"clients per round until",self.TARGET,"%","accuracy...")
+		print()
 
 		# shuffle client ids for "random sampling" of clients
 		client_list = list(range(len(self.dataset_list)))
@@ -133,8 +137,10 @@ class Partitioner:
 		# won't necessarily complete a "federated epoch"
 		below_target = True
 		round_num = 0
+		time_sum = 0
 		while below_target:
 			round_num = round_num + 1
+			tic = time.perf_counter()
 
 			# pull client groups in order from shuffled client ids ("random sampling")
 			start = ((round_num - 1) * self.COHORT_SIZE) % len(client_list)
@@ -153,26 +159,40 @@ class Partitioner:
 			state, metrics = self.iterative_process.next(state, federated_train_data)
 
 			# print relevant metrics
-			print('round {:2d}, metrics={}'.format(round_num, metrics))
+			toc = time.perf_counter()
+			time_sum = time_sum + toc - tic
+			if self.verbose:
+				print('round {:2d}, metrics={}'.format(round_num, metrics))
+				print(f"{toc - tic:0.4f} seconds")
 			
 			# run test set every so often and stop if we've reached a target accuracy
 			if round_num % self.TEST_PERIOD == 0:
 				# test model, run same number of epochs as in training set
 				tff.learning.assign_weights_to_keras_model(model, state.model)
 				loss, accuracy = model.evaluate(processed_testset, steps=self.NUM_EPOCHS, verbose=0)
-				print("Tested. Sparse categorical accuracy: ",accuracy)
+				if self.verbose:
+					print("Tested. Sparse categorical accuracy: ",accuracy * 100,"%")
 
 				# set continuation bool
 				if accuracy >= (self.TARGET / 100):
 					below_target = False
+			
+			if self.verbose:
+				print()
+
+		# print final test stats
+		print("Target accuracy reached after ",round_num," rounds")
+		print("Average time per round: ",time_sum // round_num)
+		print()
+
 
 	# simple model with Keras
 	# internal method
 	def create_compiled_keras_model(self):
 		model = tf.keras.models.Sequential([
-			tf.keras.layers.Conv2D(32, (5,5), activation='relu', input_shape=(28,28,1)),
+			tf.keras.layers.Conv2D(32, (5,5), padding="same", activation='relu', input_shape=(28,28,1)),
 			tf.keras.layers.MaxPool2D((2,2)),
-			tf.keras.layers.Conv2D(64, (5,5), activation='relu'),
+			tf.keras.layers.Conv2D(64, (5,5), padding="same", activation='relu'),
 			tf.keras.layers.MaxPool2D((2,2)),
 			tf.keras.layers.Flatten(input_shape=(7,7)),
 			tf.keras.layers.Dense(512, activation='relu'),
