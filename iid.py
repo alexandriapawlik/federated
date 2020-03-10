@@ -14,9 +14,10 @@ class IID_Partitioner(partitioner.Partitioner):
 	def __init__(self):
 		super().__init__()
 
-	def go(self):
+	def go(self, num):
 		# call parent functions
 		self.prep()
+		self.test_num(num)
 		(x_train, y_train) = self.load_data()
 		data_per_client = x_train.shape[0] // self.CLIENTS
 
