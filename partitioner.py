@@ -79,9 +79,9 @@ class Partitioner:
 		n = n - 1  # make working with array indices easier
 
 		# construct value array
-		cohort_size = [20, 50]
+		cohort_size = [10, 50]
 		num_epochs = [10]
-		batch_size = [10, 50]
+		batch_size = [20, 50]
 		learning_rate = [0.1, 0.215]
 
 		# convert test number to array indices and set constants to array values
@@ -194,7 +194,7 @@ class Partitioner:
 				tff.learning.assign_weights_to_keras_model(model, state.model)
 				loss, accuracy = model.evaluate(processed_testset, steps=self.NUM_EPOCHS, verbose=0)
 				if self.verbose:
-					print("Tested. Sparse categorical accuracy: ",accuracy * 100,"%")
+					print(f"Tested. Sparse categorical accuracy: {accuracy * 100:0.2f}%")
 
 				# set continuation bool
 				if accuracy >= (self.TARGET / 100):
@@ -227,4 +227,4 @@ class Partitioner:
 			optimizer=tf.keras.optimizers.SGD(learning_rate=self.LR),
 			metrics=[tf.keras.metrics.SparseCategoricalAccuracy()
 			])
-		return model
+		return model	

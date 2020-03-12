@@ -36,6 +36,7 @@ class Label_Partitioner(partitioner.Partitioner):
 		# (divide into 200 shards of size 300)
 		shards_x = np.empty([total_shards, shard_size, 28, 28, 1])
 		shards_y = np.empty([total_shards, shard_size])
+		shards_idx = 0
 
 		# for each label, make 20 shards
 		for label_num in range(self.LABELS): 
@@ -60,9 +61,11 @@ class Label_Partitioner(partitioner.Partitioner):
 				# slice indices for single shard
 				x_indices = indices[start:end]
 				y_indices = indices[start:end]
+
 				# slice data for single shard and add to shard lists
-				shards_x[shard_num] = sorted_x[x_indices]
-				shards_y[shard_num] = sorted_y[y_indices]
+				shards_x[shards_idx] = sorted_x[x_indices]
+				shards_y[shards_idx] = sorted_y[y_indices]
+				shards_idx = shards_idx + 1
 
 		# randomize order of shards before assigning to clients
 		shard_indices = np.random.permutation(len(shards_x))
@@ -85,11 +88,16 @@ class Label_Partitioner(partitioner.Partitioner):
 				# increment pointer
 				current_shard = (current_shard + 1) % len(shard_indices)
 
+			# # count label types for each client
+			# label_count = np.zeros((10,), dtype=int)
+			# for i in range(len(client_sample_y)):
+			# 	label_count[int(client_sample_y[i])] = label_count[int(client_sample_y[i])] + 1
+			# print(label_count)
+
 			# assign slices to single client
 			dataset = tf.data.Dataset.from_tensor_slices((client_sample_x, client_sample_y))
 			# add to list of client datasets
 			self.dataset_list.append(dataset.repeat(self.NUM_EPOCHS).batch(self.BATCH_SIZE).shuffle(self.SHUFFLE_BUFFER))
-			# TODO: does shuffle buffer guarantee that the data gets shuffled at each client?
 
 		# train
 		self.build_model()
