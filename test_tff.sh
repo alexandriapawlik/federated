@@ -13,6 +13,8 @@
 
 #SBATCH --array=0-23
 
-mkdir tf_results/${SLURM_ARRAY_JOB_ID}
+mkdir gl_results/${SLURM_ARRAY_JOB_ID}
 
-python test.py $SLURM_ARRAY_TASK_ID
+python tff_main.py $SLURM_ARRAY_TASK_ID
+
+cp gl_results/lr_tune.${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID}.log gl_results/${SLURM_ARRAY_JOB_ID}
