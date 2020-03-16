@@ -79,8 +79,8 @@ class Partitioner:
 		n = n - 1  # make working with array indices easier
 
 		# construct value array
-		cohort_size = [10, 50]
-		num_epochs = [10]
+		cohort_size = [10, 20, 50]
+		num_epochs = [10, 20]
 		batch_size = [20, 50]
 		learning_rate = [0.1, 0.215]
 
