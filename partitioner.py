@@ -13,8 +13,8 @@ import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 # disable warnings
-import tensorflow.python.util.deprecation as deprecation
-deprecation._PRINT_DEPRECATION_WARNINGS = False
+# import tensorflow.python.util.deprecation as deprecation
+# deprecation._PRINT_DEPRECATION_WARNINGS = False
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 class Partitioner:
