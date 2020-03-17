@@ -186,7 +186,7 @@ class Partitioner:
 			time_sum = time_sum + toc - tic
 			if self.verbose:
 				print('round {:2d}, metrics={}'.format(round_num, metrics))
-				print(f"{toc - tic:0.4f} seconds")
+				print(f"{toc - tic:0.4f}% seconds")
 			
 			# run test set every so often and stop if we've reached a target accuracy
 			if round_num % self.TEST_PERIOD == 0:

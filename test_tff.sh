@@ -11,7 +11,7 @@
 #SBATCH --mail-type=END
 #SBATCH --output=results/tff.%A.%a.log
 
-#SBATCH --array=0-1
+#SBATCH --array=1-2
 
 mkdir results/${SLURM_ARRAY_JOB_ID}
 
