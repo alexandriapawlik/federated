@@ -1,0 +1,21 @@
+
+Lmod is automatically replacing "python3.7-anaconda/2019.07" with
+"python3.6-anaconda/5.2.0".
+
+
+Currently Loaded Modules:
+  1) python3.6-anaconda/5.2.0
+
+ 
+
+mkdir: cannot create directory ‘results/4873957’: File exists
+/sw/arcts/centos7/python3.6-anaconda/5.2.0/lib/python3.6/site-packages/h5py/__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+Traceback (most recent call last):
+  File "tff_main.py", line 1, in <module>
+    import iid
+  File "/home/apawlik/federated/iid.py", line 1, in <module>
+    import partitioner
+  File "/home/apawlik/federated/partitioner.py", line 16, in <module>
+    import tensorflow.python.util.deprecation as deprecation
+AttributeError: module 'tensorflow' has no attribute 'python'

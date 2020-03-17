@@ -1,0 +1,10 @@
+
+Currently Loaded Modules:
+  1) python3.6-anaconda/5.2.0
+
+ 
+
+mkdir: cannot create directory ‘results/4878289’: File exists
+2020-03-17 15:02:20.952525: E tensorflow/stream_executor/cuda/cuda_driver.cc:318] failed call to cuInit: UNKNOWN ERROR (303)
+/var/spool/slurmd.spool/job4878289/slurm_script: line 21: 51529 Killed                  python tff_main.py $SLURM_ARRAY_TASK_ID
+slurmstepd: error: Detected 1 oom-kill event(s) in step 4878289.batch cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
