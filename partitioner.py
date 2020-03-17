@@ -186,7 +186,7 @@ class Partitioner:
 			time_sum = time_sum + toc - tic
 			if self.verbose:
 				print('round {:2d}, metrics={}'.format(round_num, metrics))
-				print(f"{toc - tic:0.4f}% seconds")
+				print('{:0.4f} seconds'.format(toc - tic))
 			
 			# run test set every so often and stop if we've reached a target accuracy
 			if round_num % self.TEST_PERIOD == 0:
@@ -194,7 +194,7 @@ class Partitioner:
 				tff.learning.assign_weights_to_keras_model(model, state.model)
 				loss, accuracy = model.evaluate(processed_testset, steps=self.NUM_EPOCHS, verbose=0)
 				if self.verbose:
-					print(f"Tested. Sparse categorical accuracy: {accuracy * 100:0.2f}%")
+					print('Tested. Sparse categorical accuracy: {:0.2f}'.format(accuracy * 100))
 
 				# set continuation bool
 				if accuracy >= (self.TARGET / 100):
@@ -205,7 +205,7 @@ class Partitioner:
 
 		# print final test stats
 		print("Target accuracy reached after ",round_num," rounds")
-		print("Average time per round: ",time_sum // round_num)
+		print('Average time per round: {:0.2f}'.format(time_sum // round_num))
 		print()
 
 
