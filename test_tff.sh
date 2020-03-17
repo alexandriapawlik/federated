@@ -13,6 +13,9 @@
 
 #SBATCH --array=1-2
 
+module load python3.6-anaconda
+module list
+
 mkdir results/${SLURM_ARRAY_JOB_ID}
 
 python tff_main.py $SLURM_ARRAY_TASK_ID
