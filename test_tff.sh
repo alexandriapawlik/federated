@@ -8,7 +8,7 @@
 #SBATCH --account=tewaria1
 #SBATCH --partition=standard
 #SBATCH --mail-user=apawlik@umich.edu
-#SBATCH --mail-type=BEGIN,END
+#SBATCH --mail-type=END
 #SBATCH --output=results/lr_tune.%A_%a.log
 
 #SBATCH --array=0-1
@@ -18,3 +18,4 @@ mkdir results/${SLURM_ARRAY_JOB_ID}
 python tff_main.py $SLURM_ARRAY_TASK_ID
 
 cp results/lr_tune.${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID}.log results/${SLURM_ARRAY_JOB_ID}
+rm results/lr_tune.${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID}.log
