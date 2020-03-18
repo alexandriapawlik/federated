@@ -13,7 +13,8 @@
 
 #SBATCH --array=1-2
 
-module load python3.6-anaconda
+module load python3.7-anaconda
+module load cuda/10.0.130 cudnn/10.0-v7.6
 module list
 
 mkdir results/${SLURM_ARRAY_JOB_ID}
