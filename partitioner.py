@@ -11,6 +11,7 @@ import time
 # disable CPU (enable AVX/FMA) warning on Mac
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+os.environ['CUDA_VISIBLE_DEVICES'] = "0"
 
 # disable warnings
 # import tensorflow.python.util.deprecation as deprecation
