@@ -2,6 +2,11 @@ import iid
 import by_label
 import sys
 
+# disable CPU (enable AVX/FMA) warning on Mac
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+
 print()
 print("IID partitioning:")
 print("60,000 samples randomly distributed to 100 clients")
