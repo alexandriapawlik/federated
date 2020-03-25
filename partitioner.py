@@ -75,10 +75,10 @@ class Partitioner:
 		n = n - 1  # make working with array indices easier
 
 		# construct value array
-		cohort_size = [10, 20, 50]
-		num_epochs = [10, 20]
-		batch_size = [20, 50]
-		learning_rate = [0.1, 0.215]
+		cohort_size = [10] 
+		num_epochs = [20]
+		batch_size = [10]
+		learning_rate = [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.2, 0.21, 0.22]
 
 		# convert test number to array indices and set constants to array values
 		self.COHORT_SIZE = cohort_size[n // (len(num_epochs) * len(batch_size) * len(learning_rate))]
@@ -87,6 +87,14 @@ class Partitioner:
 		n = n % (len(batch_size) * len(learning_rate))
 		self.BATCH_SIZE = batch_size[n // len(learning_rate)]
 		self.LR = learning_rate[n % len(learning_rate)]
+
+		# test specs
+		print("cohort size: ",self.COHORT_SIZE)
+		print("number of local epochs: ",self.NUM_EPOCHS)
+		print("local batch size: ", self.BATCH_SIZE)
+		print("learning rate: ", self.LR)
+		print("Sampling",self.COHORT_SIZE,"clients per round until",self.TARGET,"%","accuracy...")
+		print()
 
 	# returns datasets ready for partitioning
 	def load_data(self):
@@ -133,12 +141,6 @@ class Partitioner:
 
 		# print(model.count_params())
 		# print(model.summary())
-		print("cohort size: ",self.COHORT_SIZE)
-		print("number of local epochs: ",self.NUM_EPOCHS)
-		print("local batch size: ", self.BATCH_SIZE)
-		print("learning rate: ", self.LR)
-		print("Sampling",self.COHORT_SIZE,"clients per round until",self.TARGET,"%","accuracy...")
-		print()
 
 		# shuffle client ids for "random sampling" of clients
 		client_list = list(range(len(self.dataset_list)))

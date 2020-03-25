@@ -39,4 +39,10 @@ class IID_Partitioner(partitioner.Partitioner):
 
 		# train
 		self.build_model()
+
+		print()
+		print("IID partitioning:")
+		print("60,000 samples randomly distributed to 100 clients")
+		print()
+
 		self.train()

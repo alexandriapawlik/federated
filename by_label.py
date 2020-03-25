@@ -101,4 +101,10 @@ class Label_Partitioner(partitioner.Partitioner):
 
 		# train
 		self.build_model()
+
+		print()
+		print("Non-IID partitioning:")
+		print("60,000 samples divided by label, split into 200 shards, and randomly distributed to 100 clients")
+		print()
+
 		self.train()
