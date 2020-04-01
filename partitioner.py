@@ -25,17 +25,24 @@ class Partitioner:
 		self.LR = 0.1
 		self.TARGET = 50
 		self.TEST_PERIOD = 1
-
-		# partitioner data
-		self.CLIENTS = 1
-		self.SHARDS = 1
-
-		# dataset data
-		self.LABELS = 1
-
 		self.verbose = False
 		self.iterative_process = None
 		self.sample_batch = None
+
+		# partitioner data
+		self.CLIENTS = 1
+		self.SHARDS = 2
+		self.NUMDATAPTS_MEAN = 600  
+		self.NUMDATAPTS_STDEV = 0
+
+		# each client partially iid
+		self.PERCENT_DATA_IID = 100
+
+		# some clients iid
+		self.PERCENT_CLIENTS_IID = 0
+
+		# dataset data
+		self.LABELS = 1
 
 		# only variable that needs to be modified by inherited classes
 		self.dataset_list = []
@@ -53,10 +60,21 @@ class Partitioner:
 			self.LR = options['model']['LEARNING_RATE']  # SGD learning rate
 			self.TARGET = options['model']['TARGET_ACCURACY'] # target accuracy for model when tested with test set
 			self.TEST_PERIOD = options['model']['ROUNDS_BETWEEN_TESTS'] # number of rounds between testset evaluation
-			self.CLIENTS = math.ceil(options['partitioner']['NUM_CLIENTS'])  # number of clients to partition to
-			self.SHARDS = math.ceil(options['partitioner']['NUM_SHARDS_PER']) # number of shards per client
-			self.LABELS = int(options['data']['NUM_LABELS'])  # number of labels in y set
 			self.verbose = options['system']['VERBOSE']  
+
+			# partitioner
+			self.CLIENTS = math.ceil(options['partitioner']['NUM_CLIENTS'])  # number of clients to partition to
+			self.SHARDS = math.ceil(options['partitioner']['NUM_CLASSES_PER']) # number of shards per client
+			self.NUMDATAPTS_MEAN = options['partitioner']['MEAN_NUM_DATA_PTS_PER_CLIENT']
+			self.NUMDATAPTS_STDEV = options['partitioner']['STD_DEV_NUM_DATA_PTS_PER_CLIENT'] 
+
+			# each client partially iid
+			self.PERCENT_DATA_IID = options['each_client_partially_iid']['PERCENT_DATA_IID']
+			# some clients iid
+			self.PERCENT_CLIENTS_IID = options['some_clients_iid']['PERCENT_CLIENTS_IID']
+
+			# dataset
+			self.LABELS = int(options['data']['NUM_LABELS'])  # number of labels in y set
 
 		# prep environment
 		warnings.simplefilter('ignore')
@@ -78,7 +96,7 @@ class Partitioner:
 		cohort_size = [10] 
 		num_epochs = [20]
 		batch_size = [10]
-		learning_rate = [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.2, 0.21, 0.22]
+		learning_rate = [0.1, 0.215]
 
 		# convert test number to array indices and set constants to array values
 		self.COHORT_SIZE = cohort_size[n // (len(num_epochs) * len(batch_size) * len(learning_rate))]
@@ -87,14 +105,6 @@ class Partitioner:
 		n = n % (len(batch_size) * len(learning_rate))
 		self.BATCH_SIZE = batch_size[n // len(learning_rate)]
 		self.LR = learning_rate[n % len(learning_rate)]
-
-		# test specs
-		print("cohort size: ",self.COHORT_SIZE)
-		print("number of local epochs: ",self.NUM_EPOCHS)
-		print("local batch size: ", self.BATCH_SIZE)
-		print("learning rate: ", self.LR)
-		print("Sampling",self.COHORT_SIZE,"clients per round until",self.TARGET,"%","accuracy...")
-		print()
 
 	# returns datasets ready for partitioning
 	def load_data(self):
