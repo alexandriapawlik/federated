@@ -10,6 +10,7 @@ import random
 import math
 
 # schema 2: some clients iid
+# TODO: describe schema
 # configure:
 # fraction of clients with all IID data
 # number of classes of data per non-IID client

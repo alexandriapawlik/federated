@@ -8,17 +8,14 @@
 		"TARGET_ACCURACY": 99,
 		"ROUNDS_BETWEEN_TESTS": 1
 	},
-	"data": {
-		"NUM_LABELS": 10
-	},
 	"partitioner": {
 		"NUM_CLIENTS": 100,
 		"NUM_CLASSES_PER": 2,
 		"MEAN_NUM_DATA_PTS_PER_CLIENT": 600,
-		"STD_DEV_NUM_DATA_PTS_PER_CLIENT": 0
+		"STD_DEV_NUM_DATA_PTS_PER_CLIENT": 10
 	},
 	"each_client_partially_iid": {
-		"PERCENT_DATA_IID": 20
+		"PERCENT_DATA_IID": 80
 	},
 	"some_clients_iid": {
 		"PERCENT_CLIENTS_IID": 20

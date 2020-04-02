@@ -10,6 +10,7 @@ import random
 import math
 
 # schema 3: sharding
+# TODO: describe schema
 # configure:
 # number of shards per client (number of classes per client)
 # (proper sharding with no data overlap)
@@ -45,8 +46,8 @@ class Partitioner3(partitioner.Partitioner):
 		# for each label, make 20 shards
 		for label_num in range(self.LABELS): 
 			# make ndarrays from label lists
-			sorted_x = np.array(sorted_data_x[label_num])
-			sorted_y = np.array(sorted_data_y[label_num])
+			this_label_x = np.array(sorted_data_x[label_num])
+			this_label_y = np.array(sorted_data_y[label_num])
 
 			# make sure we have enough data for desired shard size
 			if (len(sorted_data_x[label_num]) // shard_size) == 0:
@@ -67,8 +68,8 @@ class Partitioner3(partitioner.Partitioner):
 				y_indices = indices[start:end]
 
 				# slice data for single shard and add to shard lists
-				shards_x[shards_idx] = sorted_x[x_indices]
-				shards_y[shards_idx] = sorted_y[y_indices]
+				shards_x[shards_idx] = this_label_x[x_indices]
+				shards_y[shards_idx] = this_label_y[y_indices]
 				shards_idx = shards_idx + 1
 
 		# randomize order of shards before assigning to clients

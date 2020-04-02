@@ -42,7 +42,7 @@ class Partitioner:
 		self.PERCENT_CLIENTS_IID = 0
 
 		# dataset data
-		self.LABELS = 1
+		self.LABELS = 10  # number of labels in y set
 
 		# only variable that needs to be modified by inherited classes
 		self.dataset_list = []
@@ -73,9 +73,6 @@ class Partitioner:
 			# some clients iid
 			self.PERCENT_CLIENTS_IID = options['some_clients_iid']['PERCENT_CLIENTS_IID']
 
-			# dataset
-			self.LABELS = int(options['data']['NUM_LABELS'])  # number of labels in y set
-
 		# prep environment
 		warnings.simplefilter('ignore')
 		tf.compat.v1.enable_v2_behavior()
@@ -93,10 +90,10 @@ class Partitioner:
 		n = n - 1  # make working with array indices easier
 
 		# construct value array
-		cohort_size = [10] 
+		cohort_size = [10, 20, 50] 
 		num_epochs = [20]
 		batch_size = [10]
-		learning_rate = [0.1, 0.215]
+		learning_rate = [0.2]
 
 		# convert test number to array indices and set constants to array values
 		self.COHORT_SIZE = cohort_size[n // (len(num_epochs) * len(batch_size) * len(learning_rate))]
@@ -133,7 +130,6 @@ class Partitioner:
 
 		# let TFF construct a Federated Averaging algorithm 
 		self.iterative_process = tff.learning.build_federated_averaging_process(model_fn)
-		# TODO: build second model with different learning rate for non-IID
 
 	# run federated training algorithm
 	def train(self):
