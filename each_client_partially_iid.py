@@ -157,7 +157,7 @@ class Partitioner1(partitioner.Partitioner):
 		print("target accuracy: ",self.TARGET,"%")
 		print("--------------------------------------------------")
 		print("number of data points per client:")
-		print(num_data_per_client.astype(int))
+		print(num_data_per_client)
 		print("--------------------------------------------------")
 		print()
 
