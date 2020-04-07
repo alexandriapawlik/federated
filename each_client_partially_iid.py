@@ -156,9 +156,9 @@ class Partitioner1(partitioner.Partitioner):
 		print("learning rate: ", self.LR)
 		print("target accuracy: ",self.TARGET,"%")
 		print("--------------------------------------------------")
-		print("number of data points per client:")
-		print(num_data_per_client)
-		print("--------------------------------------------------")
+		# print("number of data points per client:")
+		# print(num_data_per_client)
+		# print("--------------------------------------------------")
 		print()
 
 		self.train()
