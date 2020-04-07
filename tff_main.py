@@ -3,6 +3,7 @@ import some_clients_iid
 import shard
 import iid
 import sys
+from datetime import datetime
 
 # disable CPU (enable AVX/FMA) warning on Mac
 import os
@@ -14,7 +15,16 @@ p2 = some_clients_iid.Partitioner2()
 p3 = shard.Partitioner3()
 p4 = iid.Partitioner4()
 
+print(datetime.now())
+
 # p1.go(int(sys.argv[1]))
+# print(datetime.now())
+
 # p2.go(int(sys.argv[1]))
+# print(datetime.now())
+
 p3.go(int(sys.argv[1]))
+print(datetime.now())
+
 p4.go(int(sys.argv[1]))
+print(datetime.now())
