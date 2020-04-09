@@ -86,22 +86,23 @@ class Partitioner:
 
 	# process test number command line parameter as hyperparameter values
 	def test_num(self, n):
-		print("Test ", n)
-		n = n - 1  # make working with array indices easier
+		if n > 0: # if test number is 0, use only config file values
+			print("Test ", n)
+			n = n - 1  # make working with array indices easier
 
-		# construct value array
-		cohort_size = [10] 
-		num_epochs = [20]
-		batch_size = [10]
-		learning_rate = [0.12, 0.15, 0.18, 0.19, 0.2, 0.21, 0.215, 0.22]
+			# construct value array
+			cohort_size = [1] 
+			num_epochs = [20]
+			batch_size = [100]
+			learning_rate = [0.2]
 
-		# convert test number to array indices and set constants to array values
-		self.COHORT_SIZE = cohort_size[n // (len(num_epochs) * len(batch_size) * len(learning_rate))]
-		n = n % (len(num_epochs) * len(batch_size) * len(learning_rate))
-		self.NUM_EPOCHS = num_epochs[n // (len(batch_size) * len(learning_rate))]
-		n = n % (len(batch_size) * len(learning_rate))
-		self.BATCH_SIZE = batch_size[n // len(learning_rate)]
-		self.LR = learning_rate[n % len(learning_rate)]
+			# convert test number to array indices and set constants to array values
+			self.COHORT_SIZE = cohort_size[n // (len(num_epochs) * len(batch_size) * len(learning_rate))]
+			n = n % (len(num_epochs) * len(batch_size) * len(learning_rate))
+			self.NUM_EPOCHS = num_epochs[n // (len(batch_size) * len(learning_rate))]
+			n = n % (len(batch_size) * len(learning_rate))
+			self.BATCH_SIZE = batch_size[n // len(learning_rate)]
+			self.LR = learning_rate[n % len(learning_rate)]
 
 	# returns datasets ready for partitioning
 	def load_data(self):

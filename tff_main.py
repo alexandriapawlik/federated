@@ -15,16 +15,22 @@ p2 = some_clients_iid.Partitioner2()
 p3 = shard.Partitioner3()
 p4 = iid.Partitioner4()
 
+# pass test number = 0 if no test number given
+if len(sys.argv) < 2:
+	test = 0
+else:
+	test = int(sys.argv[1])
+
 print(datetime.now())
 
-# p1.go(int(sys.argv[1]))
+# p1.go(test)
 # print(datetime.now())
 
-# p2.go(int(sys.argv[1]))
+# p2.go(test)
 # print(datetime.now())
 
-p3.go(int(sys.argv[1]))
-print(datetime.now())
+# p3.go(test)
+# print(datetime.now())
 
-p4.go(int(sys.argv[1]))
+p4.go(test)
 print(datetime.now())
