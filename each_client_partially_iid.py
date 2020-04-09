@@ -13,7 +13,7 @@ import math
 # fraction of data from each label is set aside and mixed as IID data
 # each client randomly selects IID data from pool
 # each client randomly selects labels to pull non-IID data from
-# 
+# and pulls an even fraction of non-IID data from that label
 # configure:
 # fraction of data that's distributed to clients IID
 # number of classes of non_IID data per client

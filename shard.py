@@ -25,7 +25,7 @@ class Partitioner3(partitioner.Partitioner):
 		self.test_num(num)
 		(x_train, y_train) = self.load_data()
 		total_shards = self.CLIENTS * self.SHARDS
-		shard_size = int(x_train.shape[0] // total_shards)  # trumps number of shards per client
+		shard_size = int(x_train.shape[0] // total_shards) 
 		
 		# list for each of 10 labels
 		sorted_data_x = [[] for i in range(self.LABELS)]
