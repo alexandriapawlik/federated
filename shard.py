@@ -112,6 +112,7 @@ class Partitioner3(partitioner.Partitioner):
 		print("--------------------------------------------------")
 		print("number of shards per client: ", self.SHARDS)
 		print()
+		print("number of clients: ", self.CLIENTS)
 		print("cohort size: ",self.COHORT_SIZE)
 		print("number of local epochs: ",self.NUM_EPOCHS)
 		print("local batch size: ", self.BATCH_SIZE)

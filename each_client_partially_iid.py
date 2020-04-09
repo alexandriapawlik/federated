@@ -140,6 +140,7 @@ class Partitioner1(partitioner.Partitioner):
 		print("number of classes for non-IID data: ", self.SHARDS)
 		print("data points per client (mean, std dev): (", self.NUMDATAPTS_MEAN, ", ", self.NUMDATAPTS_STDEV, ")")
 		print()
+		print("number of clients: ", self.CLIENTS)
 		print("cohort size: ",self.COHORT_SIZE)
 		print("number of local epochs: ",self.NUM_EPOCHS)
 		print("local batch size: ", self.BATCH_SIZE)
