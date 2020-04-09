@@ -10,13 +10,14 @@ import random
 import math
 
 # schema 1: each client partially iid
-# TODO: describe schema
+# fraction of data from each label is set aside and mixed as IID data
+# each client randomly selects IID data from pool
+# each client randomly selects labels to pull non-IID data from
+# 
 # configure:
 # fraction of data that's distributed to clients IID
 # number of classes of non_IID data per client
 # distribution of number of data points per client
-# NOTE: significant data overlap will only occur within IID data if at all
-# slight overlap occurs in non-IID data in redistribution of a few shards
 class Partitioner1(partitioner.Partitioner):
 
 	def __init__(self):
@@ -59,81 +60,70 @@ class Partitioner1(partitioner.Partitioner):
 			sorted_data_x[i] = this_label_x[non_iid_indices]
 			sorted_data_y[i] = this_label_y[non_iid_indices]
 
+		# convert sorted non-IID data to a numpy array
+		sorted_x = np.asarray(sorted_data_x)
+		sorted_y = np.asarray(sorted_data_y)
+
 		# flatten iid data list
 		iid_data_x = np.concatenate(np.array(iid_data_x_temp))
 		iid_data_y = np.concatenate(np.array(iid_data_y_temp))
 
-		# split remaining data into shards
-		total_shards = self.CLIENTS * self.SHARDS
-		shard_size = int(x_train.shape[0] / total_shards * (100 - self.PERCENT_DATA_IID) / 100)
-		shards_x = np.empty([total_shards, shard_size, 28, 28, 1])
-		shards_y = np.empty([total_shards, shard_size])
-		shards_idx = 0
-
-		# for each label, make shards
-		for label_num in range(self.LABELS): 
-			# make ndarrays from label lists
-			this_label_x = np.array(sorted_data_x[label_num])
-			this_label_y = np.array(sorted_data_y[label_num])
-
-			# randomize data for this label before making shards
-			indices = np.random.permutation(len(this_label_x))
-
-			# for each shard chunk in this label
-			for shard_num in range(len(this_label_x) // shard_size): 
-				# calculate indices of slice
-				start = shard_num * shard_size
-				end = (shard_num + 1) * shard_size
-
-				# slice indices for single shard
-				chosen_indices = indices[start:end]
-
-				# slice data for single shard and add to shard lists
-				shards_x[shards_idx] = this_label_x[chosen_indices]
-				shards_y[shards_idx] = this_label_y[chosen_indices]
-				shards_idx = shards_idx + 1
-
-		# shorten shard array to actual length
-		shards_x = np.delete(shards_x, [range(shards_idx, len(shards_x))], axis=0)
-		shards_y = np.delete(shards_y, [range(shards_idx, len(shards_y))], axis=0)
-
-		# randomize order of data
-		shard_indices = np.random.permutation(len(shards_x))
-		iid_indices = np.random.permutation(len(iid_data_x))
-
-		# assign each client shards and IID data
-		shards_idx = 0
-		iid_idx = 0
+		# duplicate counting setup
+		multi_iid = np.zeros(iid_data_x.shape[0], int) # count duplicates in IID
+		multi_labels = [] # count duplicates in non IID
+		for i in range(self.LABELS):
+			multi_labels.append(np.zeros(sorted_x[i].shape, int))
+		multi_labels = np.asarray(multi_labels)
 		num_data_per_client = []
+
+		print(multi_iid.shape)
+		print(multi_labels.shape)
+
+		# assign each client non-IID and IID data
 		for client_num in range(self.CLIENTS):
 			# number of data points for this client
 			num_data = int(np.random.normal(self.NUMDATAPTS_MEAN, self.NUMDATAPTS_STDEV))
-			client_sample_x_temp = [] # unflattened
-			client_sample_y_temp = []
+			num_iid = math.ceil(self.PERCENT_DATA_IID / 100 * num_data)
+			num_non_iid = num_data - num_iid
+			client_sample_x = np.empty([num_data, 28, 28, 1])
+			client_sample_y = np.empty([num_data])
 
-			# add shards to current client
+			# add IID data to current client
+			iid_indices = np.random.permutation(iid_data_x.shape[0])
+			iid_indices_slice = iid_indices[:num_iid]
+			client_sample_x = np.append(client_sample_x, iid_data_x[iid_indices_slice], axis=0)
+			client_sample_y = np.append(client_sample_y, iid_data_y[iid_indices_slice], axis=0)
+
+			# count multiplicities
+			for i in range(num_iid):
+				multi_iid[int(iid_indices[i])] = multi_iid[int(iid_indices[i])] + 1
+					
+			# select labels for non_IID
+			label_indices = np.random.permutation(10)
+			chosen_labels = label_indices[:self.SHARDS]
+			
+			# add data from each label to combined pool
+			data_per_label = num_non_iid // self.SHARDS
+			extra = (num_non_iid % self.SHARDS) + data_per_label
 			for i in range(self.SHARDS):
-				client_sample_x_temp.append(shards_x[shard_indices[shards_idx]])
-				client_sample_y_temp.append(shards_y[shard_indices[shards_idx]])
-				shards_idx = (shards_idx + 1) % len(shards_x)
-
-			# flatten client data arrays
-			client_sample_x = np.concatenate(np.array(client_sample_x_temp))
-			client_sample_y = np.concatenate(np.array(client_sample_y_temp))
-
-			# add IID data to current client (if number of data points isn't enough after shards)
-			if (self.SHARDS * shard_size) < num_data:
-				for i in range((self.SHARDS * shard_size), num_data):
-					data_x = np.reshape(iid_data_x[iid_indices[iid_idx]], (1,28,28,1))
-					client_sample_x = np.append(client_sample_x, data_x, axis=0)
-					client_sample_y = np.append(client_sample_y, iid_data_y[iid_indices[iid_idx]])
-					iid_idx = (iid_idx + 1) % len(iid_data_x)
+				# add non-IID data from this label to current client
+				label = chosen_labels[i]
+				label_data_x = sorted_x[label]
+				label_data_y = sorted_y[label]
+				indices = np.random.permutation(label_data_x.shape[0])
+				indices_slice = []
+				if i == len(chosen_labels) - 1:  # pull remainder data from last label
+					indices_slice = indices[:extra]
+				else:
+					indices_slice = indices[:data_per_label]
+				client_sample_x = np.append(client_sample_x, label_data_x[indices_slice], axis=0)
+				client_sample_y = np.append(client_sample_y, label_data_y[indices_slice], axis=0)
+				# count multiplicities
+				for i in range(len(indices_slice)):
+					multi_labels[label][int(indices_slice[i])] = multi_labels[label][int(indices_slice[i])] + 1
 
 			# track number of data points per client
 			num_data_per_client.append(len(client_sample_x))
-
-			# TODO: count data multiplicities
-			# TODO: change parameter to be percent non-IID (technically)
 
 			# assign slices to single client
 			dataset = tf.data.Dataset.from_tensor_slices((client_sample_x, client_sample_y))

@@ -24,6 +24,7 @@ class Partitioner4(partitioner.Partitioner):
 		self.prep()
 		self.test_num(num)
 		(x_train, y_train) = self.load_data()
+		
 		multi = np.zeros(x_train.shape[0])
 		num_per_client = np.zeros(self.CLIENTS)
 
