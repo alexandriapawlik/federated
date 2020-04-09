@@ -91,10 +91,10 @@ class Partitioner:
 			n = n - 1  # make working with array indices easier
 
 			# construct value array
-			cohort_size = [1] 
-			num_epochs = [20]
-			batch_size = [100]
-			learning_rate = [0.2]
+			cohort_size = [20] 
+			num_epochs = [10]
+			batch_size = [20]
+			learning_rate = [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.2, 0.21, 0.215, 0.22]
 
 			# convert test number to array indices and set constants to array values
 			self.COHORT_SIZE = cohort_size[n // (len(num_epochs) * len(batch_size) * len(learning_rate))]

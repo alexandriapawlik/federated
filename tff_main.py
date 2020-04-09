@@ -23,14 +23,14 @@ else:
 
 print(datetime.now())
 
-# p1.go(test)
-# print(datetime.now())
+p1.go(test)
+print(datetime.now())
 
-# p2.go(test)
-# print(datetime.now())
+p2.go(test)
+print(datetime.now())
 
-# p3.go(test)
-# print(datetime.now())
+p3.go(test)
+print(datetime.now())
 
 p4.go(test)
 print(datetime.now())

@@ -10,7 +10,7 @@
 #SBATCH --mail-user=apawlik@umich.edu
 #SBATCH --mail-type=END
 
-#SBATCH --array=1
+#SBATCH --array=1-14
 
 module load python3.7-anaconda
 module load cudnn/10.0-v7.6
