@@ -1,0 +1,26 @@
+2020-04-08 21:21:17.720111
+
+Schema 4: IID
+--------------------------------------------------
+data points per client (mean, std dev): ( 60000 ,  0 )
+
+number of clients:  1
+cohort size:  1
+number of local epochs:  1
+local batch size:  100
+learning rate:  0.215
+target accuracy:  99 %
+--------------------------------------------------
+
+round  1, metrics=<sparse_categorical_accuracy=0.9067000150680542,loss=0.2886883020401001>
+82.6203 seconds
+Tested. Sparse categorical accuracy: 97.00
+
+round  2, metrics=<sparse_categorical_accuracy=0.9824166893959045,loss=0.05497965216636658>
+82.0692 seconds
+Tested. Sparse categorical accuracy: 100.00
+
+Target accuracy reached after  2  rounds
+Average time per round: 82.00
+
+2020-04-08 21:24:13.073778
