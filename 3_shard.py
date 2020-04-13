@@ -39,15 +39,15 @@ class Partitioner3(partitioner.Partitioner):
 
 		# split into shards
 		# (divide into 200 shards of size 300)
-		shards_x = np.empty([total_shards, shard_size, 28, 28, 1])
-		shards_y = np.empty([total_shards, shard_size])
+		shards_x = np.empty([total_shards, shard_size, 28, 28, 1], dtype=np.float64)
+		shards_y = np.empty([total_shards, shard_size], dtype=np.float64)
 		shards_idx = 0
 
 		# for each label, make 20 shards
 		for label_num in range(self.LABELS): 
 			# make ndarrays from label lists
-			this_label_x = np.array(sorted_data_x[label_num])
-			this_label_y = np.array(sorted_data_y[label_num])
+			this_label_x = np.array(sorted_data_x[label_num], np.float64)
+			this_label_y = np.array(sorted_data_y[label_num], np.float64)
 
 			# make sure we have enough data for desired shard size
 			if (len(sorted_data_x[label_num]) // shard_size) == 0:
@@ -80,8 +80,8 @@ class Partitioner3(partitioner.Partitioner):
 		for client_num in range(self.CLIENTS):
 			# add shards to current client using randomized index list
 			# wrap around if we run out
-			client_sample_x = np.empty([shard_size * self.SHARDS, 28, 28, 1])
-			client_sample_y = np.empty([shard_size * self.SHARDS])
+			client_sample_x = np.empty([shard_size * self.SHARDS, 28, 28, 1], dtype=np.float64)
+			client_sample_y = np.empty([shard_size * self.SHARDS], dtype=np.float64)
 
 			# for as many shards as config file says we should have per client
 			for shard_count in range(self.SHARDS):
@@ -98,6 +98,10 @@ class Partitioner3(partitioner.Partitioner):
 			# for i in range(len(client_sample_y)):
 			# 	label_count[int(client_sample_y[i])] = label_count[int(client_sample_y[i])] + 1
 			# print(label_count)
+
+			# check data
+			if np.average(client_sample_y) > 9 or np.average(client_sample_y) < 0:
+				print(np.average(client_sample_y))
 
 			# assign slices to single client
 			dataset = tf.data.Dataset.from_tensor_slices((client_sample_x, client_sample_y))

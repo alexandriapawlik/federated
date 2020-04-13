@@ -44,8 +44,8 @@ class Partitioner1(partitioner.Partitioner):
 		iid_data_y_temp = []
 		for i in range(self.LABELS):
 			num_iid_pts = int(self.PERCENT_DATA_IID / 100 * len(sorted_data_x[i]))
-			this_label_x = np.array(sorted_data_x[i])
-			this_label_y = np.array(sorted_data_y[i])
+			this_label_x = np.array(sorted_data_x[i], np.float64)
+			this_label_y = np.array(sorted_data_y[i], np.float64)
 
 			# shuffle data within label
 			indices = np.random.permutation(len(this_label_x))
@@ -59,7 +59,7 @@ class Partitioner1(partitioner.Partitioner):
 			non_iid_indices = indices[num_iid_pts:]
 			sorted_data_x[i] = this_label_x[non_iid_indices]
 			sorted_data_y[i] = this_label_y[non_iid_indices]
-
+			
 		# convert sorted non-IID data to a numpy array
 		sorted_x = np.asarray(sorted_data_x)
 		sorted_y = np.asarray(sorted_data_y)
@@ -85,8 +85,8 @@ class Partitioner1(partitioner.Partitioner):
 			num_data = int(np.random.normal(self.NUMDATAPTS_MEAN, self.NUMDATAPTS_STDEV))
 			num_iid = math.ceil(self.PERCENT_DATA_IID / 100 * num_data)
 			num_non_iid = num_data - num_iid
-			client_sample_x = np.empty([num_data, 28, 28, 1])
-			client_sample_y = np.empty([num_data])
+			client_sample_x = np.empty([num_data, 28, 28, 1], dtype=np.float64)
+			client_sample_y = np.empty([num_data], dtype=np.float64)
 
 			# add IID data to current client
 			iid_indices = np.random.permutation(iid_data_x.shape[0])
@@ -122,7 +122,8 @@ class Partitioner1(partitioner.Partitioner):
 				for i in range(len(indices_slice)):
 					multi_labels[label][int(indices_slice[i])] = multi_labels[label][int(indices_slice[i])] + 1
 				# check data
-				print(np.average(client_sample_y))
+				if np.average(client_sample_y) > 9 or np.average(client_sample_y) < 0:
+					print(np.average(client_sample_y), label)
 
 			# track number of data points per client
 			num_data_per_client.append(len(client_sample_x))
