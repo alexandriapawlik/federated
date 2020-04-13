@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name=tff_partition
+#SBATCH --job-name=tff_partition_test
 #SBATCH --nodes=4
 #SBATCH --cpus-per-task=2
 #SBATCH --mem-per-cpu=5g
@@ -9,15 +9,7 @@
 #SBATCH --partition=standard
 #SBATCH --mail-user=apawlik@umich.edu
 #SBATCH --mail-type=END
-#SBATCH --output=results/%A/tff.%A.%a.log
-
-#SBATCH --array=1-8
+#SBATCH --print.log
 
 module load python3.7-anaconda
-module load cudnn/10.0-v7.6
-module load cuda/10.1.105
-module list
-
-mkdir results/${SLURM_ARRAY_JOB_ID}
-
-python tff_main.py $SLURM_ARRAY_TASK_ID
+python print_test.py

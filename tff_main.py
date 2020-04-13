@@ -1,7 +1,7 @@
-import each_client_partially_iid
-import some_clients_iid
-import shard
-import iid
+each_client_partially_iid = __import__('1_each_client_partially_iid')
+some_clients_iid = __import__('2_some_clients_iid')
+shard = __import__('3_shard')
+iid = __import__('4_iid')
 import sys
 from datetime import datetime
 
@@ -26,8 +26,8 @@ print(datetime.now())
 p1.go(test)
 print(datetime.now())
 
-p2.go(test)
-print(datetime.now())
+# p2.go(test)
+# print(datetime.now())
 
 p3.go(test)
 print(datetime.now())
