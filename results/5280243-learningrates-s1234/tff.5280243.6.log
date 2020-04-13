@@ -1,0 +1,27 @@
+2020-04-08 21:53:03.822922
+Test  6
+(29997,)
+(10,)
+
+Schema 1: Each client partially IID
+--------------------------------------------------
+percent data distributed IID:  50
+number of classes for non-IID data:  2
+data points per client (mean, std dev): ( 600 ,  0 )
+
+number of clients:  100
+cohort size:  20
+number of local epochs:  10
+local batch size:  20
+learning rate:  0.15
+target accuracy:  80 %
+--------------------------------------------------
+
+round  1, metrics=<sparse_categorical_accuracy=0.5646791458129883,loss=1.4582252502441406>
+330.0311 seconds
+Tested. Sparse categorical accuracy: 12.50
+
+round  2, metrics=<sparse_categorical_accuracy=0.7506916522979736,loss=nan>
+334.8820 seconds
+Tested. Sparse categorical accuracy: 66.00
+

@@ -1,0 +1,85 @@
+2020-04-08 21:53:03.916178
+Test  3
+(29997,)
+(10,)
+
+Schema 1: Each client partially IID
+--------------------------------------------------
+percent data distributed IID:  50
+number of classes for non-IID data:  2
+data points per client (mean, std dev): ( 600 ,  0 )
+
+number of clients:  100
+cohort size:  20
+number of local epochs:  10
+local batch size:  20
+learning rate:  0.12
+target accuracy:  80 %
+--------------------------------------------------
+
+round  1, metrics=<sparse_categorical_accuracy=0.6342750191688538,loss=nan>
+334.7779 seconds
+Tested. Sparse categorical accuracy: 9.50
+
+round  2, metrics=<sparse_categorical_accuracy=0.8284708261489868,loss=nan>
+335.2716 seconds
+Tested. Sparse categorical accuracy: 93.50
+
+Target accuracy reached after  2  rounds
+Average time per round: 335.00
+
+2020-04-08 22:04:22.123553
+Test  3
+
+Schema 2: Some clients IID
+--------------------------------------------------
+percent clients IID:  20
+number of classes for non-IID clients:  2
+data points per client (mean, std dev): ( 600 ,  0 )
+
+number of clients:  100
+cohort size:  20
+number of local epochs:  10
+local batch size:  20
+learning rate:  0.12
+target accuracy:  80 %
+--------------------------------------------------
+
+round  1, metrics=<sparse_categorical_accuracy=0.7495166659355164,loss=0.567149817943573>
+173.9560 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round  2, metrics=<sparse_categorical_accuracy=0.9025916457176208,loss=0.26120316982269287>
+164.7057 seconds
+Tested. Sparse categorical accuracy: 39.50
+
+round  3, metrics=<sparse_categorical_accuracy=0.926883339881897,loss=0.2064431607723236>
+164.4126 seconds
+Tested. Sparse categorical accuracy: 51.00
+
+round  4, metrics=<sparse_categorical_accuracy=0.9722583293914795,loss=0.09739196300506592>
+164.9760 seconds
+Tested. Sparse categorical accuracy: 69.50
+
+round  5, metrics=<sparse_categorical_accuracy=0.9646583199501038,loss=0.10259594023227692>
+176.1386 seconds
+Tested. Sparse categorical accuracy: 87.50
+
+Target accuracy reached after  5  rounds
+Average time per round: 168.00
+
+2020-04-08 22:18:31.518086
+Test  3
+
+Schema 3: Sharding
+--------------------------------------------------
+number of shards per client:  2
+
+number of clients:  100
+cohort size:  20
+number of local epochs:  10
+local batch size:  20
+learning rate:  0.12
+target accuracy:  80 %
+--------------------------------------------------
+
