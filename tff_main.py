@@ -11,7 +11,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 p1 = each_client_partially_iid.Partitioner1()
-p2 = some_clients_iid.Partitioner2()
+# p2 = some_clients_iid.Partitioner2()
 p3 = shard.Partitioner3()
 p4 = iid.Partitioner4()
 

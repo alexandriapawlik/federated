@@ -3,15 +3,15 @@
 #SBATCH --job-name=tff_partition
 #SBATCH --nodes=4
 #SBATCH --cpus-per-task=2
-#SBATCH --mem-per-cpu=5g
-#SBATCH --time=48:00:00
+#SBATCH --mem-per-cpu=8g
+#SBATCH --time=50:00:00
 #SBATCH --account=tewaria1
 #SBATCH --partition=standard
 #SBATCH --mail-user=apawlik@umich.edu
 #SBATCH --mail-type=END
-#SBATCH --output=results/%A/slurm.%a.log
+#SBATCH --output=results/%A/s.%a.log
 
-#SBATCH --array=1-8
+#SBATCH --array=1
 
 module load python3.7-anaconda
 module load cudnn/10.0-v7.6

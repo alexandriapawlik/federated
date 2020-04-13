@@ -7,6 +7,7 @@ import json
 import random
 import math
 import time
+from datetime import datetime
 
 # disable warnings
 # import tensorflow.python.util.deprecation as deprecation
@@ -200,6 +201,7 @@ class Partitioner:
 				loss, accuracy = model.evaluate(processed_testset, steps=self.NUM_EPOCHS, verbose=0)
 				if self.verbose:
 					print('Tested. Sparse categorical accuracy: {:0.2f}'.format(accuracy * 100))
+					print(datetime.now())
 
 				# set continuation bool
 				if accuracy >= (self.TARGET / 100):
