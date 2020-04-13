@@ -9,7 +9,7 @@
 #SBATCH --partition=standard
 #SBATCH --mail-user=apawlik@umich.edu
 #SBATCH --mail-type=END
-#SBATCH --output=results/%A/tff.%A.%a.log
+#SBATCH --output=results/%A/slurm.%a.log
 
 #SBATCH --array=1-8
 
@@ -20,4 +20,4 @@ module list
 
 mkdir results/${SLURM_ARRAY_JOB_ID}
 
-python tff_main.py $SLURM_ARRAY_TASK_ID
+python tff_main.py $SLURM_ARRAY_TASK_ID > results/${SLURM_ARRAY_JOB_ID}/tff.${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}.out
