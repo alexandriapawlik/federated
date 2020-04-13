@@ -102,7 +102,7 @@ class Partitioner1(partitioner.Partitioner):
 			label_indices = np.random.permutation(10)
 			chosen_labels = label_indices[:self.SHARDS]
 			
-			# add data from each label to combined pool
+			# add data from each label
 			data_per_label = num_non_iid // self.SHARDS
 			extra = (num_non_iid % self.SHARDS) + data_per_label
 			for i in range(self.SHARDS):
@@ -121,6 +121,8 @@ class Partitioner1(partitioner.Partitioner):
 				# count multiplicities
 				for i in range(len(indices_slice)):
 					multi_labels[label][int(indices_slice[i])] = multi_labels[label][int(indices_slice[i])] + 1
+				# check data
+				print(np.average(client_sample_y))
 
 			# track number of data points per client
 			num_data_per_client.append(len(client_sample_x))
