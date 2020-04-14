@@ -8,6 +8,7 @@ import random
 import math
 import time
 from datetime import datetime
+import csv
 
 # disable warnings
 # import tensorflow.python.util.deprecation as deprecation
@@ -88,22 +89,42 @@ class Partitioner:
 	# process test number command line parameter as hyperparameter values
 	def test_num(self, n):
 		if n > 0: # if test number is 0, use only config file values
-			print("Test ", n)
 			n = n - 1  # make working with array indices easier
 
 			# construct value array
+			# learning rate chosen/iterates first, batch size second, ...
+			percent_data_iid = [20]
+			percent_clients_iid = [50]
 			cohort_size = [20] 
 			num_epochs = [10]
 			batch_size = [20]
 			learning_rate = [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.2, 0.21, 0.215, 0.22]
 
 			# convert test number to array indices and set constants to array values
+			self.PERCENT_DATA_IID = percent_data_iid[n // (len(percent_clients_iid) * len(cohort_size) * len(num_epochs) * len(batch_size) * len(learning_rate))]
+			n = n % (len(percent_clients_iid) * len(cohort_size) * len(num_epochs) * len(batch_size) * len(learning_rate))
+			self.PERCENT_CLIENTS_IID = percent_clients_iid[n // (len(cohort_size) * len(num_epochs) * len(batch_size) * len(learning_rate))]
+			n = n % (len(cohort_size) * len(num_epochs) * len(batch_size) * len(learning_rate))
 			self.COHORT_SIZE = cohort_size[n // (len(num_epochs) * len(batch_size) * len(learning_rate))]
 			n = n % (len(num_epochs) * len(batch_size) * len(learning_rate))
 			self.NUM_EPOCHS = num_epochs[n // (len(batch_size) * len(learning_rate))]
 			n = n % (len(batch_size) * len(learning_rate))
 			self.BATCH_SIZE = batch_size[n // len(learning_rate)]
 			self.LR = learning_rate[n % len(learning_rate)]
+
+	# output configuation data to csv file
+	def make_config_csv(self, test, batch):
+		filename = 'results/' + str(batch) + '/' + str(batch) + '.' + str(test) + '.config.csv'
+		with open(filename, 'w', newline='') as csvfile:
+			writer = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+			writer.writerow(['COHORT_SIZE', 'NUM_LOCAL_EPOCHS', 'LOCAL_BATCH_SIZE', 'SHUFFLE_BUFFER', 
+				'LEARNING_RATE', 'TARGET_ACCURACY', 'ROUNDS_BETWEEN_TESTS', 'NUM_CLIENTS', 'NUM_CLASSES_PER', 
+				'MEAN_NUM_DATA_PTS_PER_CLIENT', 'STD_DEV_NUM_DATA_PTS_PER_CLIENT', 'PERCENT_DATA_IID', 
+				'PERCENT_CLIENTS_IID','MAX_THREADS'])
+			writer.writerow([self.COHORT_SIZE, self.NUM_EPOCHS, self.BATCH_SIZE, self.SHUFFLE_BUFFER,
+				self.LR, self.TARGET, self.TEST_PERIOD, self.CLIENTS, self.SHARDS,
+				self.NUMDATAPTS_MEAN, self.NUMDATAPTS_STDEV, self.PERCENT_DATA_IID,
+				self.PERCENT_CLIENTS_IID, self.MAX_FANOUT])
 
 	# returns datasets ready for partitioning
 	def load_data(self):
@@ -134,7 +155,7 @@ class Partitioner:
 		self.iterative_process = tff.learning.build_federated_averaging_process(model_fn)
 
 	# run federated training algorithm
-	def train(self):
+	def train(self, test, batch, schema_num):
 		# load test dataset
 		mnist = tf.keras.datasets.mnist
 		(x_trash, y_trash), (x_test, y_test) = mnist.load_data()
@@ -162,53 +183,71 @@ class Partitioner:
 		def make_federated_data(client_data, client_ids):
 			return [self.dataset_list[x] for x in client_ids]
 
-		# run server training rounds
-		# won't necessarily complete a "federated epoch"
-		below_target = True
-		round_num = 0
-		time_sum = 0
-		while below_target:
-			round_num = round_num + 1
-			tic = time.perf_counter()
+		# output to CSV file
+		filename = 'results/' + str(batch) + '/' + str(batch) + '.' + str(test) + '.s' + str(schema_num) + 'out.csv'
+		with open(filename, 'w', newline='') as csvfile:
+			writer = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+			writer.writerow(['ROUND_NUM', 'ROUND_START', 'SPARSE_CATEGORICAL_ACCURACY_TRAIN', 'SPARSE_CATEGORICAL_CROSSENTROPY_LOSS_TRAIN', 
+				'SPARSE_CATEGORICAL_ACCURACY_TEST', 'SPARSE_CATEGORICAL_CROSSENTROPY_LOSS_TEST', 'COMPLETION_TIME_SECONDS'])
 
-			# pull client groups in order from shuffled client ids ("random sampling")
-			start = ((round_num - 1) * self.COHORT_SIZE) % len(client_list)
-			end = (round_num * self.COHORT_SIZE) % len(client_list)
-			if end > start:
-				sample_clients = client_list[start:end]
-			else:  # loop around or entire list
-				sample_clients = client_list[start:len(client_list)]
-				sample_clients.extend(client_list[0:end])
+			# run server training rounds
+			# won't necessarily complete a "federated epoch"
+			below_target = True
+			round_num = 0
+			time_sum = 0
+			while below_target:
+				round_num = round_num + 1
+				tic = time.perf_counter()
+				start_time = datetime.now()
 
-			# make dataset for current client group
-			federated_train_data = make_federated_data(self.dataset_list, sample_clients)
+				# pull client groups in order from shuffled client ids ("random sampling")
+				start = ((round_num - 1) * self.COHORT_SIZE) % len(client_list)
+				end = (round_num * self.COHORT_SIZE) % len(client_list)
+				if end > start:
+					sample_clients = client_list[start:end]
+				else:  # loop around or entire list
+					sample_clients = client_list[start:len(client_list)]
+					sample_clients.extend(client_list[0:end])
 
-			# single round of Federated Averaging
-			# passes federated_train_data: a list of tf.data.Dataset, one per client
-			state, metrics = self.iterative_process.next(state, federated_train_data)
+				# make dataset for current client group
+				federated_train_data = make_federated_data(self.dataset_list, sample_clients)
 
-			# print relevant metrics
-			toc = time.perf_counter()
-			time_sum = time_sum + toc - tic
-			if self.verbose:
-				print('round {:2d}, metrics={}'.format(round_num, metrics))
-				print('{:0.4f} seconds'.format(toc - tic))
-			
-			# run test set every so often and stop if we've reached a target accuracy
-			if round_num % self.TEST_PERIOD == 0:
-				# test model, run same number of epochs as in training set
-				tff.learning.assign_weights_to_keras_model(model, state.model)
-				loss, accuracy = model.evaluate(processed_testset, steps=self.NUM_EPOCHS, verbose=0)
+				# single round of Federated Averaging
+				# passes federated_train_data: a list of tf.data.Dataset, one per client
+				state, metrics = self.iterative_process.next(state, federated_train_data)
+
+				# print relevant metrics
+				toc = time.perf_counter()
+				time_sum = time_sum + toc - tic
 				if self.verbose:
-					print('Tested. Sparse categorical accuracy: {:0.2f}'.format(accuracy * 100))
-					print(datetime.now())
+					print('round {:2d}, metrics={}'.format(round_num, metrics))
+					print('{:0.4f} seconds'.format(toc - tic))
+				
+				# run test set every so often and stop if we've reached a target accuracy
+				if round_num % self.TEST_PERIOD == 0:
+					# test model, run same number of epochs as in training set
+					tff.learning.assign_weights_to_keras_model(model, state.model)
+					loss, accuracy = model.evaluate(processed_testset, steps=self.NUM_EPOCHS, verbose=0)
+					if self.verbose:
+						print('Tested. Sparse categorical accuracy: {:0.2f}'.format(accuracy * 100))
 
-				# set continuation bool
-				if accuracy >= (self.TARGET / 100):
-					below_target = False
-			
-			if self.verbose:
-				print()
+					# store relevant metrics in CSV
+					# 'ROUND_NUM', 'ROUND_START', 'SPARSE_CATEGORICAL_ACCURACY_TRAIN', 'SPARSE_CATEGORICAL_CROSSENTROPY_LOSS_TRAIN', 
+					# 'SPARSE_CATEGORICAL_ACCURACY_TEST', 'SPARSE_CATEGORICAL_CROSSENTROPY_LOSS_TEST', 'COMPLETION_TIME_SECONDS'
+					writer.writerow([round_num, start_time, metrics[0], metrics[1], accuracy, loss, toc - tic])
+
+					# set continuation bool
+					if accuracy >= (self.TARGET / 100):
+						below_target = False
+
+				else:
+					# store relevant metrics in CSV
+					# 'ROUND_NUM', 'ROUND_START', 'SPARSE_CATEGORICAL_ACCURACY_TRAIN', 'SPARSE_CATEGORICAL_CROSSENTROPY_LOSS_TRAIN', 
+					# 'SPARSE_CATEGORICAL_ACCURACY_TEST', 'SPARSE_CATEGORICAL_CROSSENTROPY_LOSS_TEST', 'COMPLETION_TIME_SECONDS'
+					writer.writerow([round_num, start_time, metrics[0], metrics[1], 'N/A', 'N/A', toc - tic])
+
+				if self.verbose:
+					print()
 
 		# print final test stats
 		print("Target accuracy reached after ",round_num," rounds")

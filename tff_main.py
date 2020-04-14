@@ -21,16 +21,24 @@ if len(sys.argv) < 2:
 else:
 	test = int(sys.argv[1])
 
+# pass batch number = 0 if no batch number given
+if len(sys.argv) < 3:
+	batch = 0
+else:
+	batch = int(sys.argv[2])
+
+print("Test ", test)
+print(datetime.now())
+print()
+
+p1.go(test, batch)
 print(datetime.now())
 
-p1.go(test)
-print(datetime.now())
+# # p2.go(test, batch)
+# # print(datetime.now())
 
-# p2.go(test)
+# p3.go(test, batch)
 # print(datetime.now())
 
-p3.go(test)
-print(datetime.now())
-
-p4.go(test)
-print(datetime.now())
+# p4.go(test, batch)
+# print(datetime.now())

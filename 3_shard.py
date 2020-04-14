@@ -19,10 +19,11 @@ class Partitioner3(partitioner.Partitioner):
 	def __init__(self):
 		super().__init__()
 
-	def go(self, num):
+	def go(self, num, batch):
 		# call parent functions
 		self.prep()
 		self.test_num(num)
+		self.make_config_csv(num, batch)
 		(x_train, y_train) = self.load_data()
 		total_shards = self.CLIENTS * self.SHARDS
 		shard_size = int(x_train.shape[0] // total_shards) 
@@ -115,14 +116,14 @@ class Partitioner3(partitioner.Partitioner):
 		print("Schema 3: Sharding")
 		print("--------------------------------------------------")
 		print("number of shards per client: ", self.SHARDS)
-		print()
-		print("number of clients: ", self.CLIENTS)
-		print("cohort size: ",self.COHORT_SIZE)
-		print("number of local epochs: ",self.NUM_EPOCHS)
-		print("local batch size: ", self.BATCH_SIZE)
-		print("learning rate: ", self.LR)
-		print("target accuracy: ",self.TARGET,"%")
+		# print()
+		# print("number of clients: ", self.CLIENTS)
+		# print("cohort size: ",self.COHORT_SIZE)
+		# print("number of local epochs: ",self.NUM_EPOCHS)
+		# print("local batch size: ", self.BATCH_SIZE)
+		# print("learning rate: ", self.LR)
+		# print("target accuracy: ",self.TARGET,"%")
 		print("--------------------------------------------------")
 		print()
 
-		self.train()
+		self.train(num, batch, 3)

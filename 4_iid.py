@@ -19,10 +19,11 @@ class Partitioner4(partitioner.Partitioner):
 	def __init__(self):
 		super().__init__()
 
-	def go(self, num):
+	def go(self, num, batch):
 		# call parent functions
 		self.prep()
 		self.test_num(num)
+		self.make_config_csv(num, batch)
 		(x_train, y_train) = self.load_data()
 		
 		multi = np.zeros(x_train.shape[0])
@@ -65,14 +66,14 @@ class Partitioner4(partitioner.Partitioner):
 		print("Schema 4: IID")
 		print("--------------------------------------------------")
 		print("data points per client (mean, std dev): (", self.NUMDATAPTS_MEAN, ", ", self.NUMDATAPTS_STDEV, ")")
-		print()
-		print("number of clients: ", self.CLIENTS)
-		print("cohort size: ",self.COHORT_SIZE)
-		print("number of local epochs: ",self.NUM_EPOCHS)
-		print("local batch size: ", self.BATCH_SIZE)
-		print("learning rate: ", self.LR)
-		print("target accuracy: ",self.TARGET,"%")
+		# print()
+		# print("number of clients: ", self.CLIENTS)
+		# print("cohort size: ",self.COHORT_SIZE)
+		# print("number of local epochs: ",self.NUM_EPOCHS)
+		# print("local batch size: ", self.BATCH_SIZE)
+		# print("learning rate: ", self.LR)
+		# print("target accuracy: ",self.TARGET,"%")
 		print("--------------------------------------------------")
 		print()
 
-		self.train()
+		self.train(num, batch, 4)

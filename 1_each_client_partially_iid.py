@@ -23,10 +23,11 @@ class Partitioner1(partitioner.Partitioner):
 	def __init__(self):
 		super().__init__()
 
-	def go(self, num):
+	def go(self, num, batch):
 		# call parent functions
 		self.prep()
 		self.test_num(num)
+		self.make_config_csv(num, batch)
 		(x_train, y_train) = self.load_data()
 		
 		# list for each of 10 labels ( arr[label][data point index] )
@@ -46,6 +47,7 @@ class Partitioner1(partitioner.Partitioner):
 			num_iid_pts = int(self.PERCENT_DATA_IID / 100 * len(sorted_data_x[i]))
 			this_label_x = np.array(sorted_data_x[i], np.float64)
 			this_label_y = np.array(sorted_data_y[i], np.float64)
+			print(np.average(this_label_y))
 
 			# shuffle data within label
 			indices = np.random.permutation(len(this_label_x))
@@ -67,6 +69,9 @@ class Partitioner1(partitioner.Partitioner):
 		# flatten iid data list
 		iid_data_x = np.concatenate(np.array(iid_data_x_temp))
 		iid_data_y = np.concatenate(np.array(iid_data_y_temp))
+		print(np.average(iid_data_y))
+		print(iid_data_y)
+		print()
 
 		# duplicate counting setup
 		multi_iid = np.zeros(iid_data_x.shape[0], int) # count duplicates in IID
@@ -93,6 +98,9 @@ class Partitioner1(partitioner.Partitioner):
 			iid_indices_slice = iid_indices[:num_iid]
 			client_sample_x = np.append(client_sample_x, iid_data_x[iid_indices_slice], axis=0)
 			client_sample_y = np.append(client_sample_y, iid_data_y[iid_indices_slice], axis=0)
+			print('client ', client_num)
+			print('iid ', np.average(client_sample_y))
+			print()
 
 			# count multiplicities
 			for i in range(num_iid):
@@ -108,8 +116,8 @@ class Partitioner1(partitioner.Partitioner):
 			for i in range(self.SHARDS):
 				# add non-IID data from this label to current client
 				label = chosen_labels[i]
-				label_data_x = sorted_x[label]
-				label_data_y = sorted_y[label]
+				label_data_x = np.array(sorted_x[label], np.float64)
+				label_data_y = np.array(sorted_y[label], np.float64)
 				indices = np.random.permutation(label_data_x.shape[0])
 				indices_slice = []
 				if i == len(chosen_labels) - 1:  # pull remainder data from last label
@@ -124,6 +132,7 @@ class Partitioner1(partitioner.Partitioner):
 				# check data
 				if np.average(client_sample_y) > 9 or np.average(client_sample_y) < 0:
 					print(np.average(client_sample_y), label)
+					print()
 
 			# track number of data points per client
 			num_data_per_client.append(len(client_sample_x))
@@ -142,17 +151,17 @@ class Partitioner1(partitioner.Partitioner):
 		print("percent data distributed IID: ", self.PERCENT_DATA_IID)
 		print("number of classes for non-IID data: ", self.SHARDS)
 		print("data points per client (mean, std dev): (", self.NUMDATAPTS_MEAN, ", ", self.NUMDATAPTS_STDEV, ")")
-		print()
-		print("number of clients: ", self.CLIENTS)
-		print("cohort size: ",self.COHORT_SIZE)
-		print("number of local epochs: ",self.NUM_EPOCHS)
-		print("local batch size: ", self.BATCH_SIZE)
-		print("learning rate: ", self.LR)
-		print("target accuracy: ",self.TARGET,"%")
+		# print()
+		# print("number of clients: ", self.CLIENTS)
+		# print("cohort size: ",self.COHORT_SIZE)
+		# print("number of local epochs: ",self.NUM_EPOCHS)
+		# print("local batch size: ", self.BATCH_SIZE)
+		# print("learning rate: ", self.LR)
+		# print("target accuracy: ",self.TARGET,"%")
 		print("--------------------------------------------------")
 		# print("number of data points per client:")
 		# print(num_data_per_client)
 		# print("--------------------------------------------------")
 		print()
 
-		self.train()
+		self.train(num, batch, 1)
