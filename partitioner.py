@@ -49,6 +49,9 @@ class Partitioner:
 		# only variable that needs to be modified by inherited classes
 		self.dataset_list = []
 
+		# time the entire script
+		self.TIC = time.perf_counter()
+
 	# parse config file
 	def prep(self):
 		# hyperparameters
@@ -256,6 +259,13 @@ class Partitioner:
 		print('Average time per round: {:0.2f}'.format(time_sum // round_num))
 		print()
 
+		# output final test stats to CSV
+		filename = 'results/' + str(batch) + '/' + str(batch) + '.' + str(test) + '.s' + str(schema_num) + 'summary.csv'
+		toc = time.perf_counter()
+		with open(filename, 'w', newline='') as csvfile:
+			writer = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+			writer.writerow(['TOTAL_ROUNDS', 'AVERAGE_SECONDS_PER_ROUND', 'SCRIPT_TOTAL_SECONDS'])
+			writer.writerow([round_num, time_sum // round_num, toc - self.TIC])
 
 	# simple model with Keras
 	# internal method
