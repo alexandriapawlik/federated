@@ -47,7 +47,6 @@ class Partitioner1(partitioner.Partitioner):
 			num_iid_pts = int(self.PERCENT_DATA_IID / 100 * len(sorted_data_x[i]))
 			this_label_x = np.array(sorted_data_x[i], np.float64)
 			this_label_y = np.array(sorted_data_y[i], np.float64)
-			print(np.average(this_label_y))
 
 			# shuffle data within label
 			indices = np.random.permutation(len(this_label_x))
@@ -69,9 +68,7 @@ class Partitioner1(partitioner.Partitioner):
 		# flatten iid data list
 		iid_data_x = np.concatenate(np.array(iid_data_x_temp))
 		iid_data_y = np.concatenate(np.array(iid_data_y_temp))
-		print(np.average(iid_data_y))
-		print(iid_data_y)
-		print()
+		# mean tested here, ok
 
 		# duplicate counting setup
 		multi_iid = np.zeros(iid_data_x.shape[0], int) # count duplicates in IID
@@ -90,17 +87,12 @@ class Partitioner1(partitioner.Partitioner):
 			num_data = int(np.random.normal(self.NUMDATAPTS_MEAN, self.NUMDATAPTS_STDEV))
 			num_iid = math.ceil(self.PERCENT_DATA_IID / 100 * num_data)
 			num_non_iid = num_data - num_iid
-			client_sample_x = np.empty([num_data, 28, 28, 1], dtype=np.float64)
-			client_sample_y = np.empty([num_data], dtype=np.float64)
 
 			# add IID data to current client
 			iid_indices = np.random.permutation(iid_data_x.shape[0])
 			iid_indices_slice = iid_indices[:num_iid]
-			client_sample_x = np.append(client_sample_x, iid_data_x[iid_indices_slice], axis=0)
-			client_sample_y = np.append(client_sample_y, iid_data_y[iid_indices_slice], axis=0)
-			print('client ', client_num)
-			print('iid ', np.average(client_sample_y))
-			print()
+			client_sample_x = iid_data_x[iid_indices_slice]
+			client_sample_y = iid_data_y[iid_indices_slice]
 
 			# count multiplicities
 			for i in range(num_iid):
