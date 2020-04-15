@@ -93,12 +93,14 @@ class Partitioner:
 
 			# construct value array
 			# learning rate chosen/iterates first, batch size second, ...
-			percent_data_iid = [20]
-			percent_clients_iid = [50]
-			cohort_size = [20] 
-			num_epochs = [10]
-			batch_size = [20]
-			learning_rate = [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.2, 0.21, 0.215, 0.22]
+			percent_data_iid = [80]  # schema 1
+			percent_clients_iid = [50]  # schema 2
+			cohort_size = [5, 10, 20, 50] 
+			num_epochs = [10]  # leave at 10
+			batch_size = [10]
+			learning_rate = [0.2]
+			# TODO: test learning rates
+			# [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.2, 0.21, 0.215, 0.22]
 
 			# convert test number to array indices and set constants to array values
 			self.PERCENT_DATA_IID = percent_data_iid[n // (len(percent_clients_iid) * len(cohort_size) * len(num_epochs) * len(batch_size) * len(learning_rate))]
