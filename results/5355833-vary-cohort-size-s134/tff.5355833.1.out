@@ -1,0 +1,786 @@
+
+TENSORFLOW USERS:
+You must use the python3.6-anaconda/5.2.0 module to run TensorFlow.
+See https://arc-ts.umich.edu/greatlakes/software/tensorflow for more
+information.
+
+
+
+The following have been reloaded with a version change:
+  1) cuda/10.0.130 => cuda/10.1.105
+
+
+Currently Loaded Modules:
+  1) python3.7-anaconda/2019.07   2) cudnn/10.0-v7.6   3) cuda/10.1.105
+
+ 
+
+mkdir: cannot create directory ‘results/5355833’: File exists
+Test  1
+2020-04-15 14:29:00.366577
+
+
+Schema 1: Each client partially IID
+--------------------------------------------------
+percent data distributed IID:  80
+number of classes for non-IID data:  2
+data points per client (mean, std dev): ( 600 ,  10 )
+--------------------------------------------------
+
+round  1, metrics=<sparse_categorical_accuracy=0.6072289347648621,loss=1.1237523555755615>
+115.2032 seconds
+Tested. Sparse categorical accuracy: 14.00
+
+round  2, metrics=<sparse_categorical_accuracy=0.9405126571655273,loss=0.1928333342075348>
+120.4934 seconds
+Tested. Sparse categorical accuracy: 93.00
+
+round  3, metrics=<sparse_categorical_accuracy=0.9864576458930969,loss=0.046895913779735565>
+109.5911 seconds
+Tested. Sparse categorical accuracy: 98.00
+
+round  4, metrics=<sparse_categorical_accuracy=0.9639561772346497,loss=0.12304805219173431>
+117.9264 seconds
+Tested. Sparse categorical accuracy: 86.00
+
+round  5, metrics=<sparse_categorical_accuracy=0.9923709034919739,loss=0.025462578982114792>
+116.1884 seconds
+Tested. Sparse categorical accuracy: 96.00
+
+round  6, metrics=<sparse_categorical_accuracy=0.9926245808601379,loss=0.027304062619805336>
+117.5764 seconds
+Tested. Sparse categorical accuracy: 94.00
+
+round  7, metrics=<sparse_categorical_accuracy=0.9848353862762451,loss=0.0601966418325901>
+119.1897 seconds
+Tested. Sparse categorical accuracy: 98.00
+
+round  8, metrics=<sparse_categorical_accuracy=0.9952905774116516,loss=0.016857072710990906>
+111.7540 seconds
+Tested. Sparse categorical accuracy: 100.00
+
+Target accuracy reached after  8  rounds
+Average time per round: 115.00
+
+2020-04-15 14:44:41.089764
+
+Schema 3: Sharding
+--------------------------------------------------
+number of shards per client:  2
+--------------------------------------------------
+
+round  1, metrics=<sparse_categorical_accuracy=0.4883333444595337,loss=0.838121235370636>
+129.0149 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round  2, metrics=<sparse_categorical_accuracy=0.49433332681655884,loss=0.8332018852233887>
+120.4340 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round  3, metrics=<sparse_categorical_accuracy=0.5040000081062317,loss=0.8248898386955261>
+112.0282 seconds
+Tested. Sparse categorical accuracy: 6.00
+
+round  4, metrics=<sparse_categorical_accuracy=0.5943333506584167,loss=0.6689637899398804>
+109.9903 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round  5, metrics=<sparse_categorical_accuracy=0.4933333396911621,loss=0.8103932738304138>
+107.7898 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round  6, metrics=<sparse_categorical_accuracy=0.6966666579246521,loss=0.5015661716461182>
+108.7465 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round  7, metrics=<sparse_categorical_accuracy=0.5065666437149048,loss=0.986760675907135>
+105.6002 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round  8, metrics=<sparse_categorical_accuracy=0.609333336353302,loss=0.6483696103096008>
+106.8410 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round  9, metrics=<sparse_categorical_accuracy=0.5090000033378601,loss=1.0033023357391357>
+105.6869 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 10, metrics=<sparse_categorical_accuracy=0.4869999885559082,loss=0.8255966305732727>
+107.4618 seconds
+Tested. Sparse categorical accuracy: 5.00
+
+round 11, metrics=<sparse_categorical_accuracy=0.5294333100318909,loss=1.175350308418274>
+105.3028 seconds
+Tested. Sparse categorical accuracy: 16.00
+
+round 12, metrics=<sparse_categorical_accuracy=0.4749999940395355,loss=0.8323391675949097>
+108.4802 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 13, metrics=<sparse_categorical_accuracy=0.6060000061988831,loss=0.6589418649673462>
+108.9705 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 14, metrics=<sparse_categorical_accuracy=0.6923333406448364,loss=0.5106887817382812>
+106.7421 seconds
+Tested. Sparse categorical accuracy: 6.00
+
+round 15, metrics=<sparse_categorical_accuracy=0.5023333430290222,loss=0.8179687261581421>
+106.3968 seconds
+Tested. Sparse categorical accuracy: 7.00
+
+round 16, metrics=<sparse_categorical_accuracy=0.5106666684150696,loss=0.8115551471710205>
+107.7935 seconds
+Tested. Sparse categorical accuracy: 14.00
+
+round 17, metrics=<sparse_categorical_accuracy=0.5133333206176758,loss=0.8136635422706604>
+106.3418 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round 18, metrics=<sparse_categorical_accuracy=0.5962333083152771,loss=0.8522874712944031>
+105.7093 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 19, metrics=<sparse_categorical_accuracy=0.5098999738693237,loss=1.0024510622024536>
+105.9682 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 20, metrics=<sparse_categorical_accuracy=0.4963333308696747,loss=0.8196397423744202>
+108.4897 seconds
+Tested. Sparse categorical accuracy: 16.00
+
+round 21, metrics=<sparse_categorical_accuracy=0.5009999871253967,loss=0.815783679485321>
+105.2850 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round 22, metrics=<sparse_categorical_accuracy=0.5049999952316284,loss=0.8159644603729248>
+107.7140 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 23, metrics=<sparse_categorical_accuracy=0.5056666731834412,loss=0.8251326680183411>
+104.1549 seconds
+Tested. Sparse categorical accuracy: 6.00
+
+round 24, metrics=<sparse_categorical_accuracy=0.5893333554267883,loss=0.6756737232208252>
+108.0129 seconds
+Tested. Sparse categorical accuracy: 15.00
+
+round 25, metrics=<sparse_categorical_accuracy=0.5086666941642761,loss=0.8073803782463074>
+106.4176 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 26, metrics=<sparse_categorical_accuracy=0.7013333439826965,loss=0.5218619704246521>
+105.4905 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 27, metrics=<sparse_categorical_accuracy=0.4988333284854889,loss=1.010682463645935>
+102.5294 seconds
+Tested. Sparse categorical accuracy: 15.00
+
+round 28, metrics=<sparse_categorical_accuracy=0.596666693687439,loss=0.6764082312583923>
+107.9099 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 29, metrics=<sparse_categorical_accuracy=0.5059999823570251,loss=1.0121454000473022>
+106.6503 seconds
+Tested. Sparse categorical accuracy: 6.00
+
+round 30, metrics=<sparse_categorical_accuracy=0.4970000088214874,loss=0.849753201007843>
+104.7943 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 31, metrics=<sparse_categorical_accuracy=0.5141000151634216,loss=1.2073421478271484>
+112.8445 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round 32, metrics=<sparse_categorical_accuracy=0.49666666984558105,loss=0.8370384573936462>
+107.4003 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 33, metrics=<sparse_categorical_accuracy=0.5816666483879089,loss=0.6940189003944397>
+103.7094 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 34, metrics=<sparse_categorical_accuracy=0.6886666417121887,loss=0.5507450103759766>
+105.9968 seconds
+Tested. Sparse categorical accuracy: 7.00
+
+round 35, metrics=<sparse_categorical_accuracy=0.503333330154419,loss=0.8307517170906067>
+152.9170 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 36, metrics=<sparse_categorical_accuracy=0.4906666576862335,loss=0.8291895389556885>
+128.4873 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 37, metrics=<sparse_categorical_accuracy=0.5006666779518127,loss=0.82430499792099>
+105.5890 seconds
+Tested. Sparse categorical accuracy: 14.00
+
+round 38, metrics=<sparse_categorical_accuracy=0.5909666419029236,loss=0.8812325596809387>
+107.0784 seconds
+Tested. Sparse categorical accuracy: 14.00
+
+round 39, metrics=<sparse_categorical_accuracy=0.49853333830833435,loss=1.009473204612732>
+108.0003 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 40, metrics=<sparse_categorical_accuracy=0.48399999737739563,loss=0.8215143084526062>
+107.1810 seconds
+Tested. Sparse categorical accuracy: 14.00
+
+round 41, metrics=<sparse_categorical_accuracy=0.49133333563804626,loss=0.8236792683601379>
+108.3362 seconds
+Tested. Sparse categorical accuracy: 7.00
+
+round 42, metrics=<sparse_categorical_accuracy=0.48533332347869873,loss=0.8426815867424011>
+111.4731 seconds
+Tested. Sparse categorical accuracy: 14.00
+
+round 43, metrics=<sparse_categorical_accuracy=0.5,loss=0.8386477828025818>
+107.9137 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round 44, metrics=<sparse_categorical_accuracy=0.5856666564941406,loss=0.688984751701355>
+106.7401 seconds
+Tested. Sparse categorical accuracy: 15.00
+
+round 45, metrics=<sparse_categorical_accuracy=0.5076666474342346,loss=0.8098226189613342>
+112.4063 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 46, metrics=<sparse_categorical_accuracy=0.6823333501815796,loss=0.5461748242378235>
+113.0003 seconds
+Tested. Sparse categorical accuracy: 6.00
+
+round 47, metrics=<sparse_categorical_accuracy=0.514033317565918,loss=1.0009087324142456>
+106.5828 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 48, metrics=<sparse_categorical_accuracy=0.5953333377838135,loss=0.6818517446517944>
+107.3800 seconds
+Tested. Sparse categorical accuracy: 2.00
+
+round 49, metrics=<sparse_categorical_accuracy=0.4970000088214874,loss=1.018398642539978>
+349.2954 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 50, metrics=<sparse_categorical_accuracy=0.4806666672229767,loss=0.8497921824455261>
+129.5985 seconds
+Tested. Sparse categorical accuracy: 6.00
+
+round 51, metrics=<sparse_categorical_accuracy=0.5133333206176758,loss=1.2064270973205566>
+252.0209 seconds
+Tested. Sparse categorical accuracy: 15.00
+
+round 52, metrics=<sparse_categorical_accuracy=0.5040000081062317,loss=0.8398599624633789>
+149.7332 seconds
+Tested. Sparse categorical accuracy: 7.00
+
+round 53, metrics=<sparse_categorical_accuracy=0.593999981880188,loss=0.6913112998008728>
+169.3723 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 54, metrics=<sparse_categorical_accuracy=0.6896666884422302,loss=0.5527682304382324>
+118.9489 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 55, metrics=<sparse_categorical_accuracy=0.5080000162124634,loss=0.829744279384613>
+104.2377 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 56, metrics=<sparse_categorical_accuracy=0.49433332681655884,loss=0.8273111581802368>
+107.7986 seconds
+Tested. Sparse categorical accuracy: 15.00
+
+round 57, metrics=<sparse_categorical_accuracy=0.49433332681655884,loss=0.8270618319511414>
+106.1034 seconds
+Tested. Sparse categorical accuracy: 18.00
+
+round 58, metrics=<sparse_categorical_accuracy=0.5884333252906799,loss=0.880660355091095>
+105.9504 seconds
+Tested. Sparse categorical accuracy: 15.00
+
+round 59, metrics=<sparse_categorical_accuracy=0.5176666378974915,loss=1.006134271621704>
+107.7150 seconds
+Tested. Sparse categorical accuracy: 17.00
+
+round 60, metrics=<sparse_categorical_accuracy=0.5040000081062317,loss=0.8161031007766724>
+104.8091 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 61, metrics=<sparse_categorical_accuracy=0.5113333463668823,loss=0.8191157579421997>
+105.2053 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round 62, metrics=<sparse_categorical_accuracy=0.4869999885559082,loss=0.8398929834365845>
+109.2319 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 63, metrics=<sparse_categorical_accuracy=0.4896666705608368,loss=0.8404552340507507>
+105.6842 seconds
+Tested. Sparse categorical accuracy: 7.00
+
+round 64, metrics=<sparse_categorical_accuracy=0.5953333377838135,loss=0.6884475946426392>
+108.8298 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 65, metrics=<sparse_categorical_accuracy=0.5013333559036255,loss=0.8122767210006714>
+105.2784 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 66, metrics=<sparse_categorical_accuracy=0.6943333148956299,loss=0.5444666743278503>
+104.6130 seconds
+Tested. Sparse categorical accuracy: 6.00
+
+round 67, metrics=<sparse_categorical_accuracy=0.4851333200931549,loss=1.0061538219451904>
+106.1563 seconds
+Tested. Sparse categorical accuracy: 7.00
+
+round 68, metrics=<sparse_categorical_accuracy=0.6013333201408386,loss=0.6754366159439087>
+104.5993 seconds
+Tested. Sparse categorical accuracy: 14.00
+
+round 69, metrics=<sparse_categorical_accuracy=0.5112000107765198,loss=1.0162686109542847>
+266.4131 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 70, metrics=<sparse_categorical_accuracy=0.5076666474342346,loss=0.8446769714355469>
+104.9158 seconds
+Tested. Sparse categorical accuracy: 14.00
+
+round 71, metrics=<sparse_categorical_accuracy=0.512066662311554,loss=1.2055866718292236>
+102.9913 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 72, metrics=<sparse_categorical_accuracy=0.49900001287460327,loss=0.8405950665473938>
+103.1179 seconds
+Tested. Sparse categorical accuracy: 5.00
+
+round 73, metrics=<sparse_categorical_accuracy=0.5920000076293945,loss=0.6954799294471741>
+102.5341 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 74, metrics=<sparse_categorical_accuracy=0.690666675567627,loss=0.5531511306762695>
+103.6433 seconds
+Tested. Sparse categorical accuracy: 7.00
+
+round 75, metrics=<sparse_categorical_accuracy=0.4873333275318146,loss=0.8364622592926025>
+103.4415 seconds
+Tested. Sparse categorical accuracy: 18.00
+
+round 76, metrics=<sparse_categorical_accuracy=0.5070000290870667,loss=0.8269029855728149>
+101.4672 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 77, metrics=<sparse_categorical_accuracy=0.492000013589859,loss=0.8282201290130615>
+102.4756 seconds
+Tested. Sparse categorical accuracy: 17.00
+
+round 78, metrics=<sparse_categorical_accuracy=0.5962666869163513,loss=0.8795281052589417>
+105.0272 seconds
+Tested. Sparse categorical accuracy: 7.00
+
+round 79, metrics=<sparse_categorical_accuracy=0.5127999782562256,loss=1.0099196434020996>
+103.9886 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 80, metrics=<sparse_categorical_accuracy=0.512333333492279,loss=0.8138601779937744>
+105.9162 seconds
+Tested. Sparse categorical accuracy: 17.00
+
+round 81, metrics=<sparse_categorical_accuracy=0.4880000054836273,loss=0.8230372667312622>
+103.9747 seconds
+Tested. Sparse categorical accuracy: 15.00
+
+round 82, metrics=<sparse_categorical_accuracy=0.5199999809265137,loss=0.8318753838539124>
+102.8454 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 83, metrics=<sparse_categorical_accuracy=0.49933332204818726,loss=0.8382050395011902>
+101.7947 seconds
+Tested. Sparse categorical accuracy: 7.00
+
+round 84, metrics=<sparse_categorical_accuracy=0.5989999771118164,loss=0.6848796606063843>
+101.9043 seconds
+Tested. Sparse categorical accuracy: 7.00
+
+round 85, metrics=<sparse_categorical_accuracy=0.5019999742507935,loss=0.812680184841156>
+102.8473 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 86, metrics=<sparse_categorical_accuracy=0.687666654586792,loss=0.5457293391227722>
+103.5550 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round 87, metrics=<sparse_categorical_accuracy=0.4970666766166687,loss=1.003736972808838>
+105.5451 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 88, metrics=<sparse_categorical_accuracy=0.5913333296775818,loss=0.6806111931800842>
+101.5759 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 89, metrics=<sparse_categorical_accuracy=0.5072333216667175,loss=1.0179928541183472>
+252.9748 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 90, metrics=<sparse_categorical_accuracy=0.49900001287460327,loss=0.8454965353012085>
+104.8985 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 91, metrics=<sparse_categorical_accuracy=0.5123666524887085,loss=1.2066168785095215>
+104.8922 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 92, metrics=<sparse_categorical_accuracy=0.492000013589859,loss=0.8433061242103577>
+107.8846 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 93, metrics=<sparse_categorical_accuracy=0.5963333249092102,loss=0.6913038492202759>
+104.4958 seconds
+Tested. Sparse categorical accuracy: 6.00
+
+round 94, metrics=<sparse_categorical_accuracy=0.6859999895095825,loss=0.5542339086532593>
+106.4863 seconds
+Tested. Sparse categorical accuracy: 5.00
+
+round 95, metrics=<sparse_categorical_accuracy=0.503333330154419,loss=0.8307997584342957>
+106.1502 seconds
+Tested. Sparse categorical accuracy: 14.00
+
+round 96, metrics=<sparse_categorical_accuracy=0.49933332204818726,loss=0.8262476325035095>
+105.3035 seconds
+Tested. Sparse categorical accuracy: 14.00
+
+round 97, metrics=<sparse_categorical_accuracy=0.49000000953674316,loss=0.8283328413963318>
+102.1862 seconds
+Tested. Sparse categorical accuracy: 15.00
+
+round 98, metrics=<sparse_categorical_accuracy=0.5940666794776917,loss=0.8813076019287109>
+106.7609 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 99, metrics=<sparse_categorical_accuracy=0.5195333361625671,loss=1.0071532726287842>
+102.1451 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round 100, metrics=<sparse_categorical_accuracy=0.4936666786670685,loss=0.8153435587882996>
+105.2071 seconds
+Tested. Sparse categorical accuracy: 16.00
+
+round 101, metrics=<sparse_categorical_accuracy=0.5009999871253967,loss=0.8219189047813416>
+105.4421 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 102, metrics=<sparse_categorical_accuracy=0.503333330154419,loss=0.8359094858169556>
+103.1039 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 103, metrics=<sparse_categorical_accuracy=0.4880000054836273,loss=0.8408586382865906>
+105.1014 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 104, metrics=<sparse_categorical_accuracy=0.6003333330154419,loss=0.6864072680473328>
+104.7512 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 105, metrics=<sparse_categorical_accuracy=0.4950000047683716,loss=0.8135780692100525>
+104.2650 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 106, metrics=<sparse_categorical_accuracy=0.6869999766349792,loss=0.5468302965164185>
+106.8317 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 107, metrics=<sparse_categorical_accuracy=0.49463334679603577,loss=1.006367564201355>
+101.7763 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 108, metrics=<sparse_categorical_accuracy=0.5946666598320007,loss=0.6785444617271423>
+102.4179 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 109, metrics=<sparse_categorical_accuracy=0.5183333158493042,loss=1.016084909439087>
+103.1631 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 110, metrics=<sparse_categorical_accuracy=0.48633334040641785,loss=0.8474443554878235>
+103.6307 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 111, metrics=<sparse_categorical_accuracy=0.5066333413124084,loss=1.2095112800598145>
+102.5008 seconds
+Tested. Sparse categorical accuracy: 14.00
+
+round 112, metrics=<sparse_categorical_accuracy=0.4973333477973938,loss=0.8382286429405212>
+102.1630 seconds
+Tested. Sparse categorical accuracy: 6.00
+
+round 113, metrics=<sparse_categorical_accuracy=0.6043333411216736,loss=0.6894805431365967>
+103.3697 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 114, metrics=<sparse_categorical_accuracy=0.7026666402816772,loss=0.5499114394187927>
+102.4726 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 115, metrics=<sparse_categorical_accuracy=0.5116666555404663,loss=0.8304271697998047>
+100.7994 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 116, metrics=<sparse_categorical_accuracy=0.4976666569709778,loss=0.8253825306892395>
+104.7841 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 117, metrics=<sparse_categorical_accuracy=0.4973333477973938,loss=0.827174961566925>
+101.7422 seconds
+Tested. Sparse categorical accuracy: 14.00
+
+round 118, metrics=<sparse_categorical_accuracy=0.5966333150863647,loss=0.8780502676963806>
+104.0437 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 119, metrics=<sparse_categorical_accuracy=0.5022000074386597,loss=1.0120922327041626>
+101.3732 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 120, metrics=<sparse_categorical_accuracy=0.5116666555404663,loss=0.8136022090911865>
+104.0942 seconds
+Tested. Sparse categorical accuracy: 14.00
+
+round 121, metrics=<sparse_categorical_accuracy=0.5023333430290222,loss=0.8216734528541565>
+103.7280 seconds
+Tested. Sparse categorical accuracy: 15.00
+
+round 122, metrics=<sparse_categorical_accuracy=0.49433332681655884,loss=0.8384295701980591>
+102.6872 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 123, metrics=<sparse_categorical_accuracy=0.4816666543483734,loss=0.8427461981773376>
+101.5868 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 124, metrics=<sparse_categorical_accuracy=0.5870000123977661,loss=0.6864708065986633>
+102.1735 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 125, metrics=<sparse_categorical_accuracy=0.48399999737739563,loss=0.8169044852256775>
+101.1876 seconds
+Tested. Sparse categorical accuracy: 14.00
+
+round 126, metrics=<sparse_categorical_accuracy=0.7023333311080933,loss=0.5425427556037903>
+99.3258 seconds
+Tested. Sparse categorical accuracy: 14.00
+
+round 127, metrics=<sparse_categorical_accuracy=0.4920666813850403,loss=1.0077072381973267>
+101.6937 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 128, metrics=<sparse_categorical_accuracy=0.5943333506584167,loss=0.6769452691078186>
+101.5236 seconds
+Tested. Sparse categorical accuracy: 7.00
+
+round 129, metrics=<sparse_categorical_accuracy=0.5183333158493042,loss=1.0160647630691528>
+101.4877 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 130, metrics=<sparse_categorical_accuracy=0.5073333382606506,loss=0.8450106978416443>
+100.8317 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 131, metrics=<sparse_categorical_accuracy=0.5082333087921143,loss=1.2081974744796753>
+101.8893 seconds
+Tested. Sparse categorical accuracy: 14.00
+
+round 132, metrics=<sparse_categorical_accuracy=0.4866666793823242,loss=0.8406851291656494>
+101.4814 seconds
+Tested. Sparse categorical accuracy: 15.00
+
+round 133, metrics=<sparse_categorical_accuracy=0.593999981880188,loss=0.6949774622917175>
+101.2341 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 134, metrics=<sparse_categorical_accuracy=0.6816666722297668,loss=0.554172158241272>
+101.2391 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 135, metrics=<sparse_categorical_accuracy=0.5006666779518127,loss=0.8312383890151978>
+101.5207 seconds
+Tested. Sparse categorical accuracy: 7.00
+
+round 136, metrics=<sparse_categorical_accuracy=0.5083333253860474,loss=0.8264927268028259>
+100.2334 seconds
+Tested. Sparse categorical accuracy: 18.00
+
+round 137, metrics=<sparse_categorical_accuracy=0.5063333511352539,loss=0.8254401087760925>
+101.4856 seconds
+Tested. Sparse categorical accuracy: 15.00
+
+round 138, metrics=<sparse_categorical_accuracy=0.5932000279426575,loss=0.8803210854530334>
+100.3365 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 139, metrics=<sparse_categorical_accuracy=0.49939998984336853,loss=1.014577865600586>
+99.7233 seconds
+Tested. Sparse categorical accuracy: 7.00
+
+round 140, metrics=<sparse_categorical_accuracy=0.5063333511352539,loss=0.8164190053939819>
+103.0389 seconds
+Tested. Sparse categorical accuracy: 14.00
+
+round 141, metrics=<sparse_categorical_accuracy=0.5059999823570251,loss=0.8217467665672302>
+100.8453 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 142, metrics=<sparse_categorical_accuracy=0.4986666738986969,loss=0.8373039960861206>
+101.7001 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 143, metrics=<sparse_categorical_accuracy=0.5026666522026062,loss=0.8368863463401794>
+100.5823 seconds
+Tested. Sparse categorical accuracy: 7.00
+
+round 144, metrics=<sparse_categorical_accuracy=0.5979999899864197,loss=0.685429036617279>
+101.3800 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 145, metrics=<sparse_categorical_accuracy=0.49433332681655884,loss=0.8130362033843994>
+99.8715 seconds
+Tested. Sparse categorical accuracy: 7.00
+
+round 146, metrics=<sparse_categorical_accuracy=0.687666654586792,loss=0.5448281764984131>
+102.3153 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 147, metrics=<sparse_categorical_accuracy=0.4987666606903076,loss=1.0045260190963745>
+101.8439 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 148, metrics=<sparse_categorical_accuracy=0.6010000109672546,loss=0.6800313591957092>
+100.0103 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 149, metrics=<sparse_categorical_accuracy=0.5233333110809326,loss=1.012152075767517>
+99.6649 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 150, metrics=<sparse_categorical_accuracy=0.5009999871253967,loss=0.8439489603042603>
+102.7984 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+Traceback (most recent call last):
+  File "tff_main.py", line 40, in <module>
+    p3.go(test, batch)
+  File "/home/apawlik/federated/3_shard.py", line 129, in go
+    self.train(num, batch, 3)
+  File "/home/apawlik/federated/partitioner.py", line 219, in train
+    state, metrics = self.iterative_process.next(state, federated_train_data)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/utils/function_utils.py", line 680, in __call__
+    return context.invoke(self, arg)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/retrying.py", line 49, in wrapped_f
+    return Retrying(*dargs, **dkw).call(f, *args, **kw)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/retrying.py", line 206, in call
+    return attempt.get(self._wrap_exception)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/retrying.py", line 247, in get
+    six.reraise(self.value[0], self.value[1], self.value[2])
+  File "/sw/arcts/centos7/python3.7-anaconda/2019.07/lib/python3.7/site-packages/six.py", line 693, in reraise
+    raise value
+  File "/home/apawlik/.local/lib/python3.7/site-packages/retrying.py", line 200, in call
+    attempt = Attempt(fn(*args, **kwargs), attempt_number, False)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/execution_context.py", line 175, in invoke
+    _invoke(executor, comp, arg))
+  File "/sw/arcts/centos7/python3.7-anaconda/2019.07/lib/python3.7/asyncio/base_events.py", line 584, in run_until_complete
+    return future.result()
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/execution_context.py", line 118, in _invoke
+    result = await executor.create_call(comp, arg)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/executor_utils.py", line 266, in fn_to_return
+    to_return = await func(*args, **kwargs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/lambda_executor.py", line 296, in create_call
+    return await self.create_call(eval_result, arg)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/executor_utils.py", line 266, in fn_to_return
+    to_return = await func(*args, **kwargs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/lambda_executor.py", line 284, in create_call
+    return await comp_repr(arg)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/lambda_executor.py", line 377, in _comp_fn
+    LambdaExecutorScope({name: arg}, scope))
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/executor_utils.py", line 266, in fn_to_return
+    to_return = await func(*args, **kwargs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/lambda_executor.py", line 416, in _evaluate
+    values = await asyncio.gather(*values)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/executor_utils.py", line 266, in fn_to_return
+    to_return = await func(*args, **kwargs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/lambda_executor.py", line 289, in create_call
+    eval_result = await self._evaluate(comp_repr, comp.scope)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/executor_utils.py", line 266, in fn_to_return
+    to_return = await func(*args, **kwargs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/lambda_executor.py", line 394, in _evaluate
+    LambdaExecutorValue(comp.call.function, scope=scope), arg=arg)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/executor_utils.py", line 266, in fn_to_return
+    to_return = await func(*args, **kwargs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/lambda_executor.py", line 275, in create_call
+    return await self.create_call(comp, arg)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/executor_utils.py", line 266, in fn_to_return
+    to_return = await func(*args, **kwargs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/lambda_executor.py", line 296, in create_call
+    return await self.create_call(eval_result, arg)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/executor_utils.py", line 266, in fn_to_return
+    to_return = await func(*args, **kwargs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/lambda_executor.py", line 282, in create_call
+    comp_repr, delegated_arg))
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/caching_executor.py", line 271, in create_call
+    target_value = await cached_value.target_future
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/concurrent_executor.py", line 71, in create_call
+    return await self._delegate(self._target_executor.create_call(comp, arg))
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/executor_utils.py", line 266, in fn_to_return
+    to_return = await func(*args, **kwargs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/federated_executor.py", line 345, in create_call
+    return await coro(arg)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/executor_utils.py", line 266, in fn_to_return
+    to_return = await func(*args, **kwargs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/federated_executor.py", line 486, in _compute_intrinsic_federated_apply
+    return await self._map(arg)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/executor_utils.py", line 266, in fn_to_return
+    to_return = await func(*args, **kwargs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/federated_executor.py", line 438, in _map
+    c.create_call(f, v) for c, (f, v) in zip(children, list(zip(fns, val)))
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/executor_utils.py", line 266, in fn_to_return
+    to_return = await func(*args, **kwargs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/lambda_executor.py", line 296, in create_call
+    return await self.create_call(eval_result, arg)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/executor_utils.py", line 266, in fn_to_return
+    to_return = await func(*args, **kwargs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/lambda_executor.py", line 282, in create_call
+    comp_repr, delegated_arg))
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/caching_executor.py", line 271, in create_call
+    target_value = await cached_value.target_future
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/concurrent_executor.py", line 71, in create_call
+    return await self._delegate(self._target_executor.create_call(comp, arg))
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/executor_utils.py", line 266, in fn_to_return
+    to_return = await func(*args, **kwargs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/eager_executor.py", line 409, in create_call
+    comp.internal_representation(arg.internal_representation),  # pytype: disable=attribute-error
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/eager_executor.py", line 178, in <lambda>
+    return lambda arg: fn_to_return(arg)  # pylint: disable=unnecessary-lambda
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/eager_executor.py", line 165, in <lambda>
+    fn_to_return = lambda arg, p=param_fns, w=wrapped_fn: _fn_to_return(arg, p, w)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/eager_executor.py", line 144, in _fn_to_return
+    result_parts = wrapped_fn(*param_elements)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_core/python/eager/function.py", line 1081, in __call__
+    return self._call_impl(args, kwargs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_core/python/eager/function.py", line 1091, in _call_impl
+    return self._call_flat(args, self.captured_inputs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_core/python/eager/function.py", line 1224, in _call_flat
+    ctx, args, cancellation_manager=cancellation_manager)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_core/python/eager/function.py", line 511, in call
+    ctx=ctx)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_core/python/eager/execute.py", line 67, in quick_execute
+    six.raise_from(core._status_to_exception(e.code, message), None)
+  File "<string>", line 3, in raise_from
+tensorflow.python.framework.errors_impl.InvalidArgumentError:  You must feed a value for placeholder tensor 'import/conv2d_input' with dtype float and shape [?,28,28,1]
+	 [[node import/conv2d_input (defined at home/apawlik/.local/lib/python3.7/site-packages/tensorflow_core/python/framework/ops.py:1751) ]] [Op:__inference_wrapped_function_466684]
+
+Function call stack:
+wrapped_function
+
+mv: cannot move ‘results/tff.5355833.1.out’ to ‘results/5355833/log/’: Not a directory

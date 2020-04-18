@@ -1,0 +1,111 @@
+2020-04-13 15:09:56.859393
+Test  3
+-1.2165742089802276e+69 9
+-1.0645024328576992e+69 0
+9.987696976552504e+238 0
+8.739234854483441e+238 7
+
+Schema 1: Each client partially IID
+--------------------------------------------------
+percent data distributed IID:  50
+number of classes for non-IID data:  2
+data points per client (mean, std dev): ( 600 ,  0 )
+
+number of clients:  100
+cohort size:  20
+number of local epochs:  10
+local batch size:  20
+learning rate:  0.12
+target accuracy:  80 %
+--------------------------------------------------
+
+round  1, metrics=<sparse_categorical_accuracy=0.7009791731834412,loss=1.022402286529541>
+352.4527 seconds
+Tested. Sparse categorical accuracy: 11.00
+2020-04-13 15:15:57.399242
+
+round  2, metrics=<sparse_categorical_accuracy=0.8658666610717773,loss=0.4377686083316803>
+343.3608 seconds
+Tested. Sparse categorical accuracy: 85.50
+2020-04-13 15:21:40.889961
+
+Target accuracy reached after  2  rounds
+Average time per round: 347.00
+
+2020-04-13 15:21:40.966463
+Test  3
+
+Schema 3: Sharding
+--------------------------------------------------
+number of shards per client:  2
+
+number of clients:  100
+cohort size:  20
+number of local epochs:  10
+local batch size:  20
+learning rate:  0.12
+target accuracy:  80 %
+--------------------------------------------------
+
+round  1, metrics=<sparse_categorical_accuracy=0.7495333552360535,loss=0.5019280314445496>
+177.0186 seconds
+Tested. Sparse categorical accuracy: 12.50
+2020-04-13 15:24:42.450994
+
+round  2, metrics=<sparse_categorical_accuracy=0.8986999988555908,loss=0.2494707554578781>
+164.0150 seconds
+Tested. Sparse categorical accuracy: 7.50
+2020-04-13 15:27:26.572473
+
+round  3, metrics=<sparse_categorical_accuracy=0.966658353805542,loss=0.0889086127281189>
+164.3564 seconds
+Tested. Sparse categorical accuracy: 35.50
+2020-04-13 15:30:11.024622
+
+round  4, metrics=<sparse_categorical_accuracy=0.9787166714668274,loss=0.0758274719119072>
+164.0425 seconds
+Tested. Sparse categorical accuracy: 57.50
+2020-04-13 15:32:55.177165
+
+round  5, metrics=<sparse_categorical_accuracy=0.9698500037193298,loss=0.0664089173078537>
+163.4782 seconds
+Tested. Sparse categorical accuracy: 60.00
+2020-04-13 15:35:38.762384
+
+round  6, metrics=<sparse_categorical_accuracy=0.9692999720573425,loss=0.04510391876101494>
+164.2201 seconds
+Tested. Sparse categorical accuracy: 76.00
+2020-04-13 15:38:23.101659
+
+round  7, metrics=<sparse_categorical_accuracy=0.9849833250045776,loss=0.05860718712210655>
+164.0752 seconds
+Tested. Sparse categorical accuracy: 80.00
+2020-04-13 15:41:07.296759
+
+Target accuracy reached after  7  rounds
+Average time per round: 165.00
+
+2020-04-13 15:41:07.388848
+Test  3
+
+Schema 4: IID
+--------------------------------------------------
+data points per client (mean, std dev): ( 600 ,  0 )
+
+number of clients:  100
+cohort size:  20
+number of local epochs:  10
+local batch size:  20
+learning rate:  0.12
+target accuracy:  80 %
+--------------------------------------------------
+
+round  1, metrics=<sparse_categorical_accuracy=0.7787333130836487,loss=0.658458948135376>
+174.1777 seconds
+Tested. Sparse categorical accuracy: 92.00
+2020-04-13 15:44:06.358594
+
+Target accuracy reached after  1  rounds
+Average time per round: 174.00
+
+2020-04-13 15:44:06.415527
