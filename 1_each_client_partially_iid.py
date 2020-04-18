@@ -78,9 +78,6 @@ class Partitioner1(partitioner.Partitioner):
 		multi_labels = np.asarray(multi_labels)
 		num_data_per_client = []
 
-		# print(multi_iid.shape)
-		# print(multi_labels.shape)
-
 		# assign each client non-IID and IID data
 		for client_num in range(self.CLIENTS):
 			# number of data points for this client
@@ -118,13 +115,18 @@ class Partitioner1(partitioner.Partitioner):
 					indices_slice = indices[:data_per_label]
 				client_sample_x = np.append(client_sample_x, label_data_x[indices_slice], axis=0)
 				client_sample_y = np.append(client_sample_y, label_data_y[indices_slice], axis=0)
+
 				# count multiplicities
 				for i in range(len(indices_slice)):
 					multi_labels[label][int(indices_slice[i])] = multi_labels[label][int(indices_slice[i])] + 1
+					
 				# check data
 				if np.average(client_sample_y) > 9 or np.average(client_sample_y) < 0:
+					print("Error: At least one label out of range")
 					print(np.average(client_sample_y), label)
 					print()
+
+				# TODO: print data multiplicities
 
 			# track number of data points per client
 			num_data_per_client.append(len(client_sample_x))

@@ -37,8 +37,8 @@ print(datetime.now())
 # # p2.go(test, batch)
 # # print(datetime.now())
 
-p3.go(test, batch)
-print(datetime.now())
+# p3.go(test, batch)
+# print(datetime.now())
 
-p4.go(test, batch)
-print(datetime.now())
+# p4.go(test, batch)
+# print(datetime.now())

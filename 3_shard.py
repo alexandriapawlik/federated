@@ -102,7 +102,9 @@ class Partitioner3(partitioner.Partitioner):
 
 			# check data
 			if np.average(client_sample_y) > 9 or np.average(client_sample_y) < 0:
+				print("Error: At least one label out of range")
 				print(np.average(client_sample_y))
+				print()
 
 			# assign slices to single client
 			dataset = tf.data.Dataset.from_tensor_slices((client_sample_x, client_sample_y))

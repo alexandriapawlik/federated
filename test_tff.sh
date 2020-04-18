@@ -19,6 +19,7 @@ module load cuda/10.1.105
 module list
 
 mkdir results/${SLURM_ARRAY_JOB_ID}
+mkdir results/${SLURM_ARRAY_JOB_ID}/log
 
 python tff_main.py $SLURM_ARRAY_TASK_ID $SLURM_ARRAY_JOB_ID
 
