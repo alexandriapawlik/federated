@@ -4,6 +4,8 @@ import csv
 import matplotlib.pyplot as plt
 
 batch = 5355833
+batch_name = '5355833-vary-cohort-size-s134'
+# 5420860
 test = [1, 2, 3, 4]
 
 # for full batch:
@@ -18,16 +20,16 @@ for i in range(len(test)):
 	# accuracy vs round number for all schemas
 	round_num = []
 	accuracy_s1 = []
-	accuracy_s3 = []
-	accuracy_s4 = []
+	# accuracy_s3 = []
+	# accuracy_s4 = []
 
-	filename = 'results/' + str(batch) + '/' + str(batch) + '.' + str(test[i]) + '.s1out.csv'
+	filename = 'results/' + batch_name + '/' + str(batch) + '.' + str(test[i]) + '.s1out.csv'
 	with open(filename,'r') as csvfile:
 		data = csv.reader(csvfile, delimiter=',')
 		header = next(data)
 		for row in data:
 			round_num.append(int(row[0]))
-			accuracy_s1.append(int(row[4]) * 100)
+			accuracy_s1.append(int(float(row[4]) * 100))
 		
 	# append last line to full batch data
 	rounds_s1.append(round_num[-1])
@@ -55,30 +57,33 @@ for i in range(len(test)):
 	# rounds_s4.append(round_num[-1])
 
 	# get cohort size
-	filename = 'results/' + str(batch) + '/' + str(batch) + '.' + str(test[i]) + '.config.csv'
-	with open(filename,'r') as csvfile:
-		data = csv.reader(csvfile, delimiter=',')
-		header = next(data)
-		cohort_size.append(next(data)[0])
+	# filename = 'results/' + str(batch) + '/' + str(batch) + '.' + str(test[i]) + '.config.csv'
+	# with open(filename,'r') as csvfile:
+	# 	data = csv.reader(csvfile, delimiter=',')
+	# 	header = next(data)
+	# 	cohort_size.append(next(data)[0])
+	cohort_size = [5,10,20,50]
 
-	# # data for cohort size specific plot
+	# data for cohort size specific plot
 	# max_round = max(round_num) + 1
-	# round_num = range(1, max_round)
-	# plt.clf()
-	# plt.plot(round_num, accuracy_s1, label='Schema 1: Clients partially IID')
+	max_round = rounds_s1[-1] + 1
+	round_num = range(1, max_round)
+	plt.clf()
+	plt.plot(round_num, accuracy_s1, label='Schema 1: Clients partially IID')
 	# plt.plot(round_num, accuracy_s3, label='Schema 3: Sharding')
 	# plt.plot(round_num, accuracy_s4, label='Schema 4: IID')
-	# plt.xlabel('Round Number')
-	# plt.ylabel('SCA Accuracy')
-	# plt.title('Round Accuracy for Cohort Size ' + str(cohort_size[-1]))
-	# plt.legend()
+	plt.xlabel('Round Number')
+	plt.ylabel('SCA Accuracy')
+	plt.title('Round Accuracy for Cohort Size ' + str(cohort_size[i]) + ', 1 CPU')
+	plt.legend()
 	# plt.show()
-	# plt.savefig('results/' + str(batch) + '/' + str(batch) + '.' + str(test[i]) + '.accuracy_vs_round.png')
+	plt.savefig('results/' + batch_name + '/' + str(batch) + '.' + str(test[i]) + '.accuracy_vs_round.png')
 
 
 # get 2CPU data
 
 batch = 5355833
+batch_name = '5355833-vary-cohort-size-s134'
 test = [1, 2, 3, 4]
 
 rounds_s1_2 = []
@@ -89,20 +94,35 @@ for i in range(len(test)):
 	round_num = []
 	accuracy_s1_2 = []
 
-	filename = 'results/' + str(batch) + '/' + str(batch) + '.' + str(test[i]) + '.s1out.csv'
+	filename = 'results/' + batch_name + '/' + str(batch) + '.' + str(test[i]) + '.s1out.csv'
 	with open(filename,'r') as csvfile:
 		data = csv.reader(csvfile, delimiter=',')
 		header = next(data)
 		for row in data:
 			round_num.append(int(row[0]))
-			accuracy_s1_2.append(int(row[4]) * 100)
+			accuracy_s1_2.append(int(float(row[4]) * 100))
 		
 	# append last line to full batch data
 	rounds_s1_2.append(round_num[-1])
 
+	# data for cohort size specific plot
+	# max_round = max(round_num) + 1
+	max_round = rounds_s1_2[-1] + 1
+	round_num = range(1, max_round)
+	plt.clf()
+	plt.plot(round_num, accuracy_s1_2, label='Schema 1: Clients partially IID')
+	# plt.plot(round_num, accuracy_s3, label='Schema 3: Sharding')
+	# plt.plot(round_num, accuracy_s4, label='Schema 4: IID')
+	plt.xlabel('Round Number')
+	plt.ylabel('SCA Accuracy')
+	plt.title('Round Accuracy for Cohort Size ' + str(cohort_size[i]) + ', 2 CPU')
+	plt.legend()
+	# plt.show()
+	plt.savefig('results/' + batch_name + '/' + str(batch) + '.' + str(test[i]) + '.accuracy_vs_round.png')
 
 
-# data for efficiency by cohort size  plot
+
+# data for efficiency by cohort size plot
 plt.clf()
 plt.plot(cohort_size, rounds_s1, label='1 CPU')
 # plt.plot(cohort_size, rounds_s3, label='Schema 3: Sharding')
@@ -113,4 +133,4 @@ plt.ylabel('Number of Rounds to Reach 99% Accuracy')
 plt.title('Model Efficiency for Varying Cohort Size, Clients with Partially IID Data')
 plt.legend()
 plt.show()
-plt.savefig('results/' + str(batch) + '/' + str(batch) + '.rounds_vs_cohortsize.png')
+plt.savefig('results/' + batch_name + '/' + str(batch) + '.rounds_vs_cohortsize.png')
