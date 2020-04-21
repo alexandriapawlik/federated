@@ -1,0 +1,250 @@
+
+TENSORFLOW USERS:
+You must use the python3.6-anaconda/5.2.0 module to run TensorFlow.
+See https://arc-ts.umich.edu/greatlakes/software/tensorflow for more
+information.
+
+
+
+The following have been reloaded with a version change:
+  1) cuda/10.0.130 => cuda/10.1.105
+
+
+Currently Loaded Modules:
+  1) python3.7-anaconda/2019.07   2) cudnn/10.0-v7.6   3) cuda/10.1.105
+
+ 
+
+mkdir: cannot create directory ‘results/5355833’: File exists
+Test  2
+2020-04-15 14:29:00.305988
+
+
+Schema 1: Each client partially IID
+--------------------------------------------------
+percent data distributed IID:  80
+number of classes for non-IID data:  2
+data points per client (mean, std dev): ( 600 ,  10 )
+--------------------------------------------------
+
+round  1, metrics=<sparse_categorical_accuracy=0.4533691704273224,loss=1.5442129373550415>
+218.0923 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round  2, metrics=<sparse_categorical_accuracy=0.7261174321174622,loss=0.8040792346000671>
+222.5700 seconds
+Tested. Sparse categorical accuracy: 21.00
+
+round  3, metrics=<sparse_categorical_accuracy=0.9704980850219727,loss=0.09943563491106033>
+224.0547 seconds
+Tested. Sparse categorical accuracy: 95.00
+
+round  4, metrics=<sparse_categorical_accuracy=0.9875145554542542,loss=0.04501713812351227>
+216.3918 seconds
+Tested. Sparse categorical accuracy: 95.00
+
+round  5, metrics=<sparse_categorical_accuracy=0.9913718104362488,loss=0.03138398379087448>
+224.9249 seconds
+Tested. Sparse categorical accuracy: 99.00
+
+Target accuracy reached after  5  rounds
+Average time per round: 221.00
+
+2020-04-15 14:47:38.823288
+
+Schema 3: Sharding
+--------------------------------------------------
+number of shards per client:  2
+--------------------------------------------------
+
+round  1, metrics=<sparse_categorical_accuracy=0.5575666427612305,loss=0.7530204057693481>
+235.4065 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round  2, metrics=<sparse_categorical_accuracy=0.5956000089645386,loss=0.7523066997528076>
+216.3779 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round  3, metrics=<sparse_categorical_accuracy=0.5603500008583069,loss=0.8254642486572266>
+222.6953 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round  4, metrics=<sparse_categorical_accuracy=0.5602666735649109,loss=0.8169165849685669>
+239.5817 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round  5, metrics=<sparse_categorical_accuracy=0.5070499777793884,loss=0.9065547585487366>
+227.4980 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round  6, metrics=<sparse_categorical_accuracy=0.4945000112056732,loss=0.8127498030662537>
+213.2502 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round  7, metrics=<sparse_categorical_accuracy=0.5113333463668823,loss=0.9019050598144531>
+219.3139 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round  8, metrics=<sparse_categorical_accuracy=0.5113666653633118,loss=0.9026893973350525>
+214.5608 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round  9, metrics=<sparse_categorical_accuracy=0.6043333411216736,loss=0.6521087288856506>
+212.4704 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round 10, metrics=<sparse_categorical_accuracy=0.5553333163261414,loss=0.7302528023719788>
+221.9979 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 11, metrics=<sparse_categorical_accuracy=0.5625,loss=0.72974693775177>
+228.2300 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 12, metrics=<sparse_categorical_accuracy=0.6064500212669373,loss=0.7429022789001465>
+212.7061 seconds
+Tested. Sparse categorical accuracy: 6.00
+
+round 13, metrics=<sparse_categorical_accuracy=0.5564500093460083,loss=0.8224364519119263>
+214.1259 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round 14, metrics=<sparse_categorical_accuracy=0.5590000152587891,loss=0.8193923234939575>
+610.4173 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 15, metrics=<sparse_categorical_accuracy=0.5040000081062317,loss=0.9024113416671753>
+476.8010 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 16, metrics=<sparse_categorical_accuracy=0.49783334136009216,loss=0.8094395399093628>
+588.4113 seconds
+Tested. Sparse categorical accuracy: 14.00
+
+round 17, metrics=<sparse_categorical_accuracy=0.5099999904632568,loss=0.8986698985099792>
+237.5096 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 18, metrics=<sparse_categorical_accuracy=0.5028333067893982,loss=0.8986543416976929>
+223.0592 seconds
+Tested. Sparse categorical accuracy: 6.00
+
+round 19, metrics=<sparse_categorical_accuracy=0.6121666431427002,loss=0.6430442333221436>
+341.6733 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+Traceback (most recent call last):
+  File "tff_main.py", line 40, in <module>
+    p3.go(test, batch)
+  File "/home/apawlik/federated/3_shard.py", line 129, in go
+    self.train(num, batch, 3)
+  File "/home/apawlik/federated/partitioner.py", line 219, in train
+    state, metrics = self.iterative_process.next(state, federated_train_data)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/utils/function_utils.py", line 680, in __call__
+    return context.invoke(self, arg)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/retrying.py", line 49, in wrapped_f
+    return Retrying(*dargs, **dkw).call(f, *args, **kw)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/retrying.py", line 206, in call
+    return attempt.get(self._wrap_exception)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/retrying.py", line 247, in get
+    six.reraise(self.value[0], self.value[1], self.value[2])
+  File "/sw/arcts/centos7/python3.7-anaconda/2019.07/lib/python3.7/site-packages/six.py", line 693, in reraise
+    raise value
+  File "/home/apawlik/.local/lib/python3.7/site-packages/retrying.py", line 200, in call
+    attempt = Attempt(fn(*args, **kwargs), attempt_number, False)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/execution_context.py", line 175, in invoke
+    _invoke(executor, comp, arg))
+  File "/sw/arcts/centos7/python3.7-anaconda/2019.07/lib/python3.7/asyncio/base_events.py", line 584, in run_until_complete
+    return future.result()
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/execution_context.py", line 118, in _invoke
+    result = await executor.create_call(comp, arg)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/executor_utils.py", line 266, in fn_to_return
+    to_return = await func(*args, **kwargs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/lambda_executor.py", line 296, in create_call
+    return await self.create_call(eval_result, arg)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/executor_utils.py", line 266, in fn_to_return
+    to_return = await func(*args, **kwargs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/lambda_executor.py", line 284, in create_call
+    return await comp_repr(arg)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/lambda_executor.py", line 377, in _comp_fn
+    LambdaExecutorScope({name: arg}, scope))
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/executor_utils.py", line 266, in fn_to_return
+    to_return = await func(*args, **kwargs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/lambda_executor.py", line 416, in _evaluate
+    values = await asyncio.gather(*values)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/executor_utils.py", line 266, in fn_to_return
+    to_return = await func(*args, **kwargs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/lambda_executor.py", line 289, in create_call
+    eval_result = await self._evaluate(comp_repr, comp.scope)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/executor_utils.py", line 266, in fn_to_return
+    to_return = await func(*args, **kwargs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/lambda_executor.py", line 394, in _evaluate
+    LambdaExecutorValue(comp.call.function, scope=scope), arg=arg)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/executor_utils.py", line 266, in fn_to_return
+    to_return = await func(*args, **kwargs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/lambda_executor.py", line 275, in create_call
+    return await self.create_call(comp, arg)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/executor_utils.py", line 266, in fn_to_return
+    to_return = await func(*args, **kwargs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/lambda_executor.py", line 296, in create_call
+    return await self.create_call(eval_result, arg)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/executor_utils.py", line 266, in fn_to_return
+    to_return = await func(*args, **kwargs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/lambda_executor.py", line 282, in create_call
+    comp_repr, delegated_arg))
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/caching_executor.py", line 271, in create_call
+    target_value = await cached_value.target_future
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/concurrent_executor.py", line 71, in create_call
+    return await self._delegate(self._target_executor.create_call(comp, arg))
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/executor_utils.py", line 266, in fn_to_return
+    to_return = await func(*args, **kwargs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/federated_executor.py", line 345, in create_call
+    return await coro(arg)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/executor_utils.py", line 266, in fn_to_return
+    to_return = await func(*args, **kwargs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/federated_executor.py", line 486, in _compute_intrinsic_federated_apply
+    return await self._map(arg)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/executor_utils.py", line 266, in fn_to_return
+    to_return = await func(*args, **kwargs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/federated_executor.py", line 438, in _map
+    c.create_call(f, v) for c, (f, v) in zip(children, list(zip(fns, val)))
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/executor_utils.py", line 266, in fn_to_return
+    to_return = await func(*args, **kwargs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/lambda_executor.py", line 296, in create_call
+    return await self.create_call(eval_result, arg)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/executor_utils.py", line 266, in fn_to_return
+    to_return = await func(*args, **kwargs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/lambda_executor.py", line 282, in create_call
+    comp_repr, delegated_arg))
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/caching_executor.py", line 271, in create_call
+    target_value = await cached_value.target_future
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/concurrent_executor.py", line 71, in create_call
+    return await self._delegate(self._target_executor.create_call(comp, arg))
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/executor_utils.py", line 266, in fn_to_return
+    to_return = await func(*args, **kwargs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/eager_executor.py", line 409, in create_call
+    comp.internal_representation(arg.internal_representation),  # pytype: disable=attribute-error
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/eager_executor.py", line 178, in <lambda>
+    return lambda arg: fn_to_return(arg)  # pylint: disable=unnecessary-lambda
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/eager_executor.py", line 165, in <lambda>
+    fn_to_return = lambda arg, p=param_fns, w=wrapped_fn: _fn_to_return(arg, p, w)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_federated/python/core/impl/eager_executor.py", line 144, in _fn_to_return
+    result_parts = wrapped_fn(*param_elements)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_core/python/eager/function.py", line 1081, in __call__
+    return self._call_impl(args, kwargs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_core/python/eager/function.py", line 1091, in _call_impl
+    return self._call_flat(args, self.captured_inputs)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_core/python/eager/function.py", line 1224, in _call_flat
+    ctx, args, cancellation_manager=cancellation_manager)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_core/python/eager/function.py", line 511, in call
+    ctx=ctx)
+  File "/home/apawlik/.local/lib/python3.7/site-packages/tensorflow_core/python/eager/execute.py", line 67, in quick_execute
+    six.raise_from(core._status_to_exception(e.code, message), None)
+  File "<string>", line 3, in raise_from
+tensorflow.python.framework.errors_impl.InvalidArgumentError:  You must feed a value for placeholder tensor 'import/conv2d_input' with dtype float and shape [?,28,28,1]
+	 [[node import/conv2d_input (defined at home/apawlik/.local/lib/python3.7/site-packages/tensorflow_core/python/framework/ops.py:1751) ]] [Op:__inference_wrapped_function_133005]
+
+Function call stack:
+wrapped_function
+
+mv: cannot move ‘results/tff.5355833.2.out’ to ‘results/5355833/log/’: Not a directory
