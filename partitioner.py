@@ -19,6 +19,7 @@ class Partitioner:
 	# call member functions in order, partitioning data before build_model()
 
 	def __init__(self):
+		self.ROUND_LIMIT = 100
 		self.COHORT_SIZE = 1
 		self.MAX_FANOUT = 1
 		self.NUM_EPOCHS = 1
@@ -198,9 +199,10 @@ class Partitioner:
 			# run server training rounds
 			# won't necessarily complete a "federated epoch"
 			below_target = True
+			under_limit = True
 			round_num = 0
 			time_sum = 0
-			while below_target:
+			while below_target and under_limit:
 				round_num = round_num + 1
 				tic = time.perf_counter()
 				start_time = datetime.now()
@@ -253,6 +255,9 @@ class Partitioner:
 
 				if self.verbose:
 					print()
+				
+				if round_num >= self.ROUND_LIMIT:
+					under_limit = False
 
 		# print final test stats
 		print("Target accuracy reached after ",round_num," rounds")

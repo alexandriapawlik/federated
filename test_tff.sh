@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #SBATCH --job-name=tff_partition
-#SBATCH --nodes=6
-#SBATCH --cpus-per-task=2
+#SBATCH --nodes=4
+#SBATCH --cpus-per-task=10
 #SBATCH --mem-per-cpu=8g
 #SBATCH --time=48:00:00
 #SBATCH --account=tewaria1

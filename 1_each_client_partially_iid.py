@@ -43,38 +43,40 @@ class Partitioner1(partitioner.Partitioner):
 		# pull IID portion of data from each label
 		iid_data_x_temp = []
 		iid_data_y_temp = []
-		for i in range(self.LABELS):
-			num_iid_pts = int(self.PERCENT_DATA_IID / 100 * len(sorted_data_x[i]))
-			this_label_x = np.array(sorted_data_x[i], np.float64)
-			this_label_y = np.array(sorted_data_y[i], np.float64)
+		if self.PERCENT_DATA_IID > 0:
+			for i in range(self.LABELS):
+				num_iid_pts = int(self.PERCENT_DATA_IID / 100 * len(sorted_data_x[i]))
+				this_label_x = np.array(sorted_data_x[i], np.float64)
+				this_label_y = np.array(sorted_data_y[i], np.float64)
 
-			# shuffle data within label
-			indices = np.random.permutation(len(this_label_x))
+				# shuffle data within label
+				indices = np.random.permutation(len(this_label_x))
 
-			# take IID portion
-			iid_indices = indices[:num_iid_pts] # indices slice
-			iid_data_x_temp.append(this_label_x[iid_indices])
-			iid_data_y_temp.append(this_label_y[iid_indices])
+				# take IID portion
+				iid_indices = indices[:num_iid_pts] # indices slice
+				iid_data_x_temp.append(this_label_x[iid_indices])
+				iid_data_y_temp.append(this_label_y[iid_indices])
 
-			# return non-IID portion
-			non_iid_indices = indices[num_iid_pts:]
-			sorted_data_x[i] = this_label_x[non_iid_indices]
-			sorted_data_y[i] = this_label_y[non_iid_indices]
+				# return non-IID portion
+				non_iid_indices = indices[num_iid_pts:]
+				sorted_data_x[i] = this_label_x[non_iid_indices]
+				sorted_data_y[i] = this_label_y[non_iid_indices]
 			
 		# convert sorted non-IID data to a numpy array
 		sorted_x = np.asarray(sorted_data_x)
 		sorted_y = np.asarray(sorted_data_y)
 
 		# flatten iid data list
-		iid_data_x = np.concatenate(np.array(iid_data_x_temp))
-		iid_data_y = np.concatenate(np.array(iid_data_y_temp))
-		# mean tested here, ok
+		if self.PERCENT_DATA_IID > 0:
+			iid_data_x = np.concatenate(np.array(iid_data_x_temp))
+			iid_data_y = np.concatenate(np.array(iid_data_y_temp))
 
 		# duplicate counting setup
-		multi_iid = np.zeros(iid_data_x.shape[0], int) # count duplicates in IID
+			multi_iid = np.zeros(iid_data_x.shape[0], int) # count duplicates in IID
 		multi_labels = [] # count duplicates in non IID
-		for i in range(self.LABELS):
-			multi_labels.append(np.zeros(sorted_x[i].shape, int))
+		if self.PERCENT_DATA_IID > 0:
+			for i in range(self.LABELS):
+				multi_labels.append(np.zeros(sorted_x[i].shape, int))
 		multi_labels = np.asarray(multi_labels)
 		num_data_per_client = []
 
@@ -86,14 +88,18 @@ class Partitioner1(partitioner.Partitioner):
 			num_non_iid = num_data - num_iid
 
 			# add IID data to current client
-			iid_indices = np.random.permutation(iid_data_x.shape[0])
-			iid_indices_slice = iid_indices[:num_iid]
-			client_sample_x = iid_data_x[iid_indices_slice]
-			client_sample_y = iid_data_y[iid_indices_slice]
+			client_sample_x = []
+			client_sample_y = []
+			if self.PERCENT_DATA_IID > 0:
+				iid_indices = np.random.permutation(iid_data_x.shape[0])
+				iid_indices_slice = iid_indices[:num_iid]
+				client_sample_x = iid_data_x[iid_indices_slice]
+				client_sample_y = iid_data_y[iid_indices_slice]
 
 			# count multiplicities
-			for i in range(num_iid):
-				multi_iid[int(iid_indices[i])] = multi_iid[int(iid_indices[i])] + 1
+			if self.PERCENT_DATA_IID > 0:
+				for i in range(num_iid):
+					multi_iid[int(iid_indices[i])] = multi_iid[int(iid_indices[i])] + 1
 					
 			# select labels for non_IID
 			label_indices = np.random.permutation(10)
@@ -113,12 +119,18 @@ class Partitioner1(partitioner.Partitioner):
 					indices_slice = indices[:extra]
 				else:
 					indices_slice = indices[:data_per_label]
-				client_sample_x = np.append(client_sample_x, label_data_x[indices_slice], axis=0)
-				client_sample_y = np.append(client_sample_y, label_data_y[indices_slice], axis=0)
+
+				if self.PERCENT_DATA_IID > 0:
+					client_sample_x = np.append(client_sample_x, label_data_x[indices_slice], axis=0)
+					client_sample_y = np.append(client_sample_y, label_data_y[indices_slice], axis=0)
+				else:
+					client_sample_x = label_data_x[indices_slice]
+					client_sample_y = label_data_y[indices_slice]
 
 				# count multiplicities
-				for i in range(len(indices_slice)):
-					multi_labels[label][int(indices_slice[i])] = multi_labels[label][int(indices_slice[i])] + 1
+				if self.PERCENT_DATA_IID > 0:
+					for i in range(len(indices_slice)):
+						multi_labels[label][int(indices_slice[i])] = multi_labels[label][int(indices_slice[i])] + 1
 					
 				# check data
 				if np.average(client_sample_y) > 9 or np.average(client_sample_y) < 0:
