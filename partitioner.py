@@ -19,7 +19,7 @@ class Partitioner:
 	# call member functions in order, partitioning data before build_model()
 
 	def __init__(self):
-		self.ROUND_LIMIT = 100
+		self.ROUND_LIMIT = 200
 		self.COHORT_SIZE = 1
 		self.MAX_FANOUT = 1
 		self.NUM_EPOCHS = 1
