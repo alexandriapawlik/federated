@@ -82,7 +82,7 @@ class Partitioner:
 		# prep environment
 		warnings.simplefilter('ignore')
 		tf.compat.v1.enable_v2_behavior()
-		np.random.seed(0)
+		np.random.seed()
 		if self.MAX_FANOUT < 1:  # standard multi-threading
 			tff.framework.set_default_executor(tff.framework.create_local_executor())
 		elif self.MAX_FANOUT == 1:  # single thread
@@ -97,14 +97,17 @@ class Partitioner:
 
 			# construct value array
 			# learning rate chosen/iterates first, batch size second, ...
+			shuffle_buffer = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
 			percent_data_iid = [0, 20, 40, 60, 80, 100]  # schema 1
 			percent_clients_iid = [50]  # schema 2
-			cohort_size = [5, 10, 15, 20] 
+			cohort_size = [5, 10, 15, 20, 25, 30] 
 			num_epochs = [10]  # leave at 10
 			batch_size = [10]
-			learning_rate = [0.1]
+			learning_rate = [0.2]
 
 			# convert test number to array indices and set constants to array values
+			self.SHUFFLE_BUFFER = shuffle_buffer[n // (len(percent_data_iid) * len(percent_clients_iid) * len(cohort_size) * len(num_epochs) * len(batch_size) * len(learning_rate))]
+			n = n % (len(percent_data_iid) * len(percent_clients_iid) * len(cohort_size) * len(num_epochs) * len(batch_size) * len(learning_rate))
 			self.PERCENT_DATA_IID = percent_data_iid[n // (len(percent_clients_iid) * len(cohort_size) * len(num_epochs) * len(batch_size) * len(learning_rate))]
 			n = n % (len(percent_clients_iid) * len(cohort_size) * len(num_epochs) * len(batch_size) * len(learning_rate))
 			self.PERCENT_CLIENTS_IID = percent_clients_iid[n // (len(cohort_size) * len(num_epochs) * len(batch_size) * len(learning_rate))]
@@ -118,7 +121,11 @@ class Partitioner:
 
 			# set learning rate based on percent IID
 			# 20% = 0.1 LR, 100% = 0.2 LR
-			self.LR = (float(self.PERCENT_DATA_IID) / 800) + 0.075
+			# self.LR = (float(self.PERCENT_DATA_IID) / 800) + 0.075
+
+			# set learning rate based on percent data IID
+			if self.PERCENT_DATA_IID < 30:
+				self.LR = 0.1
 
 	# output configuation data to csv file
 	def make_config_csv(self, test, batch):
