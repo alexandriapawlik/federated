@@ -19,6 +19,8 @@ plt.subplot(121)
 for i in x1: 
 	rounds = []
 	rounds_std = []
+	rounds_min = []
+	rounds_max = []
 
 	# get IIDness
 	filename = 'results/' + batch_name + '/r0/' + str(batch) + '.' + str(i) + '.config.csv'
@@ -46,10 +48,13 @@ for i in x1:
 		# get average and stdev num rounds for this cohort size in this IIDness
 		rounds.append(sum(rounds_all_trials) / len(rounds_all_trials))
 		rounds_std.append(stat.pstdev(rounds_all_trials))
+		rounds_min.append(rounds[-1] - min(rounds_all_trials))
+		rounds_max.append(max(rounds_all_trials) - rounds[-1])
+		print(cohort_size[j], rounds_all_trials)
 
 	# add average rounds vs cohort size to plot
-	plt.errorbar(cohort_size, rounds, yerr=rounds_std, label=str(iidness) + '% IID data', capsize=4)
-	# plt.plot(cohort_size, rounds, label=str(iidness) + '% IID data')
+	# plt.errorbar(cohort_size, rounds, yerr=rounds_std, label=str(iidness) + '% IID data', capsize=4)
+	plt.errorbar(cohort_size, rounds, yerr=[rounds_min, rounds_max], label=str(iidness) + '% IID data', capsize=4)
 
 # finish plot
 plt.xticks(np.arange(5, 31, step=5))  # Set label locations.
@@ -64,6 +69,8 @@ plt.subplot(122)
 for i in x2: 
 	rounds = []
 	rounds_std = []
+	rounds_min = []
+	rounds_max = []
 
 	# get IIDness
 	filename = 'results/' + batch_name + '/r0/' + str(batch) + '.' + str(i) + '.config.csv'
@@ -91,10 +98,13 @@ for i in x2:
 		# get average and stdev num rounds for this cohort size in this IIDness
 		rounds.append(sum(rounds_all_trials) / len(rounds_all_trials))
 		rounds_std.append(stat.pstdev(rounds_all_trials))
+		rounds_min.append(rounds[-1] - min(rounds_all_trials))
+		rounds_max.append(max(rounds_all_trials) - rounds[-1])
+		print(cohort_size[j], rounds_all_trials)
 
 	# add average rounds vs cohort size to plot
-	plt.errorbar(cohort_size, rounds, yerr=rounds_std, label=str(iidness) + '% IID data', capsize=4)
-	# plt.plot(cohort_size, rounds, label=str(iidness) + '% IID data')
+	# plt.errorbar(cohort_size, rounds, yerr=rounds_std, label=str(iidness) + '% IID data', capsize=4)
+	plt.errorbar(cohort_size, rounds, yerr=[rounds_min, rounds_max], label=str(iidness) + '% IID data', capsize=4)
 
 # finish plot
 plt.xticks(np.arange(5, 31, step=5))  # Set label locations.

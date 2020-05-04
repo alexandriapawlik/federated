@@ -19,7 +19,7 @@ class Partitioner:
 	# call member functions in order, partitioning data before build_model()
 
 	def __init__(self):
-		self.ROUND_LIMIT = 200
+		self.ROUND_LIMIT = 250
 		self.COHORT_SIZE = 1
 		self.MAX_FANOUT = 1
 		self.NUM_EPOCHS = 1
@@ -97,13 +97,13 @@ class Partitioner:
 
 			# construct value array
 			# learning rate chosen/iterates first, batch size second, ...
-			shuffle_buffer = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+			shuffle_buffer = [100, 200, 300, 400, 500, 600, 700, 800]
 			percent_data_iid = [0, 20, 40, 60, 80, 100]  # schema 1
 			percent_clients_iid = [50]  # schema 2
-			cohort_size = [5, 10, 15, 20, 25, 30] 
+			cohort_size = [2, 5, 10, 15, 20, 25, 30] 
 			num_epochs = [10]  # leave at 10
 			batch_size = [10]
-			learning_rate = [0.2]
+			learning_rate = [0.1]
 
 			# convert test number to array indices and set constants to array values
 			self.SHUFFLE_BUFFER = shuffle_buffer[n // (len(percent_data_iid) * len(percent_clients_iid) * len(cohort_size) * len(num_epochs) * len(batch_size) * len(learning_rate))]
@@ -124,8 +124,8 @@ class Partitioner:
 			# self.LR = (float(self.PERCENT_DATA_IID) / 800) + 0.075
 
 			# set learning rate based on percent data IID
-			if self.PERCENT_DATA_IID < 30:
-				self.LR = 0.1
+			# if self.PERCENT_DATA_IID < 30:
+			# 	self.LR = 0.1
 
 	# output configuation data to csv file
 	def make_config_csv(self, test, batch):
