@@ -1,0 +1,834 @@
+
+TENSORFLOW USERS:
+You must use the python3.6-anaconda/5.2.0 module to run TensorFlow.
+See https://arc-ts.umich.edu/greatlakes/software/tensorflow for more
+information.
+
+
+
+The following have been reloaded with a version change:
+  1) cuda/10.0.130 => cuda/10.1.105
+
+
+Currently Loaded Modules:
+  1) python3.7-anaconda/2019.07   2) cudnn/10.0-v7.6   3) cuda/10.1.105
+
+ 
+
+mkdir: cannot create directory ‘results/5842441’: File exists
+mkdir: cannot create directory ‘results/5842441/log’: File exists
+Test  315
+2020-05-03 17:22:57.567577
+
+
+Schema 1: Each client partially IID
+--------------------------------------------------
+percent data distributed IID:  80
+number of classes for non-IID data:  2
+data points per client (mean, std dev): ( 600 ,  0 )
+--------------------------------------------------
+
+round  1, metrics=<sparse_categorical_accuracy=0.388522207736969,loss=1.726163387298584>
+48.1869 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round  2, metrics=<sparse_categorical_accuracy=0.17751111090183258,loss=2.244917392730713>
+47.9625 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round  3, metrics=<sparse_categorical_accuracy=0.17573332786560059,loss=2.2395501136779785>
+47.5839 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round  4, metrics=<sparse_categorical_accuracy=0.18058888614177704,loss=2.2427263259887695>
+47.1011 seconds
+Tested. Sparse categorical accuracy: 18.00
+
+round  5, metrics=<sparse_categorical_accuracy=0.17766666412353516,loss=2.2456436157226562>
+48.1300 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round  6, metrics=<sparse_categorical_accuracy=0.17402222752571106,loss=2.2467849254608154>
+47.4639 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round  7, metrics=<sparse_categorical_accuracy=0.17741110920906067,loss=2.241917848587036>
+47.6000 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round  8, metrics=<sparse_categorical_accuracy=0.17901110649108887,loss=2.2433393001556396>
+48.0091 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round  9, metrics=<sparse_categorical_accuracy=0.17881111800670624,loss=2.2418572902679443>
+47.6201 seconds
+Tested. Sparse categorical accuracy: 6.00
+
+round 10, metrics=<sparse_categorical_accuracy=0.17684444785118103,loss=2.240734577178955>
+46.2852 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round 11, metrics=<sparse_categorical_accuracy=0.17132222652435303,loss=2.2489871978759766>
+50.1718 seconds
+Tested. Sparse categorical accuracy: 15.00
+
+round 12, metrics=<sparse_categorical_accuracy=0.17366667091846466,loss=2.2456274032592773>
+47.3691 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 13, metrics=<sparse_categorical_accuracy=0.17827777564525604,loss=2.2422170639038086>
+48.8824 seconds
+Tested. Sparse categorical accuracy: 15.00
+
+round 14, metrics=<sparse_categorical_accuracy=0.1736222207546234,loss=2.2459893226623535>
+46.9283 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 15, metrics=<sparse_categorical_accuracy=0.1808999925851822,loss=2.242124557495117>
+46.6080 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 16, metrics=<sparse_categorical_accuracy=0.180566668510437,loss=2.2389161586761475>
+46.5741 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round 17, metrics=<sparse_categorical_accuracy=0.17110000550746918,loss=2.2450926303863525>
+48.4349 seconds
+Tested. Sparse categorical accuracy: 6.00
+
+round 18, metrics=<sparse_categorical_accuracy=0.17542222142219543,loss=2.2473344802856445>
+47.9702 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round 19, metrics=<sparse_categorical_accuracy=0.1746000051498413,loss=2.246767282485962>
+47.0844 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 20, metrics=<sparse_categorical_accuracy=0.17818889021873474,loss=2.2404403686523438>
+48.2067 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 21, metrics=<sparse_categorical_accuracy=0.17714443802833557,loss=2.245800733566284>
+47.7300 seconds
+Tested. Sparse categorical accuracy: 7.00
+
+round 22, metrics=<sparse_categorical_accuracy=0.17784444987773895,loss=2.243218421936035>
+48.3946 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round 23, metrics=<sparse_categorical_accuracy=0.1789444386959076,loss=2.2396295070648193>
+46.7514 seconds
+Tested. Sparse categorical accuracy: 7.00
+
+round 24, metrics=<sparse_categorical_accuracy=0.17943333089351654,loss=2.244340419769287>
+47.2590 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round 25, metrics=<sparse_categorical_accuracy=0.16983333230018616,loss=2.2492520809173584>
+47.3214 seconds
+Tested. Sparse categorical accuracy: 14.00
+
+round 26, metrics=<sparse_categorical_accuracy=0.17614445090293884,loss=2.245978832244873>
+46.7408 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 27, metrics=<sparse_categorical_accuracy=0.18318888545036316,loss=2.2419137954711914>
+48.0487 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 28, metrics=<sparse_categorical_accuracy=0.18041111528873444,loss=2.2427079677581787>
+47.3723 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 29, metrics=<sparse_categorical_accuracy=0.1806333363056183,loss=2.241295576095581>
+47.0271 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 30, metrics=<sparse_categorical_accuracy=0.1789666712284088,loss=2.2415974140167236>
+48.0459 seconds
+Tested. Sparse categorical accuracy: 15.00
+
+round 31, metrics=<sparse_categorical_accuracy=0.17724443972110748,loss=2.2475593090057373>
+48.8078 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 32, metrics=<sparse_categorical_accuracy=0.1781555563211441,loss=2.244950771331787>
+47.4462 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 33, metrics=<sparse_categorical_accuracy=0.18472221493721008,loss=2.2403056621551514>
+48.5488 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 34, metrics=<sparse_categorical_accuracy=0.1684444397687912,loss=2.246115207672119>
+47.7167 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 35, metrics=<sparse_categorical_accuracy=0.17591111361980438,loss=2.243342638015747>
+48.2469 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 36, metrics=<sparse_categorical_accuracy=0.17987777292728424,loss=2.2385876178741455>
+47.1190 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 37, metrics=<sparse_categorical_accuracy=0.1744222193956375,loss=2.2449584007263184>
+50.0125 seconds
+Tested. Sparse categorical accuracy: 7.00
+
+round 38, metrics=<sparse_categorical_accuracy=0.1797555536031723,loss=2.246732234954834>
+49.7232 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round 39, metrics=<sparse_categorical_accuracy=0.1809111088514328,loss=2.2463128566741943>
+48.0946 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 40, metrics=<sparse_categorical_accuracy=0.18038888275623322,loss=2.241032361984253>
+46.7459 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 41, metrics=<sparse_categorical_accuracy=0.17364443838596344,loss=2.246281147003174>
+47.6979 seconds
+Tested. Sparse categorical accuracy: 16.00
+
+round 42, metrics=<sparse_categorical_accuracy=0.1804555505514145,loss=2.2433202266693115>
+46.5901 seconds
+Tested. Sparse categorical accuracy: 15.00
+
+round 43, metrics=<sparse_categorical_accuracy=0.1791222244501114,loss=2.239633560180664>
+47.7249 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 44, metrics=<sparse_categorical_accuracy=0.17906667292118073,loss=2.244842529296875>
+47.9908 seconds
+Tested. Sparse categorical accuracy: 15.00
+
+round 45, metrics=<sparse_categorical_accuracy=0.17336666584014893,loss=2.2482659816741943>
+47.7053 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 46, metrics=<sparse_categorical_accuracy=0.17962221801280975,loss=2.245065689086914>
+48.8313 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 47, metrics=<sparse_categorical_accuracy=0.1812777817249298,loss=2.242586374282837>
+48.7727 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 48, metrics=<sparse_categorical_accuracy=0.180566668510437,loss=2.2422327995300293>
+48.1634 seconds
+Tested. Sparse categorical accuracy: 4.00
+
+round 49, metrics=<sparse_categorical_accuracy=0.1794111132621765,loss=2.2409725189208984>
+47.3877 seconds
+Tested. Sparse categorical accuracy: 17.00
+
+round 50, metrics=<sparse_categorical_accuracy=0.1775333285331726,loss=2.2419323921203613>
+47.1973 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 51, metrics=<sparse_categorical_accuracy=0.17391110956668854,loss=2.248114824295044>
+48.2368 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 52, metrics=<sparse_categorical_accuracy=0.1740444451570511,loss=2.245640516281128>
+48.2663 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 53, metrics=<sparse_categorical_accuracy=0.17892222106456757,loss=2.241079330444336>
+47.3597 seconds
+Tested. Sparse categorical accuracy: 7.00
+
+round 54, metrics=<sparse_categorical_accuracy=0.17810000479221344,loss=2.244699239730835>
+47.4426 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round 55, metrics=<sparse_categorical_accuracy=0.1738888919353485,loss=2.2418437004089355>
+47.4568 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 56, metrics=<sparse_categorical_accuracy=0.17996667325496674,loss=2.2389347553253174>
+48.1315 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 57, metrics=<sparse_categorical_accuracy=0.17498889565467834,loss=2.245419979095459>
+48.4558 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 58, metrics=<sparse_categorical_accuracy=0.17434445023536682,loss=2.2483856678009033>
+47.7741 seconds
+Tested. Sparse categorical accuracy: 14.00
+
+round 59, metrics=<sparse_categorical_accuracy=0.17695555090904236,loss=2.246304512023926>
+48.9775 seconds
+Tested. Sparse categorical accuracy: 5.00
+
+round 60, metrics=<sparse_categorical_accuracy=0.1799333393573761,loss=2.2395334243774414>
+48.0056 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 61, metrics=<sparse_categorical_accuracy=0.17113333940505981,loss=2.2459583282470703>
+48.0992 seconds
+Tested. Sparse categorical accuracy: 7.00
+
+round 62, metrics=<sparse_categorical_accuracy=0.18129999935626984,loss=2.242706537246704>
+49.0599 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 63, metrics=<sparse_categorical_accuracy=0.18258889019489288,loss=2.238770008087158>
+47.0794 seconds
+Tested. Sparse categorical accuracy: 15.00
+
+round 64, metrics=<sparse_categorical_accuracy=0.17685554921627045,loss=2.2450881004333496>
+48.4570 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 65, metrics=<sparse_categorical_accuracy=0.17371110618114471,loss=2.248368978500366>
+47.2227 seconds
+Tested. Sparse categorical accuracy: 14.00
+
+round 66, metrics=<sparse_categorical_accuracy=0.17777778208255768,loss=2.245443105697632>
+47.3066 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 67, metrics=<sparse_categorical_accuracy=0.17873333394527435,loss=2.2425777912139893>
+46.7806 seconds
+Tested. Sparse categorical accuracy: 14.00
+
+round 68, metrics=<sparse_categorical_accuracy=0.17335554957389832,loss=2.2441132068634033>
+47.2631 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 69, metrics=<sparse_categorical_accuracy=0.18003332614898682,loss=2.2421998977661133>
+48.9749 seconds
+Tested. Sparse categorical accuracy: 6.00
+
+round 70, metrics=<sparse_categorical_accuracy=0.179666668176651,loss=2.2411017417907715>
+47.1934 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 71, metrics=<sparse_categorical_accuracy=0.17525555193424225,loss=2.2483630180358887>
+47.3831 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 72, metrics=<sparse_categorical_accuracy=0.17535555362701416,loss=2.245720386505127>
+47.6712 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 73, metrics=<sparse_categorical_accuracy=0.1795777827501297,loss=2.242149591445923>
+47.4789 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 74, metrics=<sparse_categorical_accuracy=0.17790000140666962,loss=2.245642900466919>
+47.8553 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round 75, metrics=<sparse_categorical_accuracy=0.17754444479942322,loss=2.2412827014923096>
+47.0758 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 76, metrics=<sparse_categorical_accuracy=0.18443332612514496,loss=2.23691463470459>
+47.4286 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 77, metrics=<sparse_categorical_accuracy=0.17589999735355377,loss=2.2450006008148193>
+47.9315 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 78, metrics=<sparse_categorical_accuracy=0.17810000479221344,loss=2.2473480701446533>
+46.5689 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 79, metrics=<sparse_categorical_accuracy=0.17579999566078186,loss=2.2466683387756348>
+48.0469 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 80, metrics=<sparse_categorical_accuracy=0.18115556240081787,loss=2.240023374557495>
+47.4484 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 81, metrics=<sparse_categorical_accuracy=0.1758444458246231,loss=2.2459068298339844>
+47.5110 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round 82, metrics=<sparse_categorical_accuracy=0.1805555522441864,loss=2.2426886558532715>
+47.2830 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 83, metrics=<sparse_categorical_accuracy=0.17996667325496674,loss=2.2398273944854736>
+47.5565 seconds
+Tested. Sparse categorical accuracy: 4.00
+
+round 84, metrics=<sparse_categorical_accuracy=0.17502222955226898,loss=2.2448184490203857>
+47.7986 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 85, metrics=<sparse_categorical_accuracy=0.17603333294391632,loss=2.247748374938965>
+47.8065 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 86, metrics=<sparse_categorical_accuracy=0.17578889429569244,loss=2.246391534805298>
+47.0348 seconds
+Tested. Sparse categorical accuracy: 16.00
+
+round 87, metrics=<sparse_categorical_accuracy=0.18297778069972992,loss=2.242194890975952>
+47.6006 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 88, metrics=<sparse_categorical_accuracy=0.17659999430179596,loss=2.242903470993042>
+46.5338 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 89, metrics=<sparse_categorical_accuracy=0.17838889360427856,loss=2.2422034740448>
+48.2007 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round 90, metrics=<sparse_categorical_accuracy=0.17786666750907898,loss=2.2409651279449463>
+47.7012 seconds
+Tested. Sparse categorical accuracy: 15.00
+
+round 91, metrics=<sparse_categorical_accuracy=0.17720000445842743,loss=2.2474677562713623>
+47.5376 seconds
+Tested. Sparse categorical accuracy: 7.00
+
+round 92, metrics=<sparse_categorical_accuracy=0.17408889532089233,loss=2.2457656860351562>
+48.2537 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 93, metrics=<sparse_categorical_accuracy=0.1808999925851822,loss=2.2410242557525635>
+48.2700 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 94, metrics=<sparse_categorical_accuracy=0.16797778010368347,loss=2.2472169399261475>
+47.6486 seconds
+Tested. Sparse categorical accuracy: 16.00
+
+round 95, metrics=<sparse_categorical_accuracy=0.17665556073188782,loss=2.243076801300049>
+47.3363 seconds
+Tested. Sparse categorical accuracy: 14.00
+
+round 96, metrics=<sparse_categorical_accuracy=0.18097777664661407,loss=2.239060163497925>
+47.3105 seconds
+Tested. Sparse categorical accuracy: 6.00
+
+round 97, metrics=<sparse_categorical_accuracy=0.17542222142219543,loss=2.244831085205078>
+48.1580 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 98, metrics=<sparse_categorical_accuracy=0.178766667842865,loss=2.245195150375366>
+48.3024 seconds
+Tested. Sparse categorical accuracy: 5.00
+
+round 99, metrics=<sparse_categorical_accuracy=0.17472222447395325,loss=2.2471067905426025>
+49.3356 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round 100, metrics=<sparse_categorical_accuracy=0.1805555522441864,loss=2.2404727935791016>
+46.9027 seconds
+Tested. Sparse categorical accuracy: 14.00
+
+round 101, metrics=<sparse_categorical_accuracy=0.17595554888248444,loss=2.246046543121338>
+47.6632 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round 102, metrics=<sparse_categorical_accuracy=0.17624443769454956,loss=2.2436227798461914>
+47.1197 seconds
+Tested. Sparse categorical accuracy: 6.00
+
+round 103, metrics=<sparse_categorical_accuracy=0.17667777836322784,loss=2.2398898601531982>
+50.2144 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 104, metrics=<sparse_categorical_accuracy=0.17638888955116272,loss=2.2448132038116455>
+48.1328 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round 105, metrics=<sparse_categorical_accuracy=0.17558889091014862,loss=2.2473182678222656>
+47.5185 seconds
+Tested. Sparse categorical accuracy: 6.00
+
+round 106, metrics=<sparse_categorical_accuracy=0.17502222955226898,loss=2.24581241607666>
+46.3404 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 107, metrics=<sparse_categorical_accuracy=0.17892222106456757,loss=2.2427542209625244>
+48.4555 seconds
+Tested. Sparse categorical accuracy: 6.00
+
+round 108, metrics=<sparse_categorical_accuracy=0.1781444400548935,loss=2.243387222290039>
+47.7633 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 109, metrics=<sparse_categorical_accuracy=0.18513333797454834,loss=2.2410764694213867>
+48.9199 seconds
+Tested. Sparse categorical accuracy: 7.00
+
+round 110, metrics=<sparse_categorical_accuracy=0.1761000007390976,loss=2.242464303970337>
+47.0771 seconds
+Tested. Sparse categorical accuracy: 15.00
+
+round 111, metrics=<sparse_categorical_accuracy=0.17727777361869812,loss=2.247910976409912>
+48.3125 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 112, metrics=<sparse_categorical_accuracy=0.1736000031232834,loss=2.246051788330078>
+48.5999 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round 113, metrics=<sparse_categorical_accuracy=0.18141111731529236,loss=2.2417614459991455>
+49.3508 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 114, metrics=<sparse_categorical_accuracy=0.1777999997138977,loss=2.245845079421997>
+49.1605 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 115, metrics=<sparse_categorical_accuracy=0.17572222650051117,loss=2.242609739303589>
+47.7221 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 116, metrics=<sparse_categorical_accuracy=0.1856222152709961,loss=2.2377943992614746>
+47.6914 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 117, metrics=<sparse_categorical_accuracy=0.17751111090183258,loss=2.2446885108947754>
+48.4839 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 118, metrics=<sparse_categorical_accuracy=0.17461110651493073,loss=2.2472097873687744>
+48.6290 seconds
+Tested. Sparse categorical accuracy: 15.00
+
+round 119, metrics=<sparse_categorical_accuracy=0.17635555565357208,loss=2.246490001678467>
+49.4037 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 120, metrics=<sparse_categorical_accuracy=0.18209999799728394,loss=2.2404520511627197>
+47.7993 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 121, metrics=<sparse_categorical_accuracy=0.17839999496936798,loss=2.2444887161254883>
+49.0716 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 122, metrics=<sparse_categorical_accuracy=0.18039999902248383,loss=2.2435827255249023>
+46.8703 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 123, metrics=<sparse_categorical_accuracy=0.17694444954395294,loss=2.2401349544525146>
+48.4115 seconds
+Tested. Sparse categorical accuracy: 16.00
+
+round 124, metrics=<sparse_categorical_accuracy=0.1753888875246048,loss=2.2451601028442383>
+49.6462 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 125, metrics=<sparse_categorical_accuracy=0.17212222516536713,loss=2.2477097511291504>
+47.4924 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 126, metrics=<sparse_categorical_accuracy=0.17501111328601837,loss=2.246140718460083>
+48.0019 seconds
+Tested. Sparse categorical accuracy: 6.00
+
+round 127, metrics=<sparse_categorical_accuracy=0.18104444444179535,loss=2.2424697875976562>
+47.7037 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 128, metrics=<sparse_categorical_accuracy=0.17843332886695862,loss=2.2422008514404297>
+48.4871 seconds
+Tested. Sparse categorical accuracy: 16.00
+
+round 129, metrics=<sparse_categorical_accuracy=0.18043333292007446,loss=2.241842746734619>
+47.9305 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 130, metrics=<sparse_categorical_accuracy=0.17518888413906097,loss=2.241816520690918>
+47.7121 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 131, metrics=<sparse_categorical_accuracy=0.17484444379806519,loss=2.248577117919922>
+48.4079 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 132, metrics=<sparse_categorical_accuracy=0.17186667025089264,loss=2.246201992034912>
+47.5787 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 133, metrics=<sparse_categorical_accuracy=0.17710000276565552,loss=2.2418289184570312>
+50.1638 seconds
+Tested. Sparse categorical accuracy: 6.00
+
+round 134, metrics=<sparse_categorical_accuracy=0.1745000034570694,loss=2.245899200439453>
+48.3239 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round 135, metrics=<sparse_categorical_accuracy=0.17585556209087372,loss=2.2424206733703613>
+47.4229 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 136, metrics=<sparse_categorical_accuracy=0.18068888783454895,loss=2.238663673400879>
+48.3757 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 137, metrics=<sparse_categorical_accuracy=0.17674444615840912,loss=2.244847297668457>
+47.3005 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 138, metrics=<sparse_categorical_accuracy=0.17666666209697723,loss=2.2463314533233643>
+47.9380 seconds
+Tested. Sparse categorical accuracy: 7.00
+
+round 139, metrics=<sparse_categorical_accuracy=0.1794888824224472,loss=2.2464370727539062>
+47.9473 seconds
+Tested. Sparse categorical accuracy: 6.00
+
+round 140, metrics=<sparse_categorical_accuracy=0.18141111731529236,loss=2.240135908126831>
+47.4819 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 141, metrics=<sparse_categorical_accuracy=0.1811888962984085,loss=2.2442855834960938>
+48.0674 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 142, metrics=<sparse_categorical_accuracy=0.1728888899087906,loss=2.2450990676879883>
+48.6319 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 143, metrics=<sparse_categorical_accuracy=0.17757777869701385,loss=2.240446090698242>
+47.4145 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 144, metrics=<sparse_categorical_accuracy=0.17576666176319122,loss=2.2438809871673584>
+48.2551 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 145, metrics=<sparse_categorical_accuracy=0.1745111048221588,loss=2.2476468086242676>
+48.1528 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 146, metrics=<sparse_categorical_accuracy=0.17687778174877167,loss=2.246692180633545>
+47.5507 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 147, metrics=<sparse_categorical_accuracy=0.17767778038978577,loss=2.2424349784851074>
+46.8955 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 148, metrics=<sparse_categorical_accuracy=0.17978888750076294,loss=2.2423136234283447>
+47.9256 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 149, metrics=<sparse_categorical_accuracy=0.17862221598625183,loss=2.2418107986450195>
+47.3740 seconds
+Tested. Sparse categorical accuracy: 16.00
+
+round 150, metrics=<sparse_categorical_accuracy=0.17525555193424225,loss=2.241079568862915>
+48.4348 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 151, metrics=<sparse_categorical_accuracy=0.17211110889911652,loss=2.2491073608398438>
+46.2832 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 152, metrics=<sparse_categorical_accuracy=0.17826665937900543,loss=2.2450811862945557>
+48.6120 seconds
+Tested. Sparse categorical accuracy: 16.00
+
+round 153, metrics=<sparse_categorical_accuracy=0.17567777633666992,loss=2.242454767227173>
+49.2390 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round 154, metrics=<sparse_categorical_accuracy=0.17657777667045593,loss=2.245770215988159>
+48.0058 seconds
+Tested. Sparse categorical accuracy: 14.00
+
+round 155, metrics=<sparse_categorical_accuracy=0.18071110546588898,loss=2.2415530681610107>
+47.2579 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 156, metrics=<sparse_categorical_accuracy=0.18476666510105133,loss=2.238980293273926>
+47.6323 seconds
+Tested. Sparse categorical accuracy: 7.00
+
+round 157, metrics=<sparse_categorical_accuracy=0.1817222237586975,loss=2.2444233894348145>
+49.2069 seconds
+Tested. Sparse categorical accuracy: 16.00
+
+round 158, metrics=<sparse_categorical_accuracy=0.17578889429569244,loss=2.2484872341156006>
+46.8288 seconds
+Tested. Sparse categorical accuracy: 7.00
+
+round 159, metrics=<sparse_categorical_accuracy=0.17910000681877136,loss=2.2455496788024902>
+46.9563 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round 160, metrics=<sparse_categorical_accuracy=0.17822222411632538,loss=2.240283250808716>
+47.8791 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 161, metrics=<sparse_categorical_accuracy=0.17188888788223267,loss=2.2458484172821045>
+47.7583 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 162, metrics=<sparse_categorical_accuracy=0.1801111102104187,loss=2.2430193424224854>
+47.1932 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 163, metrics=<sparse_categorical_accuracy=0.17773333191871643,loss=2.2398109436035156>
+48.0668 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 164, metrics=<sparse_categorical_accuracy=0.18019999563694,loss=2.2448129653930664>
+48.3844 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 165, metrics=<sparse_categorical_accuracy=0.1738000065088272,loss=2.2482595443725586>
+47.7444 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 166, metrics=<sparse_categorical_accuracy=0.178233340382576,loss=2.24631929397583>
+46.9332 seconds
+Tested. Sparse categorical accuracy: 15.00
+
+round 167, metrics=<sparse_categorical_accuracy=0.17678889632225037,loss=2.242161273956299>
+47.5010 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 168, metrics=<sparse_categorical_accuracy=0.17376667261123657,loss=2.2436695098876953>
+47.7067 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 169, metrics=<sparse_categorical_accuracy=0.1822444498538971,loss=2.2408254146575928>
+47.9008 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 170, metrics=<sparse_categorical_accuracy=0.18042221665382385,loss=2.241143226623535>
+47.8739 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 171, metrics=<sparse_categorical_accuracy=0.17371110618114471,loss=2.24894642829895>
+49.5292 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round 172, metrics=<sparse_categorical_accuracy=0.17837777733802795,loss=2.2457680702209473>
+46.8339 seconds
+Tested. Sparse categorical accuracy: 6.00
+
+round 173, metrics=<sparse_categorical_accuracy=0.18465556204319,loss=2.2408065795898438>
+47.2095 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 174, metrics=<sparse_categorical_accuracy=0.17474444210529327,loss=2.2461063861846924>
+47.4743 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 175, metrics=<sparse_categorical_accuracy=0.1791222244501114,loss=2.2427945137023926>
+47.3479 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 176, metrics=<sparse_categorical_accuracy=0.18401111662387848,loss=2.2374401092529297>
+47.8612 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 177, metrics=<sparse_categorical_accuracy=0.17633333802223206,loss=2.2446205615997314>
+46.6354 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 178, metrics=<sparse_categorical_accuracy=0.17277777194976807,loss=2.2473912239074707>
+46.4323 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 179, metrics=<sparse_categorical_accuracy=0.17862221598625183,loss=2.246020555496216>
+48.7200 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 180, metrics=<sparse_categorical_accuracy=0.18062222003936768,loss=2.241178035736084>
+48.2186 seconds
+Tested. Sparse categorical accuracy: 9.00
+
+round 181, metrics=<sparse_categorical_accuracy=0.17321111261844635,loss=2.2460103034973145>
+47.7184 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 182, metrics=<sparse_categorical_accuracy=0.17723333835601807,loss=2.244659423828125>
+46.8262 seconds
+Tested. Sparse categorical accuracy: 11.00
+
+round 183, metrics=<sparse_categorical_accuracy=0.17674444615840912,loss=2.2393741607666016>
+47.8639 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round 184, metrics=<sparse_categorical_accuracy=0.17810000479221344,loss=2.244323492050171>
+46.8070 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 185, metrics=<sparse_categorical_accuracy=0.17371110618114471,loss=2.2481396198272705>
+47.5217 seconds
+Tested. Sparse categorical accuracy: 15.00
+
+round 186, metrics=<sparse_categorical_accuracy=0.17252221703529358,loss=2.245389699935913>
+46.6411 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 187, metrics=<sparse_categorical_accuracy=0.1804555505514145,loss=2.2425265312194824>
+47.3183 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 188, metrics=<sparse_categorical_accuracy=0.1770777851343155,loss=2.242192268371582>
+48.7041 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round 189, metrics=<sparse_categorical_accuracy=0.18184444308280945,loss=2.2408881187438965>
+47.3623 seconds
+Tested. Sparse categorical accuracy: 4.00
+
+round 190, metrics=<sparse_categorical_accuracy=0.17766666412353516,loss=2.241889238357544>
+47.0904 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round 191, metrics=<sparse_categorical_accuracy=0.17105555534362793,loss=2.2488579750061035>
+47.4744 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 192, metrics=<sparse_categorical_accuracy=0.1762000024318695,loss=2.2452950477600098>
+48.2336 seconds
+Tested. Sparse categorical accuracy: 12.00
+
+round 193, metrics=<sparse_categorical_accuracy=0.1806333363056183,loss=2.241840362548828>
+46.6542 seconds
+Tested. Sparse categorical accuracy: 15.00
+
+round 194, metrics=<sparse_categorical_accuracy=0.17465555667877197,loss=2.2464187145233154>
+46.7221 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+round 195, metrics=<sparse_categorical_accuracy=0.1764666736125946,loss=2.2422327995300293>
+47.2543 seconds
+Tested. Sparse categorical accuracy: 5.00
+
+round 196, metrics=<sparse_categorical_accuracy=0.18195556104183197,loss=2.238166093826294>
+46.9507 seconds
+Tested. Sparse categorical accuracy: 6.00
+
+round 197, metrics=<sparse_categorical_accuracy=0.17366667091846466,loss=2.2461533546447754>
+46.1368 seconds
+Tested. Sparse categorical accuracy: 17.00
+
+round 198, metrics=<sparse_categorical_accuracy=0.1762888878583908,loss=2.24645733833313>
+47.3589 seconds
+Tested. Sparse categorical accuracy: 6.00
+
+round 199, metrics=<sparse_categorical_accuracy=0.17794445157051086,loss=2.247150182723999>
+47.4960 seconds
+Tested. Sparse categorical accuracy: 13.00
+
+round 200, metrics=<sparse_categorical_accuracy=0.17952221632003784,loss=2.2402093410491943>
+47.4742 seconds
+Tested. Sparse categorical accuracy: 8.00
+
+Target accuracy reached after  200  rounds
+Average time per round: 47.00
+
+2020-05-03 20:02:50.606797
