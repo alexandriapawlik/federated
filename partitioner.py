@@ -24,7 +24,7 @@ class Partitioner:
 		self.MAX_FANOUT = 1
 		self.NUM_EPOCHS = 1
 		self.BATCH_SIZE = 1
-		self.SHUFFLE_BUFFER = 0
+		self.SHUFFLE_SEED = 0
 		self.LR = 0.1
 		self.TARGET = 50
 		self.TEST_PERIOD = 1
@@ -62,7 +62,7 @@ class Partitioner:
 			self.MAX_FANOUT = math.ceil(options['system']['MAX_THREADS'])  # controlls multi-threading
 			self.NUM_EPOCHS = math.ceil(options['model']['NUM_LOCAL_EPOCHS'])  # for client model
 			self.BATCH_SIZE = math.ceil(options['model']['LOCAL_BATCH_SIZE'])  # for client model
-			self.SHUFFLE_BUFFER = math.ceil(options['model']['SHUFFLE_BUFFER'])
+			self.SHUFFLE_SEED = math.ceil(options['model']['SHUFFLE_SEED'])
 			self.LR = options['model']['LEARNING_RATE']  # SGD learning rate
 			self.TARGET = options['model']['TARGET_ACCURACY'] # target accuracy for model when tested with test set
 			self.TEST_PERIOD = options['model']['ROUNDS_BETWEEN_TESTS'] # number of rounds between testset evaluation
@@ -97,16 +97,16 @@ class Partitioner:
 
 			# construct value array
 			# learning rate chosen/iterates first, batch size second, ...
-			shuffle_buffer = [100, 200, 300, 400, 500, 600, 700, 800]
-			percent_data_iid = [0, 20, 40, 60, 80, 100]  # schema 1
+			shuffle_seed = list(range(30))
+			percent_data_iid = [20, 40, 60, 80, 100]  # schema 1
 			percent_clients_iid = [50]  # schema 2
-			cohort_size = [2, 5, 10, 15, 20, 25, 30] 
+			cohort_size = [2, 5, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 35, 40] 
 			num_epochs = [10]  # leave at 10
 			batch_size = [10]
 			learning_rate = [0.1]
 
 			# convert test number to array indices and set constants to array values
-			self.SHUFFLE_BUFFER = shuffle_buffer[n // (len(percent_data_iid) * len(percent_clients_iid) * len(cohort_size) * len(num_epochs) * len(batch_size) * len(learning_rate))]
+			self.SHUFFLE_SEED = shuffle_seed[n // (len(percent_data_iid) * len(percent_clients_iid) * len(cohort_size) * len(num_epochs) * len(batch_size) * len(learning_rate))]
 			n = n % (len(percent_data_iid) * len(percent_clients_iid) * len(cohort_size) * len(num_epochs) * len(batch_size) * len(learning_rate))
 			self.PERCENT_DATA_IID = percent_data_iid[n // (len(percent_clients_iid) * len(cohort_size) * len(num_epochs) * len(batch_size) * len(learning_rate))]
 			n = n % (len(percent_clients_iid) * len(cohort_size) * len(num_epochs) * len(batch_size) * len(learning_rate))
@@ -132,11 +132,11 @@ class Partitioner:
 		filename = 'results/' + str(batch) + '/' + str(batch) + '.' + str(test) + '.config.csv'
 		with open(filename, 'w', newline='') as csvfile:
 			writer = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-			writer.writerow(['COHORT_SIZE', 'NUM_LOCAL_EPOCHS', 'LOCAL_BATCH_SIZE', 'SHUFFLE_BUFFER', 
+			writer.writerow(['COHORT_SIZE', 'NUM_LOCAL_EPOCHS', 'LOCAL_BATCH_SIZE', 'SHUFFLE_SEED', 
 				'LEARNING_RATE', 'TARGET_ACCURACY', 'ROUNDS_BETWEEN_TESTS', 'NUM_CLIENTS', 'NUM_CLASSES_PER', 
 				'MEAN_NUM_DATA_PTS_PER_CLIENT', 'STD_DEV_NUM_DATA_PTS_PER_CLIENT', 'PERCENT_DATA_IID', 
 				'PERCENT_CLIENTS_IID','MAX_THREADS'])
-			writer.writerow([self.COHORT_SIZE, self.NUM_EPOCHS, self.BATCH_SIZE, self.SHUFFLE_BUFFER,
+			writer.writerow([self.COHORT_SIZE, self.NUM_EPOCHS, self.BATCH_SIZE, self.SHUFFLE_SEED,
 				self.LR, self.TARGET, self.TEST_PERIOD, self.CLIENTS, self.SHARDS,
 				self.NUMDATAPTS_MEAN, self.NUMDATAPTS_STDEV, self.PERCENT_DATA_IID,
 				self.PERCENT_CLIENTS_IID, self.MAX_FANOUT])
@@ -155,7 +155,7 @@ class Partitioner:
 
 		# create sample batch for Keras model wrapper
 		# note: sample batch is different data type than dataset used in iterative process
-		self.sample_batch = tf.nest.map_structure(lambda x: x.numpy(), iter(dataset.repeat(self.NUM_EPOCHS).batch(self.BATCH_SIZE).shuffle(self.SHUFFLE_BUFFER)).next())
+		self.sample_batch = tf.nest.map_structure(lambda x: x.numpy(), iter(dataset.repeat(self.NUM_EPOCHS).batch(self.BATCH_SIZE).shuffle(60000, seed = self.SHUFFLE_SEED, reshuffle_each_iteration=True)).next())
 
 		return (x_train, y_train)
 
@@ -180,7 +180,7 @@ class Partitioner:
 
 		# preprocess test dataset
 		testset = tf.data.Dataset.from_tensor_slices((x_test, y_test))
-		processed_testset = testset.batch(self.BATCH_SIZE).shuffle(self.SHUFFLE_BUFFER)
+		processed_testset = testset.batch(self.BATCH_SIZE).shuffle(60000, seed = self.SHUFFLE_SEED, reshuffle_each_iteration=True)
 		model = self.create_compiled_keras_model()
 
 		# print(model.count_params())

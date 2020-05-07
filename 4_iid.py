@@ -48,7 +48,7 @@ class Partitioner4(partitioner.Partitioner):
 			# slice data for single client
 			dataset = tf.data.Dataset.from_tensor_slices((x_train[x_indices], y_train[y_indices])) 
 			# add to list of client datasets
-			self.dataset_list.append(dataset.repeat(self.NUM_EPOCHS).batch(self.BATCH_SIZE).shuffle(self.SHUFFLE_BUFFER))  
+			self.dataset_list.append(dataset.repeat(self.NUM_EPOCHS).batch(self.BATCH_SIZE).shuffle(60000, seed = self.SHUFFLE_SEED, reshuffle_each_iteration=True))  
 
 		# train
 		self.build_model()
