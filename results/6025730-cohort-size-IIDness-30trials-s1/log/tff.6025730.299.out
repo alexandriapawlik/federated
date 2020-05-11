@@ -1,0 +1,62 @@
+
+TENSORFLOW USERS:
+You must use the python3.6-anaconda/5.2.0 module to run TensorFlow.
+See https://arc-ts.umich.edu/greatlakes/software/tensorflow for more
+information.
+
+
+
+The following have been reloaded with a version change:
+  1) cuda/10.0.130 => cuda/10.1.105
+
+
+Currently Loaded Modules:
+  1) python3.7-anaconda/2019.07   2) cudnn/10.0-v7.6   3) cuda/10.1.105
+
+ 
+
+mkdir: cannot create directory ‘results/6025730’: File exists
+mkdir: cannot create directory ‘results/6025730/log’: File exists
+Test  299
+2020-05-08 05:15:30.312896
+
+
+Schema 1: Each client partially IID
+--------------------------------------------------
+percent data distributed IID:  100
+number of classes for non-IID data:  2
+data points per client (mean, std dev): ( 600 ,  0 )
+--------------------------------------------------
+
+round  1, metrics=<sparse_categorical_accuracy=0.8562619090080261,loss=0.42850685119628906>
+131.4946 seconds
+Tested. Sparse categorical accuracy: 92.00
+
+round  2, metrics=<sparse_categorical_accuracy=0.9847095012664795,loss=0.05305928736925125>
+129.1619 seconds
+Tested. Sparse categorical accuracy: 96.00
+
+round  3, metrics=<sparse_categorical_accuracy=0.9893618822097778,loss=0.039561640471220016>
+130.5468 seconds
+Tested. Sparse categorical accuracy: 96.00
+
+round  4, metrics=<sparse_categorical_accuracy=0.9921143054962158,loss=0.028275946155190468>
+129.1234 seconds
+Tested. Sparse categorical accuracy: 98.00
+
+round  5, metrics=<sparse_categorical_accuracy=0.9936857223510742,loss=0.023254817351698875>
+129.4436 seconds
+Tested. Sparse categorical accuracy: 95.00
+
+round  6, metrics=<sparse_categorical_accuracy=0.9941619038581848,loss=0.021097110584378242>
+129.3312 seconds
+Tested. Sparse categorical accuracy: 97.00
+
+round  7, metrics=<sparse_categorical_accuracy=0.9952809810638428,loss=0.01783883385360241>
+128.8564 seconds
+Tested. Sparse categorical accuracy: 99.00
+
+Target accuracy reached after  7  rounds
+Average time per round: 129.00
+
+2020-05-08 05:30:47.984661

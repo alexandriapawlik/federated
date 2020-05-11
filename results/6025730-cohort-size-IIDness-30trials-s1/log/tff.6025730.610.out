@@ -1,0 +1,58 @@
+
+TENSORFLOW USERS:
+You must use the python3.6-anaconda/5.2.0 module to run TensorFlow.
+See https://arc-ts.umich.edu/greatlakes/software/tensorflow for more
+information.
+
+
+
+The following have been reloaded with a version change:
+  1) cuda/10.0.130 => cuda/10.1.105
+
+
+Currently Loaded Modules:
+  1) python3.7-anaconda/2019.07   2) cudnn/10.0-v7.6   3) cuda/10.1.105
+
+ 
+
+mkdir: cannot create directory ‘results/6025730’: File exists
+mkdir: cannot create directory ‘results/6025730/log’: File exists
+Test  610
+2020-05-08 22:53:24.808446
+
+
+Schema 1: Each client partially IID
+--------------------------------------------------
+percent data distributed IID:  20
+number of classes for non-IID data:  2
+data points per client (mean, std dev): ( 600 ,  0 )
+--------------------------------------------------
+
+round  1, metrics=<sparse_categorical_accuracy=0.8620347380638123,loss=0.4592757821083069>
+94.1360 seconds
+Tested. Sparse categorical accuracy: 63.00
+
+round  2, metrics=<sparse_categorical_accuracy=0.9567916393280029,loss=0.1536734402179718>
+93.2289 seconds
+Tested. Sparse categorical accuracy: 91.00
+
+round  3, metrics=<sparse_categorical_accuracy=0.9878402948379517,loss=0.044659364968538284>
+92.2558 seconds
+Tested. Sparse categorical accuracy: 93.00
+
+round  4, metrics=<sparse_categorical_accuracy=0.9883333444595337,loss=0.04305652901530266>
+92.8729 seconds
+Tested. Sparse categorical accuracy: 92.00
+
+round  5, metrics=<sparse_categorical_accuracy=0.9946388602256775,loss=0.020132800564169884>
+95.0370 seconds
+Tested. Sparse categorical accuracy: 95.00
+
+round  6, metrics=<sparse_categorical_accuracy=0.9942847490310669,loss=0.022795014083385468>
+92.5793 seconds
+Tested. Sparse categorical accuracy: 100.00
+
+Target accuracy reached after  6  rounds
+Average time per round: 93.00
+
+2020-05-08 23:02:56.051899

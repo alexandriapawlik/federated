@@ -1,0 +1,66 @@
+
+TENSORFLOW USERS:
+You must use the python3.6-anaconda/5.2.0 module to run TensorFlow.
+See https://arc-ts.umich.edu/greatlakes/software/tensorflow for more
+information.
+
+
+
+The following have been reloaded with a version change:
+  1) cuda/10.0.130 => cuda/10.1.105
+
+
+Currently Loaded Modules:
+  1) python3.7-anaconda/2019.07   2) cudnn/10.0-v7.6   3) cuda/10.1.105
+
+ 
+
+mkdir: cannot create directory ‘results/6025730’: File exists
+mkdir: cannot create directory ‘results/6025730/log’: File exists
+Test  317
+2020-05-08 06:16:14.802589
+
+
+Schema 1: Each client partially IID
+--------------------------------------------------
+percent data distributed IID:  40
+number of classes for non-IID data:  2
+data points per client (mean, std dev): ( 600 ,  0 )
+--------------------------------------------------
+
+round  1, metrics=<sparse_categorical_accuracy=0.7898666858673096,loss=0.6581396460533142>
+21.1783 seconds
+Tested. Sparse categorical accuracy: 78.00
+
+round  2, metrics=<sparse_categorical_accuracy=0.9726333618164062,loss=0.09601224958896637>
+21.1319 seconds
+Tested. Sparse categorical accuracy: 90.00
+
+round  3, metrics=<sparse_categorical_accuracy=0.9714000225067139,loss=0.11229108273983002>
+20.9428 seconds
+Tested. Sparse categorical accuracy: 93.00
+
+round  4, metrics=<sparse_categorical_accuracy=0.9904666543006897,loss=0.03143836557865143>
+20.4000 seconds
+Tested. Sparse categorical accuracy: 96.00
+
+round  5, metrics=<sparse_categorical_accuracy=0.9895333051681519,loss=0.04040619358420372>
+20.7895 seconds
+Tested. Sparse categorical accuracy: 97.00
+
+round  6, metrics=<sparse_categorical_accuracy=0.9950666427612305,loss=0.018551774322986603>
+20.4784 seconds
+Tested. Sparse categorical accuracy: 97.00
+
+round  7, metrics=<sparse_categorical_accuracy=0.9952666759490967,loss=0.019433120265603065>
+20.0931 seconds
+Tested. Sparse categorical accuracy: 97.00
+
+round  8, metrics=<sparse_categorical_accuracy=0.9965999722480774,loss=0.012800151482224464>
+20.5385 seconds
+Tested. Sparse categorical accuracy: 99.00
+
+Target accuracy reached after  8  rounds
+Average time per round: 20.00
+
+2020-05-08 06:19:11.287449

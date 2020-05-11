@@ -1,0 +1,62 @@
+
+TENSORFLOW USERS:
+You must use the python3.6-anaconda/5.2.0 module to run TensorFlow.
+See https://arc-ts.umich.edu/greatlakes/software/tensorflow for more
+information.
+
+
+
+The following have been reloaded with a version change:
+  1) cuda/10.0.130 => cuda/10.1.105
+
+
+Currently Loaded Modules:
+  1) python3.7-anaconda/2019.07   2) cudnn/10.0-v7.6   3) cuda/10.1.105
+
+ 
+
+mkdir: cannot create directory ‘results/6025730’: File exists
+mkdir: cannot create directory ‘results/6025730/log’: File exists
+Test  237
+2020-05-08 01:47:53.125666
+
+
+Schema 1: Each client partially IID
+--------------------------------------------------
+percent data distributed IID:  20
+number of classes for non-IID data:  2
+data points per client (mean, std dev): ( 600 ,  0 )
+--------------------------------------------------
+
+round  1, metrics=<sparse_categorical_accuracy=0.819648802280426,loss=0.584181010723114>
+126.6146 seconds
+Tested. Sparse categorical accuracy: 40.00
+
+round  2, metrics=<sparse_categorical_accuracy=0.951244056224823,loss=0.1792161762714386>
+124.9512 seconds
+Tested. Sparse categorical accuracy: 93.00
+
+round  3, metrics=<sparse_categorical_accuracy=0.9859821200370789,loss=0.051634758710861206>
+125.0227 seconds
+Tested. Sparse categorical accuracy: 97.00
+
+round  4, metrics=<sparse_categorical_accuracy=0.9858928322792053,loss=0.055007729679346085>
+124.6087 seconds
+Tested. Sparse categorical accuracy: 96.00
+
+round  5, metrics=<sparse_categorical_accuracy=0.9929285645484924,loss=0.027193957939743996>
+123.4663 seconds
+Tested. Sparse categorical accuracy: 92.00
+
+round  6, metrics=<sparse_categorical_accuracy=0.9917559623718262,loss=0.030390633270144463>
+125.1157 seconds
+Tested. Sparse categorical accuracy: 95.00
+
+round  7, metrics=<sparse_categorical_accuracy=0.995160698890686,loss=0.018697552382946014>
+124.5602 seconds
+Tested. Sparse categorical accuracy: 99.00
+
+Target accuracy reached after  7  rounds
+Average time per round: 124.00
+
+2020-05-08 02:02:39.180483
