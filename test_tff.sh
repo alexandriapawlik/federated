@@ -2,8 +2,8 @@
 
 #SBATCH --job-name=tff_partition
 #SBATCH --nodes=1
-#SBATCH --cpus-per-task=6
-#SBATCH --mem-per-cpu=8g
+#SBATCH --cpus-per-task=5
+#SBATCH --mem-per-cpu=4g
 #SBATCH --time=48:00:00
 #SBATCH --account=tewaria1
 #SBATCH --partition=standard
@@ -11,7 +11,7 @@
 #SBATCH --mail-type=END
 #SBATCH --output=results/tff.%A.%a.out
 
-#SBATCH --array=1-2250
+#SBATCH --array=1-8
 
 module load python3.7-anaconda
 module load cudnn/10.0-v7.6

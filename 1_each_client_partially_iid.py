@@ -50,7 +50,7 @@ class Partitioner1(partitioner.Partitioner):
 				this_label_y = np.array(sorted_data_y[i], np.float64)
 
 				# shuffle data within label
-				indices = np.random.permutation(len(this_label_x))
+				indices = self.RNG1.permutation(len(this_label_x))
 
 				# take IID portion
 				iid_indices = indices[:num_iid_pts] # indices slice
@@ -91,7 +91,7 @@ class Partitioner1(partitioner.Partitioner):
 			client_sample_x = []
 			client_sample_y = []
 			if self.PERCENT_DATA_IID > 0:
-				iid_indices = np.random.permutation(iid_data_x.shape[0])
+				iid_indices = self.RNG1.permutation(iid_data_x.shape[0])
 				iid_indices_slice = iid_indices[:num_iid]
 				client_sample_x = iid_data_x[iid_indices_slice]
 				client_sample_y = iid_data_y[iid_indices_slice]
@@ -102,7 +102,7 @@ class Partitioner1(partitioner.Partitioner):
 					multi_iid[int(iid_indices[i])] = multi_iid[int(iid_indices[i])] + 1
 					
 			# select labels for non_IID
-			label_indices = np.random.permutation(10)
+			label_indices = self.RNG1.permutation(10)
 			chosen_labels = label_indices[:self.SHARDS]
 			
 			# add data from each label
@@ -113,7 +113,7 @@ class Partitioner1(partitioner.Partitioner):
 				label = chosen_labels[i]
 				label_data_x = np.array(sorted_x[label], np.float64)
 				label_data_y = np.array(sorted_y[label], np.float64)
-				indices = np.random.permutation(label_data_x.shape[0])
+				indices = self.RNG1.permutation(label_data_x.shape[0])
 				indices_slice = []
 				if i == len(chosen_labels) - 1:  # pull remainder data from last label
 					indices_slice = indices[:extra]
@@ -146,7 +146,7 @@ class Partitioner1(partitioner.Partitioner):
 			# assign slices to single client
 			dataset = tf.data.Dataset.from_tensor_slices((client_sample_x, client_sample_y))
 			# add to list of client datasets
-			self.dataset_list.append(dataset.repeat(self.NUM_EPOCHS).batch(self.BATCH_SIZE).shuffle(60000, seed = self.SHUFFLE_SEED, reshuffle_each_iteration=True))
+			self.dataset_list.append(dataset.repeat(self.NUM_EPOCHS).batch(self.BATCH_SIZE).shuffle(1000, seed = self.SHUFFLE_SEED * 987654321, reshuffle_each_iteration=True))
 
 		# train
 		self.build_model()

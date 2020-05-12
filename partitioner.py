@@ -19,7 +19,7 @@ class Partitioner:
 	# call member functions in order, partitioning data before build_model()
 
 	def __init__(self):
-		self.ROUND_LIMIT = 250
+		self.ROUND_LIMIT = 50
 		self.COHORT_SIZE = 1
 		self.MAX_FANOUT = 1
 		self.NUM_EPOCHS = 1
@@ -53,6 +53,10 @@ class Partitioner:
 		# time the entire script
 		self.TIC = time.perf_counter()
 
+		# random number generators
+		self.RNG1 = np.random.default_rng()
+		self.RNG2 = np.random.default_rng()
+
 	# parse config file
 	def prep(self):
 		# hyperparameters
@@ -82,7 +86,6 @@ class Partitioner:
 		# prep environment
 		warnings.simplefilter('ignore')
 		tf.compat.v1.enable_v2_behavior()
-		np.random.seed()
 		if self.MAX_FANOUT < 1:  # standard multi-threading
 			tff.framework.set_default_executor(tff.framework.create_local_executor())
 		elif self.MAX_FANOUT == 1:  # single thread
@@ -97,11 +100,11 @@ class Partitioner:
 
 			# construct value array
 			# learning rate chosen/iterates first, batch size second, ...
-			shuffle_seed = list(range(30))
-			percent_data_iid = [20, 40, 60, 80, 100]  # schema 1
+			shuffle_seed = [0, 0, 1, 1]
+			percent_data_iid = [20]  # schema 1
 			percent_clients_iid = [50]  # schema 2
-			cohort_size = [2, 5, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 35, 40] 
-			num_epochs = [10]  # leave at 10
+			cohort_size = [2, 5] 
+			num_epochs = [5] 
 			batch_size = [10]
 			learning_rate = [0.1]
 
@@ -126,6 +129,12 @@ class Partitioner:
 			# set learning rate based on percent data IID
 			# if self.PERCENT_DATA_IID < 30:
 			# 	self.LR = 0.1
+
+			# set numpy shuffle seed for random generator objects
+			# multiply seed to be large enough to be effective
+			self.RNG1 = np.random.default_rng(self.SHUFFLE_SEED * 123456789) # partitioning data into clients (files 1-4)
+			self.RNG2 = np.random.default_rng(self.SHUFFLE_SEED * 987654321) # selection of clients
+
 
 	# output configuation data to csv file
 	def make_config_csv(self, test, batch):
@@ -155,7 +164,7 @@ class Partitioner:
 
 		# create sample batch for Keras model wrapper
 		# note: sample batch is different data type than dataset used in iterative process
-		self.sample_batch = tf.nest.map_structure(lambda x: x.numpy(), iter(dataset.repeat(self.NUM_EPOCHS).batch(self.BATCH_SIZE).shuffle(60000, seed = self.SHUFFLE_SEED, reshuffle_each_iteration=True)).next())
+		self.sample_batch = tf.nest.map_structure(lambda x: x.numpy(), iter(dataset.repeat(self.NUM_EPOCHS).batch(self.BATCH_SIZE).shuffle(60000, seed = self.SHUFFLE_SEED * 123456789, reshuffle_each_iteration=True)).next())
 
 		return (x_train, y_train)
 
@@ -180,15 +189,11 @@ class Partitioner:
 
 		# preprocess test dataset
 		testset = tf.data.Dataset.from_tensor_slices((x_test, y_test))
-		processed_testset = testset.batch(self.BATCH_SIZE).shuffle(60000, seed = self.SHUFFLE_SEED, reshuffle_each_iteration=True)
+		processed_testset = testset.batch(self.BATCH_SIZE).shuffle(10000, seed = self.SHUFFLE_SEED * 123456789, reshuffle_each_iteration=True)
 		model = self.create_compiled_keras_model()
 
 		# print(model.count_params())
 		# print(model.summary())
-
-		# shuffle client ids for "random sampling" of clients
-		client_list = list(range(len(self.dataset_list)))
-		random.shuffle(client_list)
 
 		# construct the server state
 		state = self.iterative_process.initialize()
@@ -216,14 +221,12 @@ class Partitioner:
 				tic = time.perf_counter()
 				start_time = datetime.now()
 
+				# shuffle client ids for "random sampling" of clients
+				self.RNG2 = np.random.default_rng(self.SHUFFLE_SEED * 987654321 + round_num) # seed changes with round
+				client_list = self.RNG2.permutation(len(self.dataset_list))
+
 				# pull client groups in order from shuffled client ids ("random sampling")
-				start = ((round_num - 1) * self.COHORT_SIZE) % len(client_list)
-				end = (round_num * self.COHORT_SIZE) % len(client_list)
-				if end > start:
-					sample_clients = client_list[start:end]
-				else:  # loop around or entire list
-					sample_clients = client_list[start:len(client_list)]
-					sample_clients.extend(client_list[0:end])
+				sample_clients = client_list[:self.COHORT_SIZE]
 
 				# make dataset for current client group
 				federated_train_data = make_federated_data(self.dataset_list, sample_clients)
