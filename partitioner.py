@@ -100,10 +100,10 @@ class Partitioner:
 
 			# construct value array
 			# learning rate chosen/iterates first, batch size second, ...
-			shuffle_seed = [0, 0, 1, 1]
-			percent_data_iid = [20]  # schema 1
+			shuffle_seed = [1, 2, 3, 4, 5]
+			percent_data_iid = [20, 40, 60, 80]  # schema 1
 			percent_clients_iid = [50]  # schema 2
-			cohort_size = [2, 5] 
+			cohort_size = [2, 5, 10, 20, 40] 
 			num_epochs = [5] 
 			batch_size = [10]
 			learning_rate = [0.1]

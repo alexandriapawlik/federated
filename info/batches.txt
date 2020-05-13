@@ -19,3 +19,6 @@ batch #		# tests		code				description & schema #
 5699753		8					completed		varying cohort size and % IID data, s1, learning rate 0.1 for 0 and 20% IID 
 5814359		24				completed		decreasing LR with decreasing IIDness
 5842441		360				completed		varying cohort size and % IID data, s1, 10 different shuffle buffers (36 tests per)
+5944196		336				cancelled		varying cohort size and % IID data, all LR 0.1, s1, 8 different shuffle buffers (42 tests per)
+6025730		2250			cancelled		varying cohort size and % IID data, all LR 0.1, s1, 30 different seeds (75 tests per)
+6140178		8											2 trials per 2 seeds, 2 cohort sizes each, testing for similar results between trials 1&2, 3&4
