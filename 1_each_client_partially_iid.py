@@ -1,5 +1,6 @@
 import partitioner
 
+import sys
 import warnings
 import collections
 import numpy as np
@@ -71,12 +72,12 @@ class Partitioner1(partitioner.Partitioner):
 			iid_data_x = np.concatenate(np.array(iid_data_x_temp))
 			iid_data_y = np.concatenate(np.array(iid_data_y_temp))
 
-		# duplicate counting setup
-			multi_iid = np.zeros(iid_data_x.shape[0], int) # count duplicates in IID
+		#### duplicate counting setup
+			multi_iid = np.zeros(iid_data_x.shape[0], int) # count duplicates in IID, INDENT IS OK
 		multi_labels = [] # count duplicates in non IID
 		if self.PERCENT_DATA_IID > 0:
 			for i in range(self.LABELS):
-				multi_labels.append(np.zeros(sorted_x[i].shape, int))
+				multi_labels.append(np.zeros(sorted_x[i].shape[0], int))
 		multi_labels = np.asarray(multi_labels)
 		num_data_per_client = []
 
@@ -96,10 +97,10 @@ class Partitioner1(partitioner.Partitioner):
 				client_sample_x = iid_data_x[iid_indices_slice]
 				client_sample_y = iid_data_y[iid_indices_slice]
 
-			# count multiplicities
+			# count multiplicities for IID
 			if self.PERCENT_DATA_IID > 0:
 				for i in range(num_iid):
-					multi_iid[int(iid_indices[i])] = multi_iid[int(iid_indices[i])] + 1
+					multi_iid[int(iid_indices[i])] += 1
 					
 			# select labels for non_IID
 			label_indices = self.RNG1.permutation(10)
@@ -110,7 +111,7 @@ class Partitioner1(partitioner.Partitioner):
 			extra = (num_non_iid % self.SHARDS) + data_per_label
 			for i in range(self.SHARDS):
 				# add non-IID data from this label to current client
-				label = chosen_labels[i]
+				label = int(chosen_labels[i])
 				label_data_x = np.array(sorted_x[label], np.float64)
 				label_data_y = np.array(sorted_y[label], np.float64)
 				indices = self.RNG1.permutation(label_data_x.shape[0])
@@ -127,18 +128,16 @@ class Partitioner1(partitioner.Partitioner):
 					client_sample_x = label_data_x[indices_slice]
 					client_sample_y = label_data_y[indices_slice]
 
-				# count multiplicities
+				# count multiplicities of nonIID
 				if self.PERCENT_DATA_IID > 0:
 					for i in range(len(indices_slice)):
-						multi_labels[label][int(indices_slice[i])] = multi_labels[label][int(indices_slice[i])] + 1
+						multi_labels[label][int(indices_slice[i])] += 1
 					
 				# check data
 				if np.average(client_sample_y) > 9 or np.average(client_sample_y) < 0:
 					print("Error: At least one label out of range")
 					print(np.average(client_sample_y), label)
 					print()
-
-				# TODO: print data multiplicities
 
 			# track number of data points per client
 			num_data_per_client.append(len(client_sample_x))
@@ -165,9 +164,30 @@ class Partitioner1(partitioner.Partitioner):
 		# print("learning rate: ", self.LR)
 		# print("target accuracy: ",self.TARGET,"%")
 		print("--------------------------------------------------")
-		# print("number of data points per client:")
-		# print(num_data_per_client)
-		# print("--------------------------------------------------")
+		print("number of data points per client:")
+		print(num_data_per_client)
+		print("average: " + str(sum(num_data_per_client)/len(num_data_per_client)))
 		print()
 
+		print("IID data multiplicities:")
+		print(multi_iid)
+		print("average: " + str(sum(multi_iid)/len(multi_iid)))
+		print("maximum: " + str(max(multi_iid)))
+		print()
+
+		print("Labeled data multiplicities:")
+		averages = []
+		for i in range(len(multi_labels)):
+			print("label " + str(i) + ": ") 
+			print(multi_labels[i])
+			averages.append(sum(multi_labels[i])/len(multi_labels[i]))
+			print("average: " + str(averages[-1]))
+			print("maximum: " + str(max(multi_labels[i])))
+			print()
+
+		print("overall nonIID average: " + str(sum(averages)/len(averages)))
+		print("--------------------------------------------------")
+		print()
+
+		sys.exit()
 		self.train(num, batch, 1)

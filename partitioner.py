@@ -130,10 +130,10 @@ class Partitioner:
 			# if self.PERCENT_DATA_IID < 30:
 			# 	self.LR = 0.1
 
-			# set numpy shuffle seed for random generator objects
-			# multiply seed to be large enough to be effective
-			self.RNG1 = np.random.default_rng(self.SHUFFLE_SEED * 123456789) # partitioning data into clients (files 1-4)
-			self.RNG2 = np.random.default_rng(self.SHUFFLE_SEED * 987654321) # selection of clients
+		# set numpy shuffle seed for random generator objects
+		# multiply seed to be large enough to be effective
+		self.RNG1 = np.random.default_rng(self.SHUFFLE_SEED * 123456789) # partitioning data into clients (files 1-4)
+		self.RNG2 = np.random.default_rng(self.SHUFFLE_SEED * 987654321) # selection of clients
 
 
 	# output configuation data to csv file
