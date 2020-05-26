@@ -77,7 +77,7 @@ plt.scatter(x, noniid_av, label='Non-IID data average multiplicity')
 # plt.plot(xfit, yfit, label='Non-IID data average multiplicity')
 
 plt.title('Average Counts for IID and Non-IID Portions of Client Data')
-plt.xlabel('IIDness of Data')
+plt.xlabel('Percent Data IID')
 plt.ylabel('Datapoint Count')
 plt.legend()
 
@@ -93,7 +93,7 @@ plt.scatter(x, noniid_std)
 # plt.plot(xfit, yfit)
 
 plt.title('Standard Deviation of Average Counts for Each of 10 Lables')
-plt.xlabel('IIDness of Data')
+plt.xlabel('Percent Data IID')
 # plt.ylabel('Datapoint Count')
 
 plt.suptitle('Counting Data Multiplicities for Partially IID Partitioning of MNIST Data to 100 Clients', size=20)

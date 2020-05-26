@@ -1,10 +1,10 @@
 {
 	"model": {
 		"COHORT_SIZE": 5,
-		"NUM_LOCAL_EPOCHS": 5,
-		"LOCAL_BATCH_SIZE": 10,
-		"SHUFFLE_SEED": 25,
-		"LEARNING_RATE": 0.215,
+		"NUM_LOCAL_EPOCHS": 1,
+		"LOCAL_BATCH_SIZE": 50,
+		"SHUFFLE_SEED": 5,
+		"LEARNING_RATE": 0.1,
 		"TARGET_ACCURACY": 99,
 		"ROUNDS_BETWEEN_TESTS": 1
 	},
@@ -15,7 +15,7 @@
 		"STD_DEV_NUM_DATA_PTS_PER_CLIENT": 0
 	},
 	"each_client_partially_iid": {
-		"PERCENT_DATA_IID": 90
+		"PERCENT_DATA_IID": 80
 	},
 	"some_clients_iid": {
 		"PERCENT_CLIENTS_IID": 20

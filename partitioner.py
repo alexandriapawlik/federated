@@ -1,3 +1,4 @@
+import sys
 import warnings
 import collections
 import numpy as np
@@ -20,6 +21,7 @@ class Partitioner:
 
 	def __init__(self):
 		self.ROUND_LIMIT = 50
+		self.SHUFFLE_BUFFER = 1000
 		self.COHORT_SIZE = 1
 		self.MAX_FANOUT = 1
 		self.NUM_EPOCHS = 1
@@ -100,12 +102,12 @@ class Partitioner:
 
 			# construct value array
 			# learning rate chosen/iterates first, batch size second, ...
-			shuffle_seed = [1, 2, 3, 4, 5]
-			percent_data_iid = [20, 40, 60, 80]  # schema 1
+			shuffle_seed = [1, 5, 10]
+			percent_data_iid = [80]  # schema 1
 			percent_clients_iid = [50]  # schema 2
-			cohort_size = [2, 5, 10, 20, 40] 
-			num_epochs = [5] 
-			batch_size = [10]
+			cohort_size = [5, 10, 15, 20, 30] 
+			num_epochs = [1] 
+			batch_size = [50]
 			learning_rate = [0.1]
 
 			# convert test number to array indices and set constants to array values
@@ -135,7 +137,6 @@ class Partitioner:
 		self.RNG1 = np.random.default_rng(self.SHUFFLE_SEED * 123456789) # partitioning data into clients (files 1-4)
 		self.RNG2 = np.random.default_rng(self.SHUFFLE_SEED * 987654321) # selection of clients
 
-
 	# output configuation data to csv file
 	def make_config_csv(self, test, batch):
 		filename = 'results/' + str(batch) + '/' + str(batch) + '.' + str(test) + '.config.csv'
@@ -162,7 +163,7 @@ class Partitioner:
 		# do preprocessing here
 		dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train))
 
-		# create sample batch for Keras model wrapper
+		# create sample batch (all data) for Keras model wrapper
 		# note: sample batch is different data type than dataset used in iterative process
 		self.sample_batch = tf.nest.map_structure(lambda x: x.numpy(), iter(dataset.repeat(self.NUM_EPOCHS).batch(self.BATCH_SIZE).shuffle(60000, seed = self.SHUFFLE_SEED * 123456789, reshuffle_each_iteration=True)).next())
 
@@ -225,8 +226,17 @@ class Partitioner:
 				self.RNG2 = np.random.default_rng(self.SHUFFLE_SEED * 987654321 + round_num) # seed changes with round
 				client_list = self.RNG2.permutation(len(self.dataset_list))
 
-				# pull client groups in order from shuffled client ids ("random sampling")
+				# pull clients from shuffled client ids ("random sampling")
 				sample_clients = client_list[:self.COHORT_SIZE]
+
+				# set new shuffle seed for each client dataset
+				# determined by seed, round number, and client number
+				for i in sample_clients:
+					s = (self.SHUFFLE_SEED * 987654321) + (round_num * 12345) + i
+					self.dataset_list[i].shuffle(self.SHUFFLE_BUFFER, seed = s, reshuffle_each_iteration=True)
+				# 	print(i)
+				# 	print(list(self.dataset_list[i].as_numpy_iterator()))
+				# sys.exit()
 
 				# make dataset for current client group
 				federated_train_data = make_federated_data(self.dataset_list, sample_clients)

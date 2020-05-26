@@ -145,7 +145,8 @@ class Partitioner1(partitioner.Partitioner):
 			# assign slices to single client
 			dataset = tf.data.Dataset.from_tensor_slices((client_sample_x, client_sample_y))
 			# add to list of client datasets
-			self.dataset_list.append(dataset.repeat(self.NUM_EPOCHS).batch(self.BATCH_SIZE).shuffle(1000, seed = self.SHUFFLE_SEED * 987654321, reshuffle_each_iteration=True))
+			self.dataset_list.append(dataset.repeat(self.NUM_EPOCHS).batch(self.BATCH_SIZE).shuffle(self.SHUFFLE_BUFFER, seed = self.SHUFFLE_SEED * 987654321, reshuffle_each_iteration=True))
+			# datasets are given new shuffle seed again every round
 
 		# train
 		self.build_model()
@@ -156,6 +157,7 @@ class Partitioner1(partitioner.Partitioner):
 		print("percent data distributed IID: ", self.PERCENT_DATA_IID)
 		print("number of classes for non-IID data: ", self.SHARDS)
 		print("data points per client (mean, std dev): (", self.NUMDATAPTS_MEAN, ", ", self.NUMDATAPTS_STDEV, ")")
+		# INFO NOW PUT INTO CSV
 		# print()
 		# print("number of clients: ", self.CLIENTS)
 		# print("cohort size: ",self.COHORT_SIZE)
@@ -164,30 +166,36 @@ class Partitioner1(partitioner.Partitioner):
 		# print("learning rate: ", self.LR)
 		# print("target accuracy: ",self.TARGET,"%")
 		print("--------------------------------------------------")
-		print("number of data points per client:")
-		print(num_data_per_client)
-		print("average: " + str(sum(num_data_per_client)/len(num_data_per_client)))
-		print()
 
-		print("IID data multiplicities:")
-		print(multi_iid)
-		print("average: " + str(sum(multi_iid)/len(multi_iid)))
-		print("maximum: " + str(max(multi_iid)))
-		print()
+		## MULTIPLICITY TESTING START
 
-		print("Labeled data multiplicities:")
-		averages = []
-		for i in range(len(multi_labels)):
-			print("label " + str(i) + ": ") 
-			print(multi_labels[i])
-			averages.append(sum(multi_labels[i])/len(multi_labels[i]))
-			print("average: " + str(averages[-1]))
-			print("maximum: " + str(max(multi_labels[i])))
-			print()
+		# print("number of data points per client:")
+		# print(num_data_per_client)
+		# print("average: " + str(sum(num_data_per_client)/len(num_data_per_client)))
+		# print()
 
-		print("overall nonIID average: " + str(sum(averages)/len(averages)))
-		print("--------------------------------------------------")
-		print()
+		# print("IID data multiplicities:")
+		# print(multi_iid)
+		# print("average: " + str(sum(multi_iid)/len(multi_iid)))
+		# print("maximum: " + str(max(multi_iid)))
+		# print()
 
-		sys.exit()
+		# print("Labeled data multiplicities:")
+		# averages = []
+		# for i in range(len(multi_labels)):
+		# 	print("label " + str(i) + ": ") 
+		# 	print(multi_labels[i])
+		# 	averages.append(sum(multi_labels[i])/len(multi_labels[i]))
+		# 	print("average: " + str(averages[-1]))
+		# 	print("maximum: " + str(max(multi_labels[i])))
+		# 	print()
+
+		# print("overall nonIID average: " + str(sum(averages)/len(averages)))
+		# print("--------------------------------------------------")
+		# print()
+
+		# sys.exit()
+
+		### MULTIPLICITY TESTING END
+
 		self.train(num, batch, 1)
