@@ -29,6 +29,7 @@ for i in range(3):
 plt.grid(b=True, which='both', axis='y')
 plt.xlabel('Cohort Size for Each Global Round')
 plt.ylabel('Maximum Sparse Categorical Accuracy Reached')
-plt.title("MNIST, Partially IID Data, Varied Shuffle Seeds")
+plt.title("Varied Shuffle Seeds")
+plt.suptitle("MNIST, Partially IID Data")
 plt.legend()
 plt.savefig("results/3/accuracy_vs_cohort.png")
