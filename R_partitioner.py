@@ -100,8 +100,8 @@ class Partitioner:
 
 			# construct value array
 			# learning rate chosen/iterates first, batch size second, ...
-			shuffle_seed = [1, 5, 10, 14, 20]
-			percent_data_iid = [40, 80]  # schema 1
+			shuffle_seed = list(range(1,101))
+			percent_data_iid = [80]  # schema 1
 			percent_clients_iid = [50]  # schema 2
 			cohort_size = [5, 10, 15, 20, 30] 
 			num_epochs = [1] 
@@ -135,6 +135,8 @@ class Partitioner:
 
 			# set batch size
 			self.BATCH_SIZE = self.ROUND_LIMIT * 5
+
+			# self.ROUND_LIMIT = 12
 
 		# set numpy shuffle seed for random generator objects
 		# multiply seed to be large enough to be effective
