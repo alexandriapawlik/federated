@@ -1,0 +1,65 @@
+
+TENSORFLOW USERS:
+You must use the python3.6-anaconda/5.2.0 module to run TensorFlow.
+See https://arc-ts.umich.edu/greatlakes/software/tensorflow for more
+information.
+
+
+
+The following have been reloaded with a version change:
+  1) cuda/10.0.130 => cuda/10.1.105
+
+
+Currently Loaded Modules:
+  1) python3.7-anaconda/2019.07   2) cudnn/10.0-v7.6   3) cuda/10.1.105
+
+ 
+
+mkdir: cannot create directory ‘results/7797850’: File exists
+mkdir: cannot create directory ‘results/7797850/log’: File exists
+Test  428
+2020-06-15 12:51:14.034107
+
+
+Schema 1: Each client partially IID
+--------------------------------------------------
+percent data distributed IID:  40
+number of classes for non-IID data:  2
+data points per client (mean, std dev): ( 600 ,  0 )
+--------------------------------------------------
+round  1, metrics=<sparse_categorical_accuracy=0.27900001406669617,loss=2.0984408855438232>
+11.4110 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round  2, metrics=<sparse_categorical_accuracy=0.3726666569709778,loss=1.9960685968399048>
+10.2219 seconds
+Tested. Sparse categorical accuracy: 75.00
+
+round  3, metrics=<sparse_categorical_accuracy=0.5023333430290222,loss=1.7182358503341675>
+10.3854 seconds
+Tested. Sparse categorical accuracy: 55.00
+
+round  4, metrics=<sparse_categorical_accuracy=0.5563333630561829,loss=1.4061580896377563>
+10.9276 seconds
+Tested. Sparse categorical accuracy: 70.00
+
+round  5, metrics=<sparse_categorical_accuracy=0.7447777986526489,loss=0.897221028804779>
+10.1245 seconds
+Tested. Sparse categorical accuracy: 80.00
+
+round  6, metrics=<sparse_categorical_accuracy=0.8478888869285583,loss=0.5111472606658936>
+10.2548 seconds
+Tested. Sparse categorical accuracy: 100.00
+
+round  7, metrics=<sparse_categorical_accuracy=0.8465555310249329,loss=0.5414883494377136>
+9.9467 seconds
+Tested. Sparse categorical accuracy: 95.00
+
+round  8, metrics=<sparse_categorical_accuracy=0.8851110935211182,loss=0.37096089124679565>
+10.1722 seconds
+Tested. Sparse categorical accuracy: 90.00
+
+8  rounds run
+Average time per round: 10.00
+
+2020-06-15 12:52:46.331160

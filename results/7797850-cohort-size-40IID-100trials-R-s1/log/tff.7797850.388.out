@@ -1,0 +1,65 @@
+
+TENSORFLOW USERS:
+You must use the python3.6-anaconda/5.2.0 module to run TensorFlow.
+See https://arc-ts.umich.edu/greatlakes/software/tensorflow for more
+information.
+
+
+
+The following have been reloaded with a version change:
+  1) cuda/10.0.130 => cuda/10.1.105
+
+
+Currently Loaded Modules:
+  1) python3.7-anaconda/2019.07   2) cudnn/10.0-v7.6   3) cuda/10.1.105
+
+ 
+
+mkdir: cannot create directory ‘results/7797850’: File exists
+mkdir: cannot create directory ‘results/7797850/log’: File exists
+Test  388
+2020-06-15 12:45:08.944086
+
+
+Schema 1: Each client partially IID
+--------------------------------------------------
+percent data distributed IID:  40
+number of classes for non-IID data:  2
+data points per client (mean, std dev): ( 600 ,  0 )
+--------------------------------------------------
+round  1, metrics=<sparse_categorical_accuracy=0.3704444468021393,loss=2.1917564868927>
+10.4149 seconds
+Tested. Sparse categorical accuracy: 5.00
+
+round  2, metrics=<sparse_categorical_accuracy=0.37466666102409363,loss=2.1550452709198>
+9.6956 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round  3, metrics=<sparse_categorical_accuracy=0.3418888747692108,loss=2.0475411415100098>
+9.6763 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round  4, metrics=<sparse_categorical_accuracy=0.31077778339385986,loss=2.0064308643341064>
+9.4173 seconds
+Tested. Sparse categorical accuracy: 15.00
+
+round  5, metrics=<sparse_categorical_accuracy=0.3185555636882782,loss=2.009878396987915>
+9.2657 seconds
+Tested. Sparse categorical accuracy: 5.00
+
+round  6, metrics=<sparse_categorical_accuracy=0.3655555546283722,loss=1.9791145324707031>
+9.4040 seconds
+Tested. Sparse categorical accuracy: 25.00
+
+round  7, metrics=<sparse_categorical_accuracy=0.45911112427711487,loss=1.7465367317199707>
+9.3586 seconds
+Tested. Sparse categorical accuracy: 40.00
+
+round  8, metrics=<sparse_categorical_accuracy=0.5698888897895813,loss=1.413447618484497>
+9.2909 seconds
+Tested. Sparse categorical accuracy: 60.00
+
+8  rounds run
+Average time per round: 9.00
+
+2020-06-15 12:46:33.913739
