@@ -26,3 +26,8 @@ batch #		# tests		code				description & schema #
 1					4					local				varying cohort size, all LR 0.1 and seed 5
 2					15				local				varying cohort size and seeds, all LR 0.1
 3					15				local				varying cohort size and seeds, run until # rounds (based on cohort size) instead of target accuracy
+4					25				local				varying cohort size and seeds, run until # rounds (constant), 5 trials (5 tests per)
+6797549		50				completed		varying cohort size and % IID and seeds, # rounds and batch size halve when cohort doubles, run until # rounds, 5 trials (10 tests per)
+7423813		500				completed		varying cohort size and seeds, 80% IID, # rounds and batch size halve when cohort doubles, run until # rounds, 100 trials (5 tests per)
+7424123		50				completed		varying cohort size and seeds, all LR 0.1, determining max number of rounds to reach 90% acc, 10 trials (5 tests per)
+7797850		500				completed		varying cohort size and seeds, 40% IID, # rounds and batch size halve when cohort doubles, run until # rounds, 100 trials (5 tests per)
