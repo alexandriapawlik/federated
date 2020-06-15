@@ -101,7 +101,7 @@ class Partitioner:
 			# construct value array
 			# learning rate chosen/iterates first, batch size second, ...
 			shuffle_seed = list(range(1,101))
-			percent_data_iid = [80]  # schema 1
+			percent_data_iid = [40]  # schema 1
 			percent_clients_iid = [50]  # schema 2
 			cohort_size = [5, 10, 15, 20, 30] 
 			num_epochs = [1] 
@@ -131,10 +131,10 @@ class Partitioner:
 			# 	self.LR = 0.1
 
 			# set number of rounds based on cohort size
-			self.ROUND_LIMIT = 60 // self.COHORT_SIZE
+			self.ROUND_LIMIT = 120 // self.COHORT_SIZE
 
 			# set batch size
-			self.BATCH_SIZE = self.ROUND_LIMIT * 5
+			self.BATCH_SIZE = 300 // self.COHORT_SIZE
 
 			# self.ROUND_LIMIT = 12
 
