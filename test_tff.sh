@@ -21,7 +21,7 @@ module list
 mkdir results/${SLURM_ARRAY_JOB_ID}
 mkdir results/${SLURM_ARRAY_JOB_ID}/log
 
-python tff_main.py $SLURM_ARRAY_TASK_ID $SLURM_ARRAY_JOB_ID
+python R_tff_main.py $SLURM_ARRAY_TASK_ID $SLURM_ARRAY_JOB_ID
 
 # move output file to /log/ subfolder, only CSV files remain in main batch folder
 mv results/tff.${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}.out results/${SLURM_ARRAY_JOB_ID}/log/
