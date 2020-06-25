@@ -145,7 +145,7 @@ class Partitioner1(R_partitioner.Partitioner):
 			# assign slices to single client
 			dataset = tf.data.Dataset.from_tensor_slices((client_sample_x, client_sample_y))
 			# add to list of client datasets
-			self.dataset_list.append(dataset.repeat(self.NUM_EPOCHS).batch(self.BATCH_SIZE).shuffle(self.SHUFFLE_BUFFER, seed = self.SHUFFLE_SEED * 987654321, reshuffle_each_iteration=True))
+			self.dataset_list.append(dataset.repeat(self.NUM_EPOCHS).batch(self.BATCH_SIZE).shuffle(self.SHUFFLE_BUFFER, seed = self.SHUFFLE_SEED * 519876432, reshuffle_each_iteration=True))
 			# datasets are given new shuffle seed again every round
 
 		# train

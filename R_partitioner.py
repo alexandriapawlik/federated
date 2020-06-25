@@ -176,7 +176,7 @@ class Partitioner:
 
 		# create sample batch (all data) for Keras model wrapper
 		# note: sample batch is different data type than dataset used in iterative process
-		self.sample_batch = tf.nest.map_structure(lambda x: x.numpy(), iter(dataset.repeat(self.NUM_EPOCHS).batch(self.BATCH_SIZE).shuffle(60000, seed = self.SHUFFLE_SEED * 123456789, reshuffle_each_iteration=True)).next())
+		self.sample_batch = tf.nest.map_structure(lambda x: x.numpy(), iter(dataset.repeat(self.NUM_EPOCHS).batch(self.BATCH_SIZE).shuffle(60000, seed = self.SHUFFLE_SEED * 123489567, reshuffle_each_iteration=True)).next())
 
 		return (x_train, y_train)
 
@@ -201,7 +201,7 @@ class Partitioner:
 
 		# preprocess test dataset
 		testset = tf.data.Dataset.from_tensor_slices((x_test, y_test))
-		processed_testset = testset.batch(self.BATCH_SIZE).shuffle(10000, seed = self.SHUFFLE_SEED * 123456789, reshuffle_each_iteration=True)
+		processed_testset = testset.batch(self.BATCH_SIZE).shuffle(10000, seed = self.SHUFFLE_SEED * 632178945, reshuffle_each_iteration=True)
 		model = self.create_compiled_keras_model()
 
 		# print(model.count_params())
@@ -234,7 +234,7 @@ class Partitioner:
 				start_time = datetime.now()
 
 				# shuffle client ids for "random sampling" of clients
-				self.RNG2 = np.random.default_rng(self.SHUFFLE_SEED * 987654321 + round_num) # seed changes with round
+				self.RNG2 = np.random.default_rng(self.SHUFFLE_SEED * 876543219 + round_num) # seed changes with round
 				client_list = self.RNG2.permutation(len(self.dataset_list))
 
 				# pull clients from shuffled client ids ("random sampling")
@@ -243,7 +243,7 @@ class Partitioner:
 				# set new shuffle seed for each client dataset
 				# determined by seed, round number, and client number
 				for i in sample_clients:
-					s = (self.SHUFFLE_SEED * 987654321) + (round_num * 12345) + i
+					s = (self.SHUFFLE_SEED * 439876521) + (round_num * 12453) + i
 					self.dataset_list[i].shuffle(self.SHUFFLE_BUFFER, seed = s, reshuffle_each_iteration=True)
 				# 	print(i)
 				# 	print(list(self.dataset_list[i].as_numpy_iterator()))
