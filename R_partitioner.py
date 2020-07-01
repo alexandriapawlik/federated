@@ -10,6 +10,7 @@ import math
 import time
 from datetime import datetime
 import csv
+from sklearn.metrics import confusion_matrix
 # import sympy
 
 # disable warnings
@@ -87,12 +88,13 @@ class Partitioner:
 		# prep environment
 		warnings.simplefilter('ignore')
 		tf.compat.v1.enable_v2_behavior()
-		if self.MAX_FANOUT < 1:  # standard multi-threading
-			tff.framework.set_default_executor(tff.framework.create_local_executor())
-		elif self.MAX_FANOUT == 1:  # single thread
-			tff.framework.set_default_executor(None)
-		else:
-			tff.framework.set_default_executor(tff.framework.create_local_executor(self.COHORT_SIZE, self.MAX_FANOUT))
+		# deprecated
+		# if self.MAX_FANOUT < 1:  # standard multi-threading
+		# 	tff.framework.set_default_executor(tff.framework.create_local_executor())
+		# elif self.MAX_FANOUT == 1:  # single thread
+		# 	tff.framework.set_default_executor(None)
+		# else:
+		# 	tff.framework.set_default_executor(tff.framework.create_local_executor(self.COHORT_SIZE, self.MAX_FANOUT))
 
 	# process test number command line parameter as hyperparameter values
 	def test_num(self, n):
@@ -105,6 +107,7 @@ class Partitioner:
 			# for i in range(2,102):
 			# 	shuffle_seed.append(sympy.prime(i))
 			shuffle_seed = [3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463, 467, 479, 487, 491, 499, 503, 509, 521, 523, 541, 547]
+			# shuffle_seed = [127]
 			percent_data_iid = [80]  # schema 1
 			percent_clients_iid = [50]  # schema 2
 			cohort_size = [5, 10, 15, 20, 30] 
@@ -176,14 +179,23 @@ class Partitioner:
 
 		# create sample batch (all data) for Keras model wrapper
 		# note: sample batch is different data type than dataset used in iterative process
-		self.sample_batch = tf.nest.map_structure(lambda x: x.numpy(), iter(dataset.repeat(self.NUM_EPOCHS).batch(self.BATCH_SIZE).shuffle(60000, seed = self.SHUFFLE_SEED * 213489567, reshuffle_each_iteration=True)).next())
-
+		# self.sample_batch = tf.nest.map_structure(lambda x: x.numpy(), iter(dataset.repeat(self.NUM_EPOCHS).batch(self.BATCH_SIZE).shuffle(60000, seed = self.SHUFFLE_SEED * 213489567, reshuffle_each_iteration=True)).next())
+		self.sample_batch = dataset.batch(self.BATCH_SIZE).shuffle(60000, seed = self.SHUFFLE_SEED * 213489567, reshuffle_each_iteration=True)
 		return (x_train, y_train)
 
 	# compile model
 	def build_model(self):
 		# let TFF construct a Federated Averaging algorithm 
-		self.iterative_process = tff.learning.build_federated_averaging_process(self.model_fn(), client_optimizer_fn=lambda: tf.keras.optimizers.SGD(learning_rate=self.LR))
+		# let TFF wrap Keras model
+		def model_fn():
+			keras_model = self.create_keras_model()
+			return tff.learning.from_keras_model(
+				keras_model,
+				input_spec=self.sample_batch.element_spec,
+				loss=tf.keras.losses.SparseCategoricalCrossentropy(),
+				metrics=[tf.keras.metrics.SparseCategoricalAccuracy()])
+
+		self.iterative_process = tff.learning.build_federated_averaging_process(model_fn, client_optimizer_fn=lambda: tf.keras.optimizers.SGD(learning_rate=self.LR))
 
 	# run federated training algorithm
 	def train(self, test, batch, schema_num):
@@ -197,7 +209,14 @@ class Partitioner:
 		# preprocess test dataset
 		testset = tf.data.Dataset.from_tensor_slices((x_test, y_test))
 		processed_testset = testset.batch(self.BATCH_SIZE).shuffle(10000, seed = self.SHUFFLE_SEED * 632178945, reshuffle_each_iteration=True)
-		model = self.model_fn()
+		
+		# build model for testing
+		keras_model = self.create_keras_model()
+		keras_model.compile(
+			loss=tf.keras.losses.SparseCategoricalCrossentropy(),
+			optimizer=tf.keras.optimizers.SGD(learning_rate=self.LR),
+			metrics=[tf.keras.metrics.SparseCategoricalAccuracy()
+			])
 
 		# print(model.count_params())
 		# print(model.summary())
@@ -259,10 +278,17 @@ class Partitioner:
 					print('{:0.4f} seconds'.format(toc - tic))
 				
 				# test model, run same number of epochs as in training set
-				tff.learning.assign_weights_to_keras_model(model, state.model)
-				loss, accuracy = model.evaluate(processed_testset, steps=self.NUM_EPOCHS, verbose=0)
+				tff.learning.assign_weights_to_keras_model(keras_model, state.model)
+				loss, accuracy = keras_model.evaluate(processed_testset, steps=self.NUM_EPOCHS, verbose=0)
 				if self.verbose:
 					print('Tested. Sparse categorical accuracy: {:0.2f}'.format(accuracy * 100))
+				# predict values
+				# test_predictions = keras_model.predict(processed_testset)
+				# print(test_predictions)
+				# print(type(processed_testset))
+				# y_actu = [2, 0, 2, 2, 0, 1, 1, 2, 2, 0, 1, 2]
+				# y_pred = [0, 0, 2, 1, 0, 2, 1, 0, 2, 0, 2, 2]
+				# confusion_matrix(y_actu, test_predictions)
 
 				# store relevant metrics in CSV
 				# 'ROUND_NUM', 'ROUND_START', 'SPARSE_CATEGORICAL_ACCURACY_TRAIN', 'SPARSE_CATEGORICAL_CROSSENTROPY_LOSS_TRAIN', 
@@ -291,16 +317,6 @@ class Partitioner:
 			writer = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
 			writer.writerow(['MAX_ACCURACY', 'ROUNDS', 'AVERAGE_SECONDS_PER_ROUND', 'SCRIPT_TOTAL_SECONDS'])
 			writer.writerow([max_acc, round_num, time_sum // round_num, toc - self.TIC])
-
-	# let TFF wrap Keras model
-	# internal
-	def model_fn(self):
-		keras_model = self.create_keras_model()
-		return tff.learning.from_keras_model(
-			keras_model,
-			input_spec=self.sample_batch.element_spec,
-			loss=tf.keras.losses.SparseCategoricalCrossentropy(),
-			metrics=[tf.keras.metrics.SparseCategoricalAccuracy()])
 
 	# simple model with Keras
 	# internal
