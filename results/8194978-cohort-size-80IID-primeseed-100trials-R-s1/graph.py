@@ -2,6 +2,7 @@ import numpy as np
 import math
 import csv
 import matplotlib.pyplot as plt
+from mpl_toolkits import mplot3d
 import statistics as stat
 
 plt.figure(figsize=(12, 6))
@@ -29,6 +30,8 @@ for i in range(len(seed)):
 			header = next(data)
 			for row in data:
 				accuracy.append(float(row[0]))
+				if accuracy[-1] < 0.2:
+					print("seed " + str(seed[i]) + " is low at " + str(accuracy[-1]) + " for cohort size " + str(cohort_size[j]))
 
 	# add rounds vs cohort size to plot
 	plt.plot(cohort_size, accuracy, label="seed " + str(seed[i]))
@@ -131,3 +134,81 @@ plt.ylabel('Maximum Sparse Categorical Accuracy Reached, Normalized')
 plt.suptitle("MNIST, " + str(len(seed)) + " Prime Shuffle Seeds for " + IID + "% IID Data")
 plt.title("Maximum Accuracy Reached Normalized and Averaged Over Cohort Size, with Fairness of Trials")
 plt.savefig("results/" + batch_name + "/avg_accuracy_diff_vs_cohort.png")
+
+
+# # 3D
+# plt.clf()
+# fig = plt.figure()
+# ax = fig.add_subplot(111, projection='3d')
+
+# # seeds
+# for i in range(len(seed)):
+
+# 	accuracy = []
+
+# 	# cohort sizes
+# 	for j in range(len(cohort_size)):
+# 		test = (i * int(len(cohort_size))) + j + 1
+# 		filename = 'results/' + batch_name + '/' + str(batch) + '.' + str(test) + '.s1summary.csv'
+# 		with open(filename,'r') as csvfile:
+# 			data = csv.reader(csvfile, delimiter=',')
+# 			header = next(data)
+# 			for row in data:
+# 				accuracy.append(float(row[0]))
+
+# 	# add rounds vs cohort size to plot
+# 	ax.scatter(cohort_size, accuracy, [int(seed[i])] * int(len(cohort_size)))
+
+# # finish plot
+# ax.set_xlabel('Cohort Size for Each Global Round')
+# ax.set_ylabel('Maximum Sparse Categorical Accuracy Reached')
+# ax.set_zlabel('Seed Value')
+# plt.suptitle("MNIST, " + str(len(seed)) + " Prime Shuffle Seeds for " + IID + "% IID Data")
+# plt.title("Maximum Accuracy Reached for Each Seed, with Fairness of Trials")
+# plt.savefig("results/" + batch_name + "/seed_vs_accuracy_vs_cohort.png")
+
+
+# JK we need a 2D plot for each cohort size
+plt.clf()
+accuracy_all = []
+fig, axs = plt.subplots(1, 5, figsize=[30, 5])
+
+# get all data
+for i in range(len(seed)):
+
+	accuracy = []
+
+	# cohort sizes
+	for j in range(len(cohort_size)):
+		test = (i * int(len(cohort_size))) + j + 1
+		filename = 'results/' + batch_name + '/' + str(batch) + '.' + str(test) + '.s1summary.csv'
+		with open(filename,'r') as csvfile:
+			data = csv.reader(csvfile, delimiter=',')
+			header = next(data)
+			for row in data:
+				accuracy.append(float(row[0]))
+
+	accuracy_all.append(accuracy)
+
+# for each cohort size, accuracy vs seed
+for i in range(len(cohort_size)):
+	plt.axes(axs[i])
+	acc = []
+
+	# seeds
+	for j in range(len(seed)):
+		acc.append(accuracy_all[j][i])
+	
+	# add accuracy vs seed to plot
+	plt.scatter(seed, acc)
+
+	# finish plot
+	plt.grid(b=True, which='both', axis='y')
+	# plt.xticks(np.arange(0, 600, step=20))
+	plt.yticks(np.arange(0, 1.1, step=0.1))
+	plt.xlabel('Seed Value')
+	plt.ylabel('Maximum Sparse Categorical Accuracy Reached')
+	plt.title("cohort size " + str(cohort_size[i]))
+
+plt.suptitle("MNIST, " + str(len(seed)) + " Prime Shuffle Seeds for " + IID + "% IID Data, " + "Maximum Accuracy Reached for Each Seed by Cohort Size, with Fairness of Trials")
+plt.savefig("results/" + batch_name + "/accuracy_vs_seed.png")
