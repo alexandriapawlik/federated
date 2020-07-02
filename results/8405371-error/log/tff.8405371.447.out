@@ -1,0 +1,30 @@
+
+TENSORFLOW USERS:
+You must use the python3.6-anaconda/5.2.0 module to run TensorFlow.
+See https://arc-ts.umich.edu/greatlakes/software/tensorflow for more
+information.
+
+
+
+The following have been reloaded with a version change:
+  1) cuda/10.0.130 => cuda/10.1.105
+
+
+Currently Loaded Modules:
+  1) python3.7-anaconda/2019.07   2) cudnn/10.0-v7.6   3) cuda/10.1.105
+
+ 
+
+mkdir: cannot create directory ‘results/8405371’: File exists
+mkdir: cannot create directory ‘results/8405371/log’: File exists
+Test  447
+2020-07-01 12:02:56.545422
+
+Traceback (most recent call last):
+  File "R_tff_main.py", line 28, in <module>
+    p1.go(test, batch)
+  File "/home/apawlik/federated/R_1_each_client_partially_iid.py", line 152, in go
+    self.build_model()
+  File "/home/apawlik/federated/R_partitioner.py", line 198, in build_model
+    self.iterative_process = tff.learning.build_federated_averaging_process(model_fn, client_optimizer_fn=lambda: tf.keras.optimizers.SGD(learning_rate=self.LR))
+TypeError: build_federated_averaging_process() got an unexpected keyword argument 'client_optimizer_fn'
