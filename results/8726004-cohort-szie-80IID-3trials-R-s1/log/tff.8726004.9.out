@@ -1,0 +1,69 @@
+
+TENSORFLOW USERS:
+You must use the python3.6-anaconda/5.2.0 module to run TensorFlow.
+See https://arc-ts.umich.edu/greatlakes/software/tensorflow for more
+information.
+
+
+
+The following have been reloaded with a version change:
+  1) cuda/10.0.130 => cuda/10.1.105
+
+
+Currently Loaded Modules:
+  1) python3.7-anaconda/2019.07   2) cudnn/10.0-v7.6   3) cuda/10.1.105
+
+ 
+
+mkdir: cannot create directory ‘results/8726004’: File exists
+mkdir: cannot create directory ‘results/8726004/log’: File exists
+2020-07-08 01:24:44.163069: E tensorflow/stream_executor/cuda/cuda_driver.cc:313] failed call to cuInit: UNKNOWN ERROR (303)
+Test  9
+2020-07-08 01:24:43.676562
+
+How often each label is chosen for non-IID data
+[22, 25, 23, 19, 17, 14, 19, 24, 16, 21]
+
+Schema 1: Each client partially IID
+--------------------------------------------------
+percent data distributed IID:  80
+number of classes for non-IID data:  2
+data points per client (mean, std dev): ( 600 ,  0 )
+--------------------------------------------------
+Clients in cohort for round 1
+[81 34 51 74 84 37 56 22 30 10  1 64 96 33 38 50  0 59 78 47]
+
+round  1, metrics=<sparse_categorical_accuracy=0.1912499964237213,loss=2.25502610206604>
+13.0343 seconds
+Tested. Sparse categorical accuracy: 73.33
+
+Clients in cohort for round 2
+[ 9 28 59 69 25 49 60 91 61 24  3 14 74 20 71 84 32 17 87 52]
+
+round  2, metrics=<sparse_categorical_accuracy=0.3472500145435333,loss=2.107393980026245>
+9.1664 seconds
+Tested. Sparse categorical accuracy: 40.00
+
+Clients in cohort for round 3
+[60 97 26 34 57 90 88  9 83 56 52 35 21 99 46  1 75 25 92 29]
+
+round  3, metrics=<sparse_categorical_accuracy=0.5490000247955322,loss=1.5125590562820435>
+9.4935 seconds
+Tested. Sparse categorical accuracy: 66.67
+
+Final confusion matrix
+[[152 168  74 104  93  44 105 135  38  67]
+ [184 176  87  91 112  46 101 167  70 101]
+ [152 166  96  83 126  40 101 132  55  81]
+ [147 153  92  95 119  41  98 152  42  71]
+ [142 158  70  89  98  36 109 140  49  91]
+ [140 116  66  88  94  33  97 120  67  71]
+ [150 142  65  95 104  39  88 129  69  77]
+ [130 171 101  84 108  51 101 143  58  81]
+ [157 164  81  79  98  36  94 123  64  78]
+ [141 154  92 109 111  36 105 121  57  83]]
+
+3  rounds run
+Average time per round: 10.00
+
+2020-07-08 01:25:23.714570
