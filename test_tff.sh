@@ -11,7 +11,7 @@
 #SBATCH --mail-type=END
 #SBATCH --output=results/tff.%A.%a.out
 
-#SBATCH --array=1-500
+#SBATCH --array=1-6
 
 module load python3.7-anaconda
 module load cudnn/10.0-v7.6

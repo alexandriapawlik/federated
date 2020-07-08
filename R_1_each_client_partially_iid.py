@@ -30,6 +30,9 @@ class Partitioner1(R_partitioner.Partitioner):
 		self.test_num(num)
 		self.make_config_csv(num, batch)
 		(x_train, y_train) = self.load_data()
+
+		# count non-IID label choice multiplicities
+		label_choice_count = [0] * 10
 		
 		# list for each of 10 labels ( arr[label][data point index] )
 		sorted_data_x = [[] for i in range(self.LABELS)]
@@ -112,6 +115,7 @@ class Partitioner1(R_partitioner.Partitioner):
 			for i in range(self.SHARDS):
 				# add non-IID data from this label to current client
 				label = int(chosen_labels[i])
+				label_choice_count[label] += 1
 				label_data_x = np.array(sorted_x[label], np.float64)
 				label_data_y = np.array(sorted_y[label], np.float64)
 				indices = self.RNG1.permutation(label_data_x.shape[0])
@@ -148,6 +152,9 @@ class Partitioner1(R_partitioner.Partitioner):
 			self.dataset_list.append(dataset.repeat(self.NUM_EPOCHS).batch(self.BATCH_SIZE).shuffle(self.SHUFFLE_BUFFER, seed = self.SHUFFLE_SEED * 519876432, reshuffle_each_iteration=True))
 			# datasets are given new shuffle seed again every round
 
+		print("How often each label is chosen for non-IID data")
+		print(label_choice_count)
+		
 		# train
 		self.build_model()
 

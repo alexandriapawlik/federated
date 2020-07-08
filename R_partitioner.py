@@ -106,8 +106,8 @@ class Partitioner:
 			# shuffle_seed = []
 			# for i in range(2,102):
 			# 	shuffle_seed.append(sympy.prime(i))
-			shuffle_seed = [3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463, 467, 479, 487, 491, 499, 503, 509, 521, 523, 541, 547]
-			# shuffle_seed = [127]
+			# shuffle_seed = [3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463, 467, 479, 487, 491, 499, 503, 509, 521, 523, 541, 547]
+			shuffle_seed = [59, 467, 523]
 			percent_data_iid = [80]  # schema 1
 			percent_clients_iid = [50]  # schema 2
 			cohort_size = [5, 10, 15, 20, 30] 
@@ -253,6 +253,9 @@ class Partitioner:
 
 				# pull clients from shuffled client ids ("random sampling")
 				sample_clients = client_list[:self.COHORT_SIZE]
+				print("Clients in cohort for round " + str(round_num))
+				print(sample_clients)
+				print()
 
 				# set new shuffle seed for each client dataset
 				# determined by seed, round number, and client number
@@ -282,14 +285,7 @@ class Partitioner:
 				loss, accuracy = keras_model.evaluate(processed_testset, steps=self.NUM_EPOCHS, verbose=0)
 				if self.verbose:
 					print('Tested. Sparse categorical accuracy: {:0.2f}'.format(accuracy * 100))
-				# predict values
-				# test_predictions = keras_model.predict(processed_testset)
-				# print(test_predictions)
-				# print(type(processed_testset))
-				# y_actu = [2, 0, 2, 2, 0, 1, 1, 2, 2, 0, 1, 2]
-				# y_pred = [0, 0, 2, 1, 0, 2, 1, 0, 2, 0, 2, 2]
-				# confusion_matrix(y_actu, test_predictions)
-
+				
 				# store relevant metrics in CSV
 				# 'ROUND_NUM', 'ROUND_START', 'SPARSE_CATEGORICAL_ACCURACY_TRAIN', 'SPARSE_CATEGORICAL_CROSSENTROPY_LOSS_TRAIN', 
 				# 'SPARSE_CATEGORICAL_ACCURACY_TEST', 'SPARSE_CATEGORICAL_CROSSENTROPY_LOSS_TEST', 'COMPLETION_TIME_SECONDS'
@@ -304,6 +300,24 @@ class Partitioner:
 				
 				if round_num >= self.ROUND_LIMIT:
 					under_limit = False
+
+					# predict values for output
+					test_predictions = keras_model.predict(processed_testset)
+					actuals = y_test.astype(np.int)
+
+					# convert from probability to prediction
+					preds = []
+					for i in range(len(test_predictions)):
+						preds.append(np.argmax(test_predictions[i]))
+					# print(type(actuals))
+					# print(actuals)
+					# print(type(preds))
+					# print(preds)
+
+					# create confusion matrix
+					print("Final confusion matrix")
+					print(confusion_matrix(actuals, preds, labels = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]))
+					print()
 
 		# print final test stats
 		print(round_num," rounds run")
