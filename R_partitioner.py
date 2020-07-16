@@ -106,8 +106,8 @@ class Partitioner:
 			# shuffle_seed = []
 			# for i in range(2,102):
 			# 	shuffle_seed.append(sympy.prime(i))
-			# shuffle_seed = [3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463, 467, 479, 487, 491, 499, 503, 509, 521, 523, 541, 547]
-			shuffle_seed = [59, 467, 523]
+			shuffle_seed = [3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463, 467, 479, 487, 491, 499, 503, 509, 521, 523, 541, 547]
+			# shuffle_seed = [59, 467, 523]
 			percent_data_iid = [80]  # schema 1
 			percent_clients_iid = [50]  # schema 2
 			cohort_size = [5, 10, 15, 20, 30] 
@@ -138,7 +138,7 @@ class Partitioner:
 			# 	self.LR = 0.1
 
 			# set number of rounds based on cohort size
-			self.ROUND_LIMIT = 60 // self.COHORT_SIZE  # 80%
+			self.ROUND_LIMIT = 120 // self.COHORT_SIZE  # 80%
 			# self.ROUND_LIMIT = 120 // self.COHORT_SIZE  # 40%
 
 			# set batch size
@@ -253,9 +253,9 @@ class Partitioner:
 
 				# pull clients from shuffled client ids ("random sampling")
 				sample_clients = client_list[:self.COHORT_SIZE]
-				print("Clients in cohort for round " + str(round_num))
-				print(sample_clients)
-				print()
+				# print("Clients in cohort for round " + str(round_num))
+				# print(sample_clients)
+				# print()
 
 				# set new shuffle seed for each client dataset
 				# determined by seed, round number, and client number
@@ -302,7 +302,8 @@ class Partitioner:
 					under_limit = False
 
 					# predict values for output
-					test_predictions = keras_model.predict(processed_testset)
+					tff.learning.assign_weights_to_keras_model(keras_model, state.model)
+					test_predictions = keras_model.predict(processed_testset, steps=self.NUM_EPOCHS)
 					actuals = y_test.astype(np.int)
 
 					# convert from probability to prediction
