@@ -1,0 +1,71 @@
+
+TENSORFLOW USERS:
+You must use the python3.6-anaconda/5.2.0 module to run TensorFlow.
+See https://arc-ts.umich.edu/greatlakes/software/tensorflow for more
+information.
+
+
+
+The following have been reloaded with a version change:
+  1) cuda/10.0.130 => cuda/10.1.105
+
+
+Currently Loaded Modules:
+  1) python3.7-anaconda/2019.07   2) cudnn/10.0-v7.6   3) cuda/10.1.105
+
+ 
+
+mkdir: cannot create directory ‘results/9296214’: File exists
+mkdir: cannot create directory ‘results/9296214/log’: File exists
+2020-07-15 23:21:40.302274: E tensorflow/stream_executor/cuda/cuda_driver.cc:313] failed call to cuInit: UNKNOWN ERROR (303)
+Test  184
+2020-07-15 23:21:39.821341
+
+How often each label is chosen for non-IID data
+[16, 20, 24, 19, 21, 19, 17, 22, 24, 18]
+
+Schema 1: Each client partially IID
+--------------------------------------------------
+percent data distributed IID:  80
+number of classes for non-IID data:  2
+data points per client (mean, std dev): ( 600 ,  0 )
+--------------------------------------------------
+round  1, metrics=<sparse_categorical_accuracy=0.2084999978542328,loss=2.285054922103882>
+12.2122 seconds
+Tested. Sparse categorical accuracy: 13.33
+
+round  2, metrics=<sparse_categorical_accuracy=0.210999995470047,loss=2.2346978187561035>
+8.8589 seconds
+Tested. Sparse categorical accuracy: 40.00
+
+round  3, metrics=<sparse_categorical_accuracy=0.3790833353996277,loss=2.058987617492676>
+10.0356 seconds
+Tested. Sparse categorical accuracy: 66.67
+
+round  4, metrics=<sparse_categorical_accuracy=0.6324999928474426,loss=1.3179442882537842>
+9.8662 seconds
+Tested. Sparse categorical accuracy: 66.67
+
+round  5, metrics=<sparse_categorical_accuracy=0.7898333072662354,loss=0.6956726908683777>
+8.9402 seconds
+Tested. Sparse categorical accuracy: 80.00
+
+round  6, metrics=<sparse_categorical_accuracy=0.8693333268165588,loss=0.43382328748703003>
+8.8887 seconds
+Tested. Sparse categorical accuracy: 93.33
+
+Final confusion matrix
+Traceback (most recent call last):
+  File "R_tff_main.py", line 28, in <module>
+    p1.go(test, batch)
+  File "/home/apawlik/federated/R_1_each_client_partially_iid.py", line 208, in go
+    self.train(num, batch, 1)
+  File "/home/apawlik/federated/R_partitioner.py", line 320, in train
+    print(confusion_matrix(actuals, preds, labels = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]))
+  File "/sw/arcts/centos7/python3.7-anaconda/2019.07/lib/python3.7/site-packages/sklearn/metrics/classification.py", line 253, in confusion_matrix
+    y_type, y_true, y_pred = _check_targets(y_true, y_pred)
+  File "/sw/arcts/centos7/python3.7-anaconda/2019.07/lib/python3.7/site-packages/sklearn/metrics/classification.py", line 71, in _check_targets
+    check_consistent_length(y_true, y_pred)
+  File "/sw/arcts/centos7/python3.7-anaconda/2019.07/lib/python3.7/site-packages/sklearn/utils/validation.py", line 205, in check_consistent_length
+    " samples: %r" % [int(l) for l in lengths])
+ValueError: Found input variables with inconsistent numbers of samples: [10000, 15]

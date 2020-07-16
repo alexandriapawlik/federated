@@ -1,0 +1,95 @@
+
+TENSORFLOW USERS:
+You must use the python3.6-anaconda/5.2.0 module to run TensorFlow.
+See https://arc-ts.umich.edu/greatlakes/software/tensorflow for more
+information.
+
+
+
+The following have been reloaded with a version change:
+  1) cuda/10.0.130 => cuda/10.1.105
+
+
+Currently Loaded Modules:
+  1) python3.7-anaconda/2019.07   2) cudnn/10.0-v7.6   3) cuda/10.1.105
+
+ 
+
+mkdir: cannot create directory ‘results/9296214’: File exists
+mkdir: cannot create directory ‘results/9296214/log’: File exists
+2020-07-15 23:43:02.685813: E tensorflow/stream_executor/cuda/cuda_driver.cc:313] failed call to cuInit: UNKNOWN ERROR (303)
+Test  387
+2020-07-15 23:43:02.145409
+
+How often each label is chosen for non-IID data
+[31, 16, 17, 21, 21, 22, 16, 24, 13, 19]
+
+Schema 1: Each client partially IID
+--------------------------------------------------
+percent data distributed IID:  80
+number of classes for non-IID data:  2
+data points per client (mean, std dev): ( 600 ,  0 )
+--------------------------------------------------
+round  1, metrics=<sparse_categorical_accuracy=0.10899999737739563,loss=2.28877592086792>
+7.1267 seconds
+Tested. Sparse categorical accuracy: 6.67
+
+round  2, metrics=<sparse_categorical_accuracy=0.14366666972637177,loss=2.256385326385498>
+5.6368 seconds
+Tested. Sparse categorical accuracy: 36.67
+
+round  3, metrics=<sparse_categorical_accuracy=0.28166666626930237,loss=2.195830821990967>
+5.5111 seconds
+Tested. Sparse categorical accuracy: 56.67
+
+round  4, metrics=<sparse_categorical_accuracy=0.37566667795181274,loss=2.1831600666046143>
+5.8806 seconds
+Tested. Sparse categorical accuracy: 66.67
+
+round  5, metrics=<sparse_categorical_accuracy=0.5755000114440918,loss=1.745039701461792>
+6.2262 seconds
+Tested. Sparse categorical accuracy: 83.33
+
+round  6, metrics=<sparse_categorical_accuracy=0.515500009059906,loss=1.7375978231430054>
+5.6505 seconds
+Tested. Sparse categorical accuracy: 50.00
+
+round  7, metrics=<sparse_categorical_accuracy=0.6884999871253967,loss=1.1041125059127808>
+6.0112 seconds
+Tested. Sparse categorical accuracy: 76.67
+
+round  8, metrics=<sparse_categorical_accuracy=0.8118333220481873,loss=0.6611095666885376>
+5.6686 seconds
+Tested. Sparse categorical accuracy: 96.67
+
+round  9, metrics=<sparse_categorical_accuracy=0.8308333158493042,loss=0.5985856652259827>
+5.8921 seconds
+Tested. Sparse categorical accuracy: 80.00
+
+round 10, metrics=<sparse_categorical_accuracy=0.8691666722297668,loss=0.4484548270702362>
+5.3600 seconds
+Tested. Sparse categorical accuracy: 90.00
+
+round 11, metrics=<sparse_categorical_accuracy=0.8948333263397217,loss=0.36545705795288086>
+5.9448 seconds
+Tested. Sparse categorical accuracy: 96.67
+
+round 12, metrics=<sparse_categorical_accuracy=0.9236666560173035,loss=0.2653507590293884>
+5.7334 seconds
+Tested. Sparse categorical accuracy: 100.00
+
+Final confusion matrix
+Traceback (most recent call last):
+  File "R_tff_main.py", line 28, in <module>
+    p1.go(test, batch)
+  File "/home/apawlik/federated/R_1_each_client_partially_iid.py", line 208, in go
+    self.train(num, batch, 1)
+  File "/home/apawlik/federated/R_partitioner.py", line 320, in train
+    print(confusion_matrix(actuals, preds, labels = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]))
+  File "/sw/arcts/centos7/python3.7-anaconda/2019.07/lib/python3.7/site-packages/sklearn/metrics/classification.py", line 253, in confusion_matrix
+    y_type, y_true, y_pred = _check_targets(y_true, y_pred)
+  File "/sw/arcts/centos7/python3.7-anaconda/2019.07/lib/python3.7/site-packages/sklearn/metrics/classification.py", line 71, in _check_targets
+    check_consistent_length(y_true, y_pred)
+  File "/sw/arcts/centos7/python3.7-anaconda/2019.07/lib/python3.7/site-packages/sklearn/utils/validation.py", line 205, in check_consistent_length
+    " samples: %r" % [int(l) for l in lengths])
+ValueError: Found input variables with inconsistent numbers of samples: [10000, 30]
