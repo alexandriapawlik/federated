@@ -1,0 +1,60 @@
+
+TENSORFLOW USERS:
+You must use the python3.6-anaconda/5.2.0 module to run TensorFlow.
+See https://arc-ts.umich.edu/greatlakes/software/tensorflow for more
+information.
+
+
+
+The following have been reloaded with a version change:
+  1) cuda/10.0.130 => cuda/10.1.105
+
+
+Currently Loaded Modules:
+  1) python3.7-anaconda/2019.07   2) cudnn/10.0-v7.6   3) cuda/10.1.105
+
+ 
+
+mkdir: cannot create directory ‘results/9786362’: File exists
+mkdir: cannot create directory ‘results/9786362/log’: File exists
+2020-07-21 00:15:07.910174: E tensorflow/stream_executor/cuda/cuda_driver.cc:313] failed call to cuInit: UNKNOWN ERROR (303)
+Test  365
+2020-07-21 00:15:07.376917
+
+How often each label is chosen for non-IID data
+[17, 20, 21, 23, 13, 22, 20, 25, 19, 20]
+
+Schema 1: Each client partially IID
+--------------------------------------------------
+percent data distributed IID:  80
+number of classes for non-IID data:  2
+data points per client (mean, std dev): ( 600 ,  0 )
+--------------------------------------------------
+round  1, metrics=<sparse_categorical_accuracy=0.20738889276981354,loss=2.2172229290008545>
+21.7228 seconds
+Tested. Sparse categorical accuracy: 10.00
+
+round  2, metrics=<sparse_categorical_accuracy=0.4719444513320923,loss=1.6932436227798462>
+15.3568 seconds
+Tested. Sparse categorical accuracy: 80.00
+
+round  3, metrics=<sparse_categorical_accuracy=0.69477778673172,loss=0.9634106755256653>
+15.6391 seconds
+Tested. Sparse categorical accuracy: 80.00
+
+round  4, metrics=<sparse_categorical_accuracy=0.8525000214576721,loss=0.46853169798851013>
+15.2492 seconds
+Tested. Sparse categorical accuracy: 100.00
+
+4  rounds run
+Average time per round: 16.00
+
+preds
+Traceback (most recent call last):
+  File "R_tff_main.py", line 28, in <module>
+    p1.go(test, batch)
+  File "/home/apawlik/federated/R_1_each_client_partially_iid.py", line 208, in go
+    self.train(num, batch, 1)
+  File "/home/apawlik/federated/R_partitioner.py", line 326, in train
+    print(preds)
+UnboundLocalError: local variable 'preds' referenced before assignment

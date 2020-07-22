@@ -1,0 +1,140 @@
+
+TENSORFLOW USERS:
+You must use the python3.6-anaconda/5.2.0 module to run TensorFlow.
+See https://arc-ts.umich.edu/greatlakes/software/tensorflow for more
+information.
+
+
+
+The following have been reloaded with a version change:
+  1) cuda/10.0.130 => cuda/10.1.105
+
+
+Currently Loaded Modules:
+  1) python3.7-anaconda/2019.07   2) cudnn/10.0-v7.6   3) cuda/10.1.105
+
+ 
+
+mkdir: cannot create directory ‘results/9786362’: File exists
+mkdir: cannot create directory ‘results/9786362/log’: File exists
+2020-07-20 23:41:58.435040: E tensorflow/stream_executor/cuda/cuda_driver.cc:313] failed call to cuInit: UNKNOWN ERROR (303)
+Test  66
+2020-07-20 23:41:57.894255
+
+How often each label is chosen for non-IID data
+[21, 26, 16, 22, 20, 18, 20, 21, 22, 14]
+
+Schema 1: Each client partially IID
+--------------------------------------------------
+percent data distributed IID:  80
+number of classes for non-IID data:  2
+data points per client (mean, std dev): ( 600 ,  0 )
+--------------------------------------------------
+round  1, metrics=<sparse_categorical_accuracy=0.13099999725818634,loss=2.305049180984497>
+3.5542 seconds
+Tested. Sparse categorical accuracy: 16.67
+
+round  2, metrics=<sparse_categorical_accuracy=0.12733332812786102,loss=2.2971136569976807>
+2.5885 seconds
+Tested. Sparse categorical accuracy: 8.33
+
+round  3, metrics=<sparse_categorical_accuracy=0.10766666382551193,loss=2.2820816040039062>
+2.6106 seconds
+Tested. Sparse categorical accuracy: 23.33
+
+round  4, metrics=<sparse_categorical_accuracy=0.13199999928474426,loss=2.244062900543213>
+2.4642 seconds
+Tested. Sparse categorical accuracy: 40.00
+
+round  5, metrics=<sparse_categorical_accuracy=0.2043333351612091,loss=2.1814074516296387>
+2.6637 seconds
+Tested. Sparse categorical accuracy: 66.67
+
+round  6, metrics=<sparse_categorical_accuracy=0.36800000071525574,loss=2.1055874824523926>
+2.5760 seconds
+Tested. Sparse categorical accuracy: 63.33
+
+round  7, metrics=<sparse_categorical_accuracy=0.42366665601730347,loss=2.0323779582977295>
+2.6327 seconds
+Tested. Sparse categorical accuracy: 58.33
+
+round  8, metrics=<sparse_categorical_accuracy=0.44866666197776794,loss=1.793402075767517>
+2.3741 seconds
+Tested. Sparse categorical accuracy: 56.67
+
+round  9, metrics=<sparse_categorical_accuracy=0.5476666688919067,loss=1.56364905834198>
+2.4822 seconds
+Tested. Sparse categorical accuracy: 71.67
+
+round 10, metrics=<sparse_categorical_accuracy=0.5433333516120911,loss=1.7435916662216187>
+2.3807 seconds
+Tested. Sparse categorical accuracy: 66.67
+
+round 11, metrics=<sparse_categorical_accuracy=0.6779999732971191,loss=1.1655064821243286>
+2.3722 seconds
+Tested. Sparse categorical accuracy: 76.67
+
+round 12, metrics=<sparse_categorical_accuracy=0.7139999866485596,loss=0.9985081553459167>
+2.6138 seconds
+Tested. Sparse categorical accuracy: 80.00
+
+round 13, metrics=<sparse_categorical_accuracy=0.7766666412353516,loss=0.7646337747573853>
+2.4205 seconds
+Tested. Sparse categorical accuracy: 86.67
+
+round 14, metrics=<sparse_categorical_accuracy=0.8323333263397217,loss=0.5902921557426453>
+2.4548 seconds
+Tested. Sparse categorical accuracy: 93.33
+
+round 15, metrics=<sparse_categorical_accuracy=0.843999981880188,loss=0.5376501679420471>
+2.3061 seconds
+Tested. Sparse categorical accuracy: 96.67
+
+round 16, metrics=<sparse_categorical_accuracy=0.8790000081062317,loss=0.4158880114555359>
+2.3884 seconds
+Tested. Sparse categorical accuracy: 83.33
+
+round 17, metrics=<sparse_categorical_accuracy=0.8556666374206543,loss=0.5166288018226624>
+2.6429 seconds
+Tested. Sparse categorical accuracy: 90.00
+
+round 18, metrics=<sparse_categorical_accuracy=0.9049999713897705,loss=0.3130866587162018>
+2.3900 seconds
+Tested. Sparse categorical accuracy: 88.33
+
+round 19, metrics=<sparse_categorical_accuracy=0.8963333368301392,loss=0.34810319542884827>
+2.2970 seconds
+Tested. Sparse categorical accuracy: 76.67
+
+round 20, metrics=<sparse_categorical_accuracy=0.9129999876022339,loss=0.29453587532043457>
+2.5017 seconds
+Tested. Sparse categorical accuracy: 98.33
+
+round 21, metrics=<sparse_categorical_accuracy=0.9163333177566528,loss=0.2750692665576935>
+2.3520 seconds
+Tested. Sparse categorical accuracy: 90.00
+
+round 22, metrics=<sparse_categorical_accuracy=0.9233333468437195,loss=0.2502782940864563>
+2.3654 seconds
+Tested. Sparse categorical accuracy: 100.00
+
+round 23, metrics=<sparse_categorical_accuracy=0.9259999990463257,loss=0.23851081728935242>
+2.5658 seconds
+Tested. Sparse categorical accuracy: 91.67
+
+round 24, metrics=<sparse_categorical_accuracy=0.9323333501815796,loss=0.22483478486537933>
+2.2785 seconds
+Tested. Sparse categorical accuracy: 98.33
+
+24  rounds run
+Average time per round: 2.00
+
+preds
+Traceback (most recent call last):
+  File "R_tff_main.py", line 28, in <module>
+    p1.go(test, batch)
+  File "/home/apawlik/federated/R_1_each_client_partially_iid.py", line 208, in go
+    self.train(num, batch, 1)
+  File "/home/apawlik/federated/R_partitioner.py", line 326, in train
+    print(preds)
+UnboundLocalError: local variable 'preds' referenced before assignment
