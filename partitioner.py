@@ -193,7 +193,7 @@ class Partitioner:
 		processed_testset = testset.batch(self.BATCH_SIZE).shuffle(10000, seed = self.SHUFFLE_SEED * 123456789, reshuffle_each_iteration=True)
 		model = self.create_compiled_keras_model()
 
-		# print(model.count_params())
+		print(model.count_params())
 		# print(model.summary())
 
 		# construct the server state

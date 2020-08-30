@@ -7,14 +7,14 @@ import statistics as stat
 
 plt.figure(figsize=(12, 6))
 
-batch = 8700951
-batch_name = '8700951-cohort-size-80IID-primeseed-100trials-R-s1'
+batch = 9786362
+batch_name = '9786362-cohort-size-80IID-primeseed-100trials-R-s1'
 
 IID = "80"
 
 cohort_size = [5,10,15,20,30]
 seed = [3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463, 467, 479, 487, 491, 499, 503, 509, 521, 523, 541, 547]
-
+# seed = [59, 467, 523]
 
 # seeds
 for i in range(len(seed)):
@@ -30,7 +30,7 @@ for i in range(len(seed)):
 			header = next(data)
 			for row in data:
 				accuracy.append(float(row[0]))
-				if accuracy[-1] < 0.4:
+				if accuracy[-1] < 0.45:
 					print("seed " + str(seed[i]) + " is low at " + str(accuracy[-1]) + " for cohort size " + str(cohort_size[j]))
 
 	# add rounds vs cohort size to plot
@@ -41,9 +41,9 @@ plt.grid(b=True, which='both', axis='y')
 plt.yticks(np.arange(0, 1.1, step=0.1))
 plt.xlabel('Cohort Size for Each Global Round')
 plt.ylabel('Maximum Sparse Categorical Accuracy Reached')
-plt.title(str(len(seed)) + " Prime Shuffle Seeds for " + IID + "% IID Data")
-plt.suptitle("FL on CNN with MNIST and Partially IID Client Data")
-plt.savefig("results/" + str(batch) + "_accuracy_vs_cohort.png")
+plt.suptitle("MNIST, " + str(len(seed)) + " Prime Shuffle Seeds for " + IID + "% IID Data")
+plt.title("Maximum Accuracy Reached for Each Seed, with Fairness of Trials")
+plt.savefig("results/" + batch_name + "/accuracy_vs_cohort.png")
 
 
 # averages
@@ -79,21 +79,17 @@ for i in range(len(seed)):
 accuracy = [sum(accuracy1)/len(accuracy1), sum(accuracy2)/len(accuracy2), sum(accuracy3)/len(accuracy3), sum(accuracy4)/len(accuracy4), sum(accuracy5)/len(accuracy5)]
 std = [stat.pstdev(accuracy1), stat.pstdev(accuracy2), stat.pstdev(accuracy3), stat.pstdev(accuracy4), stat.pstdev(accuracy5)]
 # plt.plot(cohort_size, accuracy)
-plt.errorbar(cohort_size, accuracy, yerr=std, capsize=4, label="Standard Deviation")
+plt.errorbar(cohort_size, accuracy, yerr=std, capsize=4)
 
 
 # finish plot
-plt.legend()
 plt.grid(b=True, which='both', axis='y')
 plt.yticks(np.arange(0, 1.1, step=0.1))
 plt.xlabel('Cohort Size for Each Global Round')
-plt.ylabel('Average Maximum Sparse Categorical Accuracy Reached')
-# plt.suptitle("MNIST, " + str(len(seed)) + " Prime Shuffle Seeds for " + IID + "% IID Data")
-# plt.title("Maximum Accuracy Reached Averaged Over Cohort Size, with Fairness of Trials")
-# plt.savefig("results/" + str(batch) + "_avg_accuracy_vs_cohort.png")
-plt.title(str(len(seed)) + " Prime Shuffle Seeds for " + IID + "% IID Data")
-plt.suptitle("FL on CNN with MNIST and Partially IID Client Data")
-plt.savefig("results/" + str(batch) + "_avg_accuracy_vs_cohort.png")
+plt.ylabel('Maximum Sparse Categorical Accuracy Reached')
+plt.suptitle("MNIST, " + str(len(seed)) + " Prime Shuffle Seeds for " + IID + "% IID Data")
+plt.title("Maximum Accuracy Reached Averaged Over Cohort Size, with Fairness of Trials")
+plt.savefig("results/" + batch_name + "/avg_accuracy_vs_cohort.png")
 
 
 # averages as deviation from cohort size 5

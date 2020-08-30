@@ -220,7 +220,7 @@ class Partitioner:
 			metrics=[tf.keras.metrics.SparseCategoricalAccuracy()
 			])
 
-		# print(model.count_params())
+		# print(keras_model.count_params())
 		# print(model.summary())
 
 		# construct the server state

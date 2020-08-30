@@ -86,13 +86,14 @@ def plotx(x, option):
 
 plotx(x, 1)
 plt.xticks(np.arange(0, 41, step=5))  # Set label locations.
-plt.xlabel('Cohort Size per Global Round')
+plt.grid(b=True, which='both', axis='y')
+plt.xlabel('Cohort Size')
 plt.ylabel('Average Number of Rounds to Reach 99% Accuracy')
-plt.title("MNIST, Partially IID Data, LR 0.1")
+plt.title("FL on CNN with MNIST and Partially IID Client Data") # LR 0.1
 plt.legend()
 
-plt.suptitle('Batch 6025730: ' + str(trials) + ' Trials', size=20)
-plt.savefig('results/' + batch_name + '/' + str(batch) + '.rounds_vs_cohortsize_99.png')
+# plt.suptitle('Batch 6025730: ' + str(trials) + ' Trials', size=20)
+plt.savefig('results/' + str(batch) + '_rounds_vs_cohortsize_99.png')
 
 
 # standard deviation plot
